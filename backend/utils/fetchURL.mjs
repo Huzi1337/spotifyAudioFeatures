@@ -5,7 +5,7 @@ export const fetchURL = async (
   title,
   artist,
   authStr,
-  writeFS,
+
   tryCount = 0
 ) => {
   try {
@@ -36,7 +36,7 @@ export const fetchURL = async (
         `https://api.spotify.com/v1/artists/${id}`
       );
 
-      writeFS.write(`${title}, ${spotifyURL}\n`);
+      return { id, title, spotifyURL };
     } else {
       throw new Error("No tracks found");
     }
@@ -45,9 +45,18 @@ export const fetchURL = async (
 
     if (error.message === "Too many requests" && tryCount < MAX_RETRIES) {
       let delay = BASE_DELAY * Math.pow(BASE_DELAY, tryCount);
-      setTimeout(delay, async () => {
-        console.log("Retrying...");
-        await fetchURL(title, artist, authStr, writeFS, tryCount + 1);
+      return new Promise((resolve) => {
+        setTimeout(async () => {
+          console.log("Retrying...");
+          let result = await fetchURL(
+            title,
+            artist,
+            authStr,
+
+            tryCount + 1
+          );
+          resolve(result);
+        }, delay);
       });
     }
   }
