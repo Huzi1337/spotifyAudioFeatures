@@ -29,9 +29,16 @@ const startServer = async () => {
   });
 
   readLine.on("close", async () => {
+    const queue2 = [];
     while (queue.length) {
       const { title, artist } = queue.shift();
-      await fetchURL(title, artist, authStr, writeFS);
+      queue2.push(await fetchURL(title, artist, authStr));
+    }
+    while (queue2.length) {
+      let tracks = queue2.slice(0, 100).join(",");
+      //fetch audio features
+
+      queue2 = queue2.slice(100);
     }
   });
   writeFS.on("finish", () => {
