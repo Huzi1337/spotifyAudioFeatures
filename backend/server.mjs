@@ -9,9 +9,10 @@ import * as fs from "fs";
 import * as readline from "readline";
 import { getToken } from "./authorization.mjs";
 import { clientId, clientSecret } from "./data.mjs";
-import { fetchURL } from "./utils/fetchURL.mjs";
+import { fetchSpotify } from "./utils/fetchSpotify.mjs";
+import { fetchSearch } from "./utils/fetchSearch.mjs";
 
-const INPUT_FILE_PATH = "./inputs/1.csv";
+const INPUT_FILE_PATH = "./inputs/5.csv";
 const OUTPUT_FILE_PATH = "./output.csv";
 const readFS = fs.createReadStream(INPUT_FILE_PATH, { encoding: "utf-8" });
 const writeFS = fs.createWriteStream(OUTPUT_FILE_PATH, { encoding: "utf-8" });
@@ -29,13 +30,14 @@ const startServer = async () => {
   });
 
   readLine.on("close", async () => {
-    const queue2 = [];
+    let queue2 = [];
     while (queue.length) {
       const { title, artist } = queue.shift();
-      queue2.push(await fetchURL(title, artist, authStr));
+      queue2.push(await fetchSpotify({ title, artist, authStr }, fetchSearch));
     }
     while (queue2.length) {
       let tracks = queue2.slice(0, 100).join(",");
+      console.log(tracks);
       //fetch audio features
 
       queue2 = queue2.slice(100);
