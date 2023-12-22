@@ -35,5 +35,27 @@ const taskTest = () => {
   setTimeout(() => console.log("1"));
 };
 
-let res = [1, 2, 3].slice(3);
-console.log(res);
+let testString = "3ab+14ba-13ab-3c-2b+4c-3b";
+
+const simplify = (equation) => {
+  let monomials = {};
+  console.log("split", equation.split(/(?=[\+-])/));
+  for (const term of equation.split(/(?=[\+-])/)) {
+    let isPositive = term.match("-") ? -1 : 1;
+    let monomial = term
+      .match(/[a-zA-Z]+$/g)[0]
+      .split("")
+      .sort()
+      .join("");
+    let count = term.match(/[0-9]+/g)[0];
+    monomials[monomial] =
+      (monomials[monomial] || 0) + (Number(count) || 1) * isPositive;
+  }
+  return Object.entries(monomials)
+    .map(([key, value], i) =>
+      i > 0 && value > 0 ? "+" + value + key : value + key
+    )
+    .join("");
+};
+
+console.log(simplify(testString));
