@@ -7,42 +7,34 @@
 import * as puppeteer from "puppeteer";
 import * as fs from "fs";
 import * as readline from "readline";
-import { getToken } from "./authorization.mjs";
-import { clientId, clientSecret } from "./data.mjs";
-import { fetchSpotify } from "./utils/fetchSpotify.mjs";
-import { fetchSearch } from "./utils/fetchSearch.mjs";
+import { getToken } from "./authorization.js";
+import { clientId, clientSecret } from "./data.js";
+import { fetchSpotify } from "./utils/fetchSpotify.js";
+import { fetchSearch } from "./utils/fetchSearch.js";
+import { processFile } from "./utils/processFile.js";
 
 const INPUT_FILE_PATH = "./inputs/5.csv";
 const OUTPUT_FILE_PATH = "./output.csv";
-const readFS = fs.createReadStream(INPUT_FILE_PATH, { encoding: "utf-8" });
 const writeFS = fs.createWriteStream(OUTPUT_FILE_PATH, { encoding: "utf-8" });
 
 const startServer = async () => {
   const authStr = await getToken(clientId, clientSecret);
   console.log(authStr);
 
-  const queue = [];
+  const queue = await processFile(INPUT_FILE_PATH);
+  let queue2 = [];
+  while (queue.length) {
+    const { title, artist } = queue.shift();
+    queue2.push(await fetchSpotify({ title, artist, authStr }, fetchSearch));
+  }
+  while (queue2.length) {
+    let tracks = queue2.slice(0, 100).join(",");
+    console.log(tracks);
+    //fetch audio features
 
-  const readLine = readline.createInterface({ input: readFS });
-  readLine.on("line", async (line) => {
-    const [title, artist] = line.split(";");
-    queue.push({ title, artist });
-  });
+    queue2 = queue2.slice(100);
+  }
 
-  readLine.on("close", async () => {
-    let queue2 = [];
-    while (queue.length) {
-      const { title, artist } = queue.shift();
-      queue2.push(await fetchSpotify({ title, artist, authStr }, fetchSearch));
-    }
-    while (queue2.length) {
-      let tracks = queue2.slice(0, 100).join(",");
-      console.log(tracks);
-      //fetch audio features
-
-      queue2 = queue2.slice(100);
-    }
-  });
   writeFS.on("finish", () => {
     console.log(queue);
   });

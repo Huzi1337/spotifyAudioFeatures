@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": ["*.ts", "jest.config.js"], // Adjust this path based on your project's directory structure
+  "exclude": ["node_modules"]
+}
