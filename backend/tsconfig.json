@@ -5,6 +5,6 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "include": ["*.ts", "jest.config.js"], // Adjust this path based on your project's directory structure
+  "include": ["*.ts", "jest.config.js", "models/types.ts"], // Adjust this path based on your project's directory structure
   "exclude": ["node_modules"]
 }

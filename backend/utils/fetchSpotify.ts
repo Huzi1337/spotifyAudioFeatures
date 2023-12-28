@@ -1,5 +1,4 @@
-const BASE_DELAY = 5000;
-const MAX_RETRIES = 5;
+import RequestRetryHandler from "../models/RequestRetryHandler";
 
 export const fetchSpotify = async (
   callback: () => Promise<any>,
@@ -7,18 +6,25 @@ export const fetchSpotify = async (
 ) => {
   try {
     return await callback();
-  } catch (error) {
-    console.error("Error:", error.message);
+  } catch (error: any) {
+    console.error("Error:", error as Error);
 
-    if (error.message === "Too many requests" && tryCount < MAX_RETRIES) {
-      let delay = BASE_DELAY * Math.pow(BASE_DELAY, tryCount);
-      return new Promise((resolve) => {
-        setTimeout(async () => {
-          console.log("Retrying...");
-          let result = await fetchSpotify(callback, tryCount + 1);
-          resolve(result);
-        }, delay);
-      });
-    }
+    return retryRequest(new RequestRetryHandler(tryCount, error), callback);
   }
 };
+
+async function retryRequest(
+  retryHandler: RequestRetryHandler,
+  callback: () => Promise<any>
+) {
+  if (retryHandler.shouldRetryRequest()) {
+    const waitAndTryAgain = async (resolve: (value: unknown) => void) => {
+      setTimeout(async () => {
+        let result = await fetchSpotify(callback, retryHandler.tryCount + 1);
+        resolve(result);
+      }, retryHandler.getDelay());
+    };
+
+    return new Promise(waitAndTryAgain);
+  }
+}
