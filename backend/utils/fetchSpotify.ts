@@ -1,9 +1,12 @@
 const BASE_DELAY = 5000;
 const MAX_RETRIES = 5;
 
-export const fetchSpotify = async (props, callback, tryCount = 0) => {
+export const fetchSpotify = async (
+  callback: () => Promise<any>,
+  tryCount = 0
+) => {
   try {
-    return await callback(props);
+    return await callback();
   } catch (error) {
     console.error("Error:", error.message);
 
@@ -12,7 +15,7 @@ export const fetchSpotify = async (props, callback, tryCount = 0) => {
       return new Promise((resolve) => {
         setTimeout(async () => {
           console.log("Retrying...");
-          let result = await fetchSpotify(props, callback, tryCount + 1);
+          let result = await fetchSpotify(callback, tryCount + 1);
           resolve(result);
         }, delay);
       });

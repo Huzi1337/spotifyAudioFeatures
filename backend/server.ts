@@ -13,6 +13,11 @@ import { fetchSpotify } from "./utils/fetchSpotify.js";
 import { fetchSearch } from "./utils/fetchSearch.js";
 import { processFile } from "./utils/processFile.js";
 
+type UserTrackRequest = {
+  title: string;
+  artist: string;
+};
+
 const INPUT_FILE_PATH = "./inputs/5.csv";
 const OUTPUT_FILE_PATH = "./output.csv";
 const writeFS = fs.createWriteStream(OUTPUT_FILE_PATH, { encoding: "utf-8" });
@@ -21,12 +26,9 @@ const startServer = async () => {
   const authStr = await getToken(clientId, clientSecret);
   console.log(authStr);
 
-  const queue = await processFile(INPUT_FILE_PATH);
+  const queue: UserTrackRequest[] = await processFile(INPUT_FILE_PATH);
   let queue2 = [];
-  while (queue.length) {
-    const { title, artist } = queue.shift();
-    queue2.push(await fetchSpotify({ title, artist, authStr }, fetchSearch));
-  }
+  let requestedTracks = await searchRequestedTracks(queue);
   while (queue2.length) {
     let tracks = queue2.slice(0, 100).join(",");
     console.log(tracks);
@@ -42,6 +44,16 @@ const startServer = async () => {
   writeFS.on("error", (err) => {
     console.error("Error writing to file:", err);
   });
+
+  async function searchRequestedTracks(tracks: UserTrackRequest[]) {
+    let queue: UserTrackRequest[] = [];
+    while (tracks.length) {
+      const { title, artist } = tracks.shift() as UserTrackRequest;
+      queue.push(
+        await fetchSpotify(() => fetchSearch({ title, artist, authStr }))
+      );
+    }
+  }
 };
 
 await startServer();
