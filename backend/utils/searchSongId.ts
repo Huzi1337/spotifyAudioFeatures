@@ -1,6 +1,6 @@
 import { spotifyResponseHandler } from "./spotifyResponseHandler.mjs";
 
-export const fetchSearch = async ({ title, artist, authStr }) => {
+export const searchSongIdAndURL = async ({ title, artist, authStr }) => {
   const data = await spotifyResponseHandler(
     `https://api.spotify.com/v1/search?q=${encodeURIComponent(
       title
