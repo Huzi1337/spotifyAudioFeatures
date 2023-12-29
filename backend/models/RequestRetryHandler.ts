@@ -16,7 +16,7 @@ class RequestRetryHandler {
   async retryRequest() {
     if (this.shouldRetry()) {
       console.log("Retrying");
-      return new Promise(this.waitAndTryAgain);
+      return new Promise(this.waitAndRetry);
     }
   }
 
@@ -27,7 +27,7 @@ class RequestRetryHandler {
     );
   }
 
-  async waitAndTryAgain(resolve: (value: unknown) => void) {
+  async waitAndRetry(resolve: (value: unknown) => void) {
     setTimeout(async () => {
       resolve(await this.fetchFn());
     }, this.getDelay());
@@ -38,7 +38,7 @@ class RequestRetryHandler {
   }
 }
 
-type RequestRetryProps = {
+export type RequestRetryProps = {
   tryCount: number;
   error: Error;
   fetchFn: () => Promise<any>;

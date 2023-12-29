@@ -7,7 +7,7 @@ export const fetchSpotify = async (
   try {
     return await fetchFn();
   } catch (error) {
-    console.error("Error:", (error as Error).message);
+    console.log("Error:", (error as Error).message);
 
     return new RequestRetryHandler({
       tryCount,
