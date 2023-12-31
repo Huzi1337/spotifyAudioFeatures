@@ -1,10 +1,11 @@
-import { BASE_DELAY, MAX_RETRIES } from "../data";
+import { BASE_DELAY, MAX_RETRIES } from "../data.js";
+import HttpError, { ErrorCodes } from "./HttpError.js";
 
 class RequestRetryHandler {
   private retryLimit = MAX_RETRIES;
   private baseDelay = BASE_DELAY;
   private tryCount: number;
-  private error: Error;
+  private error: HttpError;
   private fetchFn: () => Promise<any>;
 
   constructor({ tryCount, error, fetchFn }: RequestRetryProps) {
@@ -22,7 +23,7 @@ class RequestRetryHandler {
 
   shouldRetry() {
     return (
-      this.error.message === "Too many requests" &&
+      this.error.status === ErrorCodes.TOO_MANY_REQUESTS &&
       this.tryCount < this.retryLimit
     );
   }
@@ -40,7 +41,7 @@ class RequestRetryHandler {
 
 export type RequestRetryProps = {
   tryCount: number;
-  error: Error;
+  error: HttpError;
   fetchFn: () => Promise<any>;
 };
 

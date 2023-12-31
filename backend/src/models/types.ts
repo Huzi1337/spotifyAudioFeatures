@@ -1,6 +1,6 @@
-type SongQuery = { artist: string; title: string };
+export type SongQuery = { artist: string; title: string };
 
-type AudioFeatures = {
+export type AudioFeatures = {
   acousticness?: number;
   danceability?: number;
   duration_ms?: number;
@@ -16,7 +16,12 @@ type AudioFeatures = {
   key?: number;
 };
 
-type UserQuery = {
+export type UserQuery = {
   songList: SongQuery[];
   audioFeatures: AudioFeatures;
+};
+
+export type SpotifyClientData = {
+  clientId: string;
+  clientSecret: string;
 };

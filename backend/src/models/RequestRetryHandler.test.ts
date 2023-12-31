@@ -1,5 +1,8 @@
-import RequestRetryHandler, { RequestRetryProps } from "./RequestRetryHandler";
-import { BASE_DELAY, MAX_RETRIES } from "../data";
+import RequestRetryHandler, {
+  RequestRetryProps,
+} from "./RequestRetryHandler.js";
+import { BASE_DELAY, MAX_RETRIES } from "../data.js";
+import HttpError, { ErrorCodes } from "./HttpError.js";
 
 const mockFn = jest.fn().mockResolvedValue("Resolved");
 
@@ -12,7 +15,7 @@ it("Calculates correct delay", () => {
 it("Does not retry requests when the limit is hit", () => {
   const args: RequestRetryProps = {
     tryCount: MAX_RETRIES,
-    error: new Error("Too many requests"),
+    error: new HttpError("Message", ErrorCodes.TOO_MANY_REQUESTS),
     fetchFn: mockFn,
   };
   const instance = new RequestRetryHandler(args);
@@ -23,7 +26,7 @@ it("Does not retry requests when the limit is hit", () => {
 it("Retries requests when below the limit", () => {
   const args: RequestRetryProps = {
     tryCount: 2,
-    error: new Error("Too many requests"),
+    error: new HttpError("Message", ErrorCodes.TOO_MANY_REQUESTS),
     fetchFn: mockFn,
   };
   const instance = new RequestRetryHandler(args);
@@ -34,7 +37,7 @@ it("Retries requests when below the limit", () => {
 function mockDelay(tryCount: number) {
   const args: RequestRetryProps = {
     tryCount,
-    error: new Error("Test error."),
+    error: new HttpError("Message", ErrorCodes.TOO_MANY_REQUESTS),
     fetchFn: mockFn,
   };
 

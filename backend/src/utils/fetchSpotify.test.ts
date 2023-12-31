@@ -1,4 +1,4 @@
-import { fetchSpotify } from "./fetchSpotify";
+import { fetchSpotify } from "./fetchSpotify.js";
 import RequestRetryHandler, {
   RequestRetryProps,
 } from "../models/RequestRetryHandler";

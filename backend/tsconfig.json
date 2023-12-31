@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
+    "target": "ES2020",
+    "module": "NodeNext",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "moduleResolution": "NodeNext"
   },
-  "include": ["**/*.ts", "jest.config.js"], // Adjust this path based on your project's directory structure
+  "include": ["src/**/*", "jest.config.js"], // Adjust this path based on your project's directory structure
   "exclude": ["node_modules"]
 }

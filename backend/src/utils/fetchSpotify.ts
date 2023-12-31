@@ -1,3 +1,4 @@
+import HttpError from "../models/HttpError";
 import RequestRetryHandler from "../models/RequestRetryHandler";
 
 export const fetchSpotify = async (
@@ -7,11 +8,11 @@ export const fetchSpotify = async (
   try {
     return await fetchFn();
   } catch (error) {
-    console.log("Error:", (error as Error).message);
+    console.log("Error:", (error as HttpError).message);
 
     return new RequestRetryHandler({
       tryCount,
-      error: error as Error,
+      error: error as HttpError,
       fetchFn: () => fetchSpotify(fetchFn, tryCount + 1),
     }).retryRequest();
   }

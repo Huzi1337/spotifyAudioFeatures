@@ -1,6 +1,7 @@
-import HttpError from "../models/HttpError";
-import { fetchSpotify } from "../utils/fetchSpotify";
-import { searchSongId } from "../utils/searchSongId";
+import HttpError from "../models/HttpError.js";
+import { UserQuery } from "../models/types.js";
+import { fetchSpotify } from "../utils/fetchSpotify.js";
+import { searchSongId } from "../utils/searchSongId.js";
 import { Request, Response, NextFunction } from "express";
 
 export function validateRequest(
@@ -25,7 +26,9 @@ export const fetchTrackData = async (
   next: NextFunction
 ) => {
   try {
-    req.body;
+    //fetchSpotify(searchSongId());
+    //fetchSpotify(getTracksAudioFeatures());
+    //res.json(audioFeatures)
   } catch (err) {
     res.statusCode = 404;
     res.send("Bad request");

@@ -1,4 +1,4 @@
-import { validateRequest } from "./audioFeatures";
+import { validateRequest } from "./audioFeatures.js";
 
 describe("validateRequest function", () => {
   const mockRequest = (body: any) => ({ body });

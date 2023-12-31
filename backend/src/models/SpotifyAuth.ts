@@ -1,18 +1,28 @@
-import { tokenURL } from "../data";
+import { tokenURL, clientId, clientSecret } from "../data.js";
 
 export class SpotifyAuth {
+  private static instance: SpotifyAuth | null = null;
   private clientId: string;
   private clientSecret: string;
-  private _token: string;
+  private _token: string | null;
 
-  constructor({ clientId, clientSecret }) {
+  static async getInstance() {
+    if (!this.instance) {
+      this.instance = new SpotifyAuth();
+      await this.instance.getNewToken();
+    }
+    return this.instance;
+  }
+
+  private constructor() {
     this.clientId = clientId;
     this.clientSecret = clientSecret;
+    this._token = null;
   }
 
   async getNewToken() {
     try {
-      this.fetchToken();
+      await this.fetchToken();
     } catch (err) {
       console.log(err);
     }
@@ -46,7 +56,7 @@ export class SpotifyAuth {
     return searchParams.toString();
   }
 
-  public get token(): string {
+  public get token(): string | null {
     return this._token;
   }
 }

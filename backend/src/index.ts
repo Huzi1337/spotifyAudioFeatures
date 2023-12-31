@@ -1,5 +1,5 @@
 import express from "express";
-import audioFeatureRoutes from "./routes/audioFeatures";
+import audioFeatureRoutes from "./routes/audioFeatures.js";
 
 export const startServer = async () => {
   const PORT = 3000;
