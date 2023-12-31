@@ -1,5 +1,5 @@
-import HttpError from "../models/HttpError";
-import RequestRetryHandler from "../models/RequestRetryHandler";
+import HttpError from "../models/HttpError.js";
+import RequestRetryHandler from "../models/RequestRetryHandler.js";
 
 export const fetchSpotify = async (
   fetchFn: () => Promise<any>,

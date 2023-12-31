@@ -1,4 +1,4 @@
-import { startServer } from "./index";
+import { startServer } from "./index.js";
 import { Express } from "express";
 import request from "supertest";
 

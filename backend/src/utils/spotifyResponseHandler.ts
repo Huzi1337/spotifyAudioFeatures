@@ -1,4 +1,4 @@
-import HttpError from "../models/HttpError";
+import HttpError from "../models/HttpError.js";
 
 export const spotifyResponseHandler = async (url: any, authStr: any) => {
   const response = await fetch(url, {

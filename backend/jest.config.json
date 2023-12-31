@@ -1,5 +1,4 @@
 {
-  "preset": "ts-jest",
   "testEnvironment": "node",
-  "testRegex": "(/.*\\.(test|spec)\\.ts$)"
+  "testRegex": "/dist/.*\\.(test|spec)\\.(ts|js)$"
 }
