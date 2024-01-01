@@ -1,7 +1,12 @@
 import HttpError from "../models/HttpError.js";
-import { SongQuery, SongsWithIds, UserQuery } from "../models/types.js";
+import {
+  AudioFeatures,
+  AudioFeaturesResponse,
+  SongsWithIds,
+  UserQuery,
+} from "../models/types.js";
 import { fetchSpotify } from "../utils/fetchSpotify.js";
-import { getTracksAudioFeatures } from "../utils/getTracksAudioFeatures.js";
+import { fetchTracksAudioFeatures } from "../utils/fetchTracksAudioFeatures.js";
 import { searchSongId } from "../utils/searchSongId.js";
 import { Request, Response, NextFunction } from "express";
 
@@ -15,66 +20,84 @@ export function validateRequest(
   } else {
     res.status(400).json(new HttpError("Invalid request body.", 400));
   }
+
+  function isValidRequest(input: unknown) {
+    return (
+      (input as UserQuery).includedAudioFeatures && (input as UserQuery).songs
+    );
+  }
 }
 
-function isValidRequest(input: unknown) {
-  return (input as UserQuery).audioFeatures && (input as UserQuery).songList;
-}
-
-export const sendSongData = async (
+export async function getSongIds(
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  try {
-    let { songList } = req.body as UserQuery;
-    await addSongAudioFeatures(songList);
-    res.json(songList);
-  } catch (err) {
-    rejectRequest(err);
+) {
+  const { songs } = req.body as UserQuery;
+  for (let i = 0; i < songs.length; i++) {
+    //get it to modify songs instead
+    const data = await fetchSpotify(async () => searchSongId(songs[i]));
+    songs[i] = { ...songs[i], ...data };
   }
-
-  async function addSongAudioFeatures(songList: SongQuery[]) {
-    await getSongIds(songList);
-    await batchGetAudioFeatures(songList as SongsWithIds[]);
-  }
-
-  async function rejectRequest(err: unknown) {
-    res.statusCode = 404;
-    res.send("Bad request");
-  }
-};
-
-async function getSongIds(songList: SongQuery[]) {
-  let songs: SongsWithIds[] = [];
-
-  for (const song of songList) {
-    //get it to modify songList instead
-    const data = await fetchSpotify(() => searchSongId(song));
-    songs.push(data);
-  }
-  return songs;
+  next();
 }
 
-async function batchGetAudioFeatures(songList: SongsWithIds[]) {
+export async function batchGetAudioFeatures(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { songs: songs, includedAudioFeatures } = req.body as UserQuery;
+
   const BATCH_SIZE = 100;
-  const NUMBER_OF_BATCHES = Math.ceil(songList.length / BATCH_SIZE);
+  const NUMBER_OF_BATCHES = Math.ceil(songs.length / BATCH_SIZE);
 
   for (let i = 0; i < NUMBER_OF_BATCHES; i++) {
     const BATCH_START = i * BATCH_SIZE;
     const BATCH_FINISH = (i + 1) * BATCH_SIZE;
 
-    let songIds = songList
+    let songIds = songs
       .slice(BATCH_START, BATCH_FINISH)
-      .map((song) => song.id)
+      .map((song) => (song as SongsWithIds).id)
       .join(",");
 
-    let audioFeatures = await getTracksAudioFeatures(songIds);
+    let { audio_features: audioFeatures } = await fetchSpotify(async () =>
+      fetchTracksAudioFeatures(songIds)
+    );
+
     //get the required audio features
     for (let j = 0; j < audioFeatures.length; j++) {
-      songList[BATCH_START + j].audioFeatures = audioFeatures;
+      let requestedAudioFeatures = filterAudioFeatures(
+        audioFeatures,
+        includedAudioFeatures
+      );
+
+      (songs[BATCH_START + j] as AudioFeaturesResponse).audioFeatures =
+        requestedAudioFeatures;
     }
   }
 
-  return songList;
+  next();
+
+  function filterAudioFeatures(
+    allValues: AudioFeatures,
+    selectedValues: AudioFeatures
+  ) {
+    let requestedAudioFeatures: AudioFeatures = {};
+    for (const key in selectedValues) {
+      const typedKey = key as keyof AudioFeatures;
+      if (selectedValues[typedKey]) {
+        requestedAudioFeatures[typedKey] = allValues[typedKey];
+      }
+    }
+    return requestedAudioFeatures;
+  }
+}
+
+export async function sendSongData(req: Request, res: Response) {
+  try {
+    res.json(req.body.songs);
+  } catch (err) {
+    res.status(404).send("Bad request");
+  }
 }

@@ -1,8 +1,19 @@
 import express from "express";
-import { sendSongData, validateRequest } from "../controllers/audioFeatures.js";
+import {
+  batchGetAudioFeatures,
+  getSongIds,
+  sendSongData,
+  validateRequest,
+} from "../controllers/audioFeatures.js";
 
 const router = express.Router();
 
-router.post("/", validateRequest, sendSongData);
+router.post(
+  "/",
+  validateRequest,
+  getSongIds,
+  batchGetAudioFeatures,
+  sendSongData
+);
 
 export default router;
