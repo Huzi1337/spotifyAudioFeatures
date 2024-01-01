@@ -1,10 +1,11 @@
+import { SongQuery } from "../models/types.js";
 import { spotifyResponseHandler } from "./spotifyResponseHandler.js";
 
-export const searchSongId = async ({ title, artist, authStr }: any) => {
+export const searchSongId = async ({ title, artist }: SongQuery) => {
   const URL = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
     title
   )}&artist=${encodeURIComponent(artist)}&type=track`;
-  const data = await spotifyResponseHandler(URL, authStr);
+  const data = await spotifyResponseHandler(URL);
 
   if (data.tracks.items) {
     const {

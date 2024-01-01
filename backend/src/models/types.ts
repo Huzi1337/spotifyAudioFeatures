@@ -1,4 +1,12 @@
-export type SongQuery = { artist: string; title: string };
+export interface SongQuery {
+  artist: string;
+  title: string;
+}
+
+export interface SongsWithIds extends SongQuery {
+  spotifyURL: string;
+  id: string;
+}
 
 export type AudioFeatures = {
   acousticness?: number;

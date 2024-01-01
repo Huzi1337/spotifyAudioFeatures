@@ -17,7 +17,7 @@ class RequestRetryHandler {
   async retryRequest() {
     if (this.shouldRetry()) {
       console.log("Retrying");
-      return new Promise(this.waitAndRetry);
+      return new Promise(this.waitAndRetry) as Promise<any>;
     }
   }
 
