@@ -41,7 +41,7 @@ export type SpotifyClientData = {
 };
 
 export interface SongBatchProcessParams extends UserQuery {
-  audioFeatures: AudioFeatures;
+  audioFeatures: AudioFeatures[];
   batchStart: number;
 }
 

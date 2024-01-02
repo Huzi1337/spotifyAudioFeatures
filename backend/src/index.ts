@@ -19,3 +19,5 @@ export const startServer = async () => {
 
   return [app, closeServer];
 };
+
+startServer();
