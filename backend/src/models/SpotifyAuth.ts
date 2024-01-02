@@ -14,6 +14,10 @@ export class SpotifyAuth {
     return this.instance;
   }
 
+  static destroyInstance() {
+    this.instance = null;
+  }
+
   private constructor() {
     this.clientId = clientId;
     this.clientSecret = clientSecret;

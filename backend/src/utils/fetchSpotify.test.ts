@@ -1,7 +1,7 @@
-import { fetchSpotify } from "./fetchSpotify.js";
 import RequestRetryHandler, {
   RequestRetryProps,
-} from "../models/RequestRetryHandler";
+} from "../models/RequestRetryHandler.js";
+import fetchSpotify from "./fetchSpotify.js";
 
 jest.mock("../models/RequestRetryHandler");
 describe("Success case", () => {

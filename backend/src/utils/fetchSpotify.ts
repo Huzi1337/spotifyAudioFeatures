@@ -1,10 +1,10 @@
-import HttpError from "../models/HttpError";
-import RequestRetryHandler from "../models/RequestRetryHandler";
+import HttpError from "../models/HttpError.js";
+import RequestRetryHandler from "../models/RequestRetryHandler.js";
 
-export const fetchSpotify = async (
-  fetchFn: () => Promise<any>,
+const fetchSpotify = async <T>(
+  fetchFn: () => Promise<T>,
   tryCount = 0
-): Promise<any> => {
+): Promise<T> => {
   try {
     return await fetchFn();
   } catch (error) {
@@ -13,7 +13,9 @@ export const fetchSpotify = async (
     return new RequestRetryHandler({
       tryCount,
       error: error as HttpError,
-      fetchFn: () => fetchSpotify(fetchFn, tryCount + 1),
+      fetchFn: () => fetchSpotify<T>(fetchFn, tryCount + 1),
     }).retryRequest();
   }
 };
+
+export default fetchSpotify;

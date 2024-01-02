@@ -1,9 +1,11 @@
-import HttpError from "../models/HttpError";
+import HttpError from "../models/HttpError.js";
+import { SpotifyAuth } from "../models/SpotifyAuth.js";
 
-export const spotifyResponseHandler = async (url: any, authStr: any) => {
+export const spotifyResponseHandler = async (url: string) => {
+  let token = (await SpotifyAuth.getInstance()).token;
   const response = await fetch(url, {
     headers: {
-      Authorization: authStr,
+      Authorization: token as string,
     },
   });
 

@@ -1,27 +1,50 @@
-export type SongQuery = { artist: string; title: string };
+import { Request } from "express";
+
+export interface SongQuery {
+  artist: string;
+  title: string;
+}
+
+export interface SongsWithIds extends SongQuery {
+  spotifyURL: string;
+  id: string;
+}
+
+export interface AudioFeaturesResponse extends SongsWithIds {
+  audioFeatures: AudioFeatures;
+}
 
 export type AudioFeatures = {
-  acousticness?: number;
-  danceability?: number;
-  duration_ms?: number;
-  energy?: number;
-  instrumentalness?: number;
-  liveness?: number;
-  loudness?: number;
-  mode?: number;
-  speechiness?: number;
-  tempo?: number;
-  time_signature?: number;
-  valence?: number;
-  key?: number;
+  acousticness?: number | boolean;
+  danceability?: number | boolean;
+  duration_ms?: number | boolean;
+  energy?: number | boolean;
+  instrumentalness?: number | boolean;
+  liveness?: number | boolean;
+  loudness?: number | boolean;
+  mode?: number | boolean;
+  speechiness?: number | boolean;
+  tempo?: number | boolean;
+  time_signature?: number | boolean;
+  valence?: number | boolean;
+  key?: number | boolean;
 };
 
-export type UserQuery = {
-  songList: SongQuery[];
-  audioFeatures: AudioFeatures;
-};
+export interface UserQuery {
+  songs: SongQuery[];
+  includedAudioFeatures: AudioFeatures;
+}
 
 export type SpotifyClientData = {
   clientId: string;
   clientSecret: string;
 };
+
+export interface SongBatchProcessParams extends UserQuery {
+  audioFeatures: AudioFeatures;
+  batchStart: number;
+}
+
+export interface SongRequest extends Request {
+  body: UserQuery;
+}
