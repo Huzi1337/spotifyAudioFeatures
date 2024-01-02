@@ -1,10 +1,8 @@
 import express from "express";
-import {
-  batchGetAudioFeatures,
-  getSongIds,
-  sendSongData,
-  validateRequest,
-} from "../controllers/audioFeatures.js";
+import validateRequest from "../controllers/audioFeatures/validateRequest.js";
+import getSongIds from "../controllers/audioFeatures/getSongIds.js";
+import batchGetAudioFeatures from "../controllers/audioFeatures/batchGetAudioFeatures.js";
+import sendSongData from "../controllers/audioFeatures/sendSongData.js";
 
 const router = express.Router();
 

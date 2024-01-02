@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node server.js",
     "express": "node index.js",
-    "test": "npx --detectOpenHandles jest"
+    "test": "npx --watch jest"
   },
   "keywords": [],
   "author": "",

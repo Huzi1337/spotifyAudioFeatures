@@ -1,7 +1,7 @@
 import HttpError from "../models/HttpError.js";
 import RequestRetryHandler from "../models/RequestRetryHandler.js";
 
-export const fetchSpotify = async <T>(
+const fetchSpotify = async <T>(
   fetchFn: () => Promise<T>,
   tryCount = 0
 ): Promise<T> => {
@@ -17,3 +17,5 @@ export const fetchSpotify = async <T>(
     }).retryRequest();
   }
 };
+
+export default fetchSpotify;

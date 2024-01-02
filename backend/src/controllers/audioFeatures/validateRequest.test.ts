@@ -1,4 +1,5 @@
-import { validateRequest } from "./audioFeatures.js";
+import { UserQuery } from "../../models/types.js";
+import validateRequest from "./validateRequest.js";
 
 describe("validateRequest function", () => {
   const mockRequest = (body: any) => ({ body });
@@ -13,7 +14,10 @@ describe("validateRequest function", () => {
   beforeEach(() => jest.clearAllMocks());
 
   it("Allows valid request body", () => {
-    const validReqBody = { songList: [], audioFeatures: {} };
+    const validReqBody: UserQuery = {
+      songs: [{ artist: "artist", title: "title" }],
+      includedAudioFeatures: {},
+    };
     const [req, res] = mockReqRes(validReqBody);
     validateRequest(req as any, res, mockNext);
 
