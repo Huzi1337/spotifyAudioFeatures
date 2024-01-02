@@ -1,5 +1,3 @@
-import { Request } from "express";
-
 export interface UserQuery {
   songs: SongQuery[];
   includedAudioFeatures: AudioFeatures;
@@ -25,26 +23,3 @@ export type AudioFeatures = {
   valence?: number | boolean;
   key?: number | boolean;
 };
-
-export interface SongsWithIds extends SongQuery {
-  spotifyURL: string;
-  id: string;
-}
-
-export interface AudioFeaturesResponse extends SongsWithIds {
-  audioFeatures: AudioFeatures;
-}
-
-export type SpotifyClientData = {
-  clientId: string;
-  clientSecret: string;
-};
-
-export interface SongBatchProcessParams extends UserQuery {
-  audioFeatures: AudioFeatures[];
-  batchStart: number;
-}
-
-export interface SongRequest extends Request {
-  body: UserQuery;
-}

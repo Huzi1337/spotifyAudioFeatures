@@ -20,7 +20,7 @@ async function batchGetAudioFeatures(
   const NUMBER_OF_BATCHES = Math.ceil(songs.length / BATCH_SIZE);
 
   for (let i = 0; i < NUMBER_OF_BATCHES; i++) {
-    let { audio_features: audioFeatures } = await getAudioFeatures({
+    const audioFeatures = await getAudioFeatures({
       songs,
       index: i,
     });
@@ -42,7 +42,7 @@ async function getAudioFeatures({
 }: {
   songs: SongQuery[];
   index: number;
-}) {
+}): Promise<AudioFeatures[]> {
   const start = index * BATCH_SIZE;
   const finish = (index + 1) * BATCH_SIZE;
 
@@ -60,8 +60,8 @@ function batchFilterSongs({
   includedAudioFeatures,
   batchStart,
 }: SongBatchProcessParams) {
-  for (let j = 0; j < Object.keys(audioFeatures).length; j++) {
-    let filtered = filterAudioFeatures(audioFeatures, includedAudioFeatures);
+  for (let j = 0; j < audioFeatures.length; j++) {
+    let filtered = filterAudioFeatures(audioFeatures[j], includedAudioFeatures);
 
     (songs[batchStart + j] as AudioFeaturesResponse).audioFeatures = filtered;
   }
