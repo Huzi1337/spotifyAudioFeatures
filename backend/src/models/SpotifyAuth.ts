@@ -28,7 +28,7 @@ export class SpotifyAuth {
     try {
       await this.fetchToken();
     } catch (err) {
-      console.log(err);
+      console.log(`At getNewToken: ${err}`);
     }
   }
 
