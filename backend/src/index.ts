@@ -1,4 +1,5 @@
 import express from "express";
+import "dotenv/config";
 import audioFeatureRoutes from "./routes/audioFeatures.js";
 import cors from "cors";
 import { SpotifyAuth } from "./models/SpotifyAuth.js";

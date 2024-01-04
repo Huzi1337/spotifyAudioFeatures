@@ -1,4 +1,4 @@
-import { tokenURL, clientId, clientSecret } from "../data.js";
+import { tokenURL } from "../data.js";
 
 export class SpotifyAuth {
   private static instance: SpotifyAuth | null = null;
@@ -19,8 +19,8 @@ export class SpotifyAuth {
   }
 
   private constructor() {
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
+    this.clientId = process.env.CLIENT_ID as string;
+    this.clientSecret = process.env.CLIENT_SECRET as string;
     this._token = null;
   }
 
