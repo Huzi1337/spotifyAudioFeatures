@@ -20,10 +20,14 @@ async function getSongIds(req: SongRequest, res: Response, next: NextFunction) {
 
   async function handleBatch(start: number, end: number) {
     let batch = [];
+
     console.log(`Batch ${start / BATCH_SIZE} \n ------------ \n`);
+
     for (let i = start; i < end; i++) {
       console.log(`${Date.now()} -- query for ${songs[i].title}`);
+
       if (!isTitleAndArtistValid(songs[i])) continue;
+
       batch.push(fetchSpotify(async () => searchSongId(songs[i])));
     }
     return await Promise.all(batch);
