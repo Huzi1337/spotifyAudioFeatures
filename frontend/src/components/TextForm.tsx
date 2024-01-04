@@ -3,6 +3,7 @@ import { SongQuery, UserQuery } from "../types";
 
 function TextForm() {
   const [text, setText] = useState("");
+  const [res, setRes] = useState("");
   function changeHandler({ target }: React.ChangeEvent) {
     const { value } = target as HTMLTextAreaElement;
     setText(value);
@@ -17,34 +18,43 @@ function TextForm() {
     let includedAudioFeatures = {
       acousticness: true,
       danceability: true,
-      duration_ms: false,
-      energy: false,
+      duration_ms: true,
+      energy: true,
       instrumentalness: true,
       liveness: true,
       loudness: true,
-      mode: false,
-      speechiness: false,
+      mode: true,
+      speechiness: true,
       tempo: true,
-      time_signature: false,
+      time_signature: true,
       valence: true,
-      key: false,
+      key: true,
     };
 
     const query: UserQuery = { songs, includedAudioFeatures };
     console.log(query);
-    const data = await fetch("http://localhost:3000/api/v1/audioFeatures", {
+    const response = await fetch("http://localhost:3000/api/v1/audioFeatures", {
       method: "POST",
       body: JSON.stringify(query),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log(data);
+    let data = await response.json();
+    setRes(data.CSV);
   }
 
   return (
     <>
       <textarea value={text} onChange={changeHandler}></textarea>
+      <p>
+        {res.split("\n").map((line) => (
+          <>
+            {line}
+            <br />
+          </>
+        ))}
+      </p>
       <button onClick={submitHandler}>BIG BUTTON</button>
     </>
   );
