@@ -3,13 +3,30 @@ import { SongRequest } from "../../models/types.js";
 import { searchSongId } from "../../utils/searchSongId.js";
 import fetchSpotify from "../../utils/fetchSpotify.js";
 
+const BATCH_SIZE = 10;
+
 async function getSongIds(req: SongRequest, res: Response, next: NextFunction) {
   const { songs } = req.body;
-  for (let i = 0; i < songs.length; i++) {
-    const data = await fetchSpotify(async () => searchSongId(songs[i]));
-    songs[i] = { ...songs[i], ...data };
+
+  for (let i = 0; i < songs.length; i += BATCH_SIZE) {
+    let end = Math.min(songs.length, i + BATCH_SIZE);
+    let batch = await handleBatch(i, end);
+    for (let j = 0; j < batch.length; j++) {
+      songs[i + j] = { ...songs[i + j], ...batch[j] };
+    }
   }
+
   next();
+
+  async function handleBatch(start: number, end: number) {
+    let batch = [];
+    console.log(`Batch ${start / BATCH_SIZE} \n ------------ \n`);
+    for (let i = start; i < end; i++) {
+      console.log(`${Date.now()} -- query for ${songs[i].title}`);
+      batch.push(fetchSpotify(async () => searchSongId(songs[i])));
+    }
+    return await Promise.all(batch);
+  }
 }
 
 export default getSongIds;

@@ -8,7 +8,7 @@ const fetchSpotify = async <T>(
   try {
     return await fetchFn();
   } catch (error) {
-    console.log("Error:", (error as HttpError).message);
+    console.log("Error:", (error as HttpError).stack);
 
     return new RequestRetryHandler({
       tryCount,

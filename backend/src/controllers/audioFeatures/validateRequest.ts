@@ -1,4 +1,3 @@
-import HttpError from "../../models/HttpError.js";
 import { UserQuery } from "../../models/types.js";
 import { Request, Response, NextFunction } from "express";
 
@@ -7,7 +6,7 @@ function validateRequest(req: Request, res: Response, next: NextFunction) {
   if (isValidRequest(req.body)) {
     next();
   } else {
-    res.status(400).json("beep");
+    res.json("Bad request");
   }
 }
 

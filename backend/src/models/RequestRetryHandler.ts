@@ -17,13 +17,18 @@ class RequestRetryHandler {
   async retryRequest() {
     if (this.shouldRetry()) {
       console.log("Retrying");
-      return new Promise(this.waitAndRetry) as Promise<any>;
+      return new Promise(this.waitAndRetry.bind(this)) as Promise<any>;
+    } else {
+      throw new HttpError("Can't retry", 404);
     }
   }
 
   shouldRetry() {
+    console.log(
+      `shouldRetry:\nstatus: ${this.error.status} count: ${this.tryCount}`
+    );
     return (
-      this.error.status === ErrorCodes.TOO_MANY_REQUESTS &&
+      this.error.message === "Too Many Requests" &&
       this.tryCount < this.retryLimit
     );
   }
@@ -35,7 +40,9 @@ class RequestRetryHandler {
   }
 
   getDelay() {
-    return this.baseDelay * Math.pow(this.baseDelay, this.tryCount);
+    let delay = this.baseDelay * Math.pow(this.baseDelay / 1000, this.tryCount);
+    console.log(`getDelay called ${delay}`);
+    return delay;
   }
 }
 
