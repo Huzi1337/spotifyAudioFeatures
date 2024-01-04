@@ -1,5 +1,5 @@
 import { Response, NextFunction } from "express";
-import { SongRequest } from "../../models/types.js";
+import { SongQuery, SongRequest } from "../../models/types.js";
 import { searchSongId } from "../../utils/searchSongId.js";
 import fetchSpotify from "../../utils/fetchSpotify.js";
 
@@ -23,10 +23,15 @@ async function getSongIds(req: SongRequest, res: Response, next: NextFunction) {
     console.log(`Batch ${start / BATCH_SIZE} \n ------------ \n`);
     for (let i = start; i < end; i++) {
       console.log(`${Date.now()} -- query for ${songs[i].title}`);
+      if (!isTitleAndArtistValid(songs[i])) continue;
       batch.push(fetchSpotify(async () => searchSongId(songs[i])));
     }
     return await Promise.all(batch);
   }
+}
+
+function isTitleAndArtistValid(song: SongQuery) {
+  return song.title && song.artist && song.title.length && song.artist.length;
 }
 
 export default getSongIds;
