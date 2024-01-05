@@ -63,6 +63,7 @@ function batchFilterSongs({
   console.log(`batchFilterSongs: ${audioFeatures}`);
   for (let j = 0; j < audioFeatures.length; j++) {
     if (!audioFeatures[j]) continue;
+
     let filtered = filterAudioFeatures(audioFeatures[j], includedAudioFeatures);
     (songs[batchStart + j] as AudioFeaturesResponse).audioFeatures = filtered;
   }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SongQuery, UserQuery } from "../types";
+import { includedAudioFeatures } from "../data";
 
 function TextForm() {
   const [text, setText] = useState("");
@@ -15,21 +16,6 @@ function TextForm() {
       const [title, artist] = arr.split(";");
       songs.push({ title, artist });
     }
-    let includedAudioFeatures = {
-      acousticness: true,
-      danceability: true,
-      duration_ms: true,
-      energy: true,
-      instrumentalness: true,
-      liveness: true,
-      loudness: true,
-      mode: true,
-      speechiness: true,
-      tempo: true,
-      time_signature: true,
-      valence: true,
-      key: true,
-    };
 
     const query: UserQuery = { songs, includedAudioFeatures };
     console.log(query);
