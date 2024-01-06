@@ -17,15 +17,17 @@ function useDelay(
 ) {
   const countDown = useRef<NodeJS.Timeout | null>(null);
   const [isFirstRender, setIsFirstRender] = useState(!runOnFirstRender);
+  const [isTimeout, setIsTimeout] = useState(false);
 
   useEffect(() => {
-    validateAfterDelay();
+    runAfterDelay();
 
-    function validateAfterDelay() {
+    function runAfterDelay() {
       if (isFirstRender) {
         setIsFirstRender(false);
         return;
       }
+      setIsTimeout(true);
 
       const { current } = countDown;
 
@@ -34,9 +36,12 @@ function useDelay(
       countDown.current = setTimeout(() => {
         console.log("Executing after delay.");
         callback();
+        setIsTimeout(false);
       }, delay);
     }
   }, [...dependencies]);
+
+  return { isTimeout };
 }
 
 export default useDelay;
