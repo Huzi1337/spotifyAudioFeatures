@@ -5,7 +5,7 @@ import "./TextForm.scss";
 function TextForm() {
   const [text, setText] = useState("");
   const ref = useRef<HTMLDivElement>(null);
-  const { isValid, isValidating } = useValidateInput(text);
+  const { invalidLines, isValidating } = useValidateInput(text);
   const [shouldReplaceHeight, setShouldReplaceHeight] = useState(false);
 
   function changeHandler({
@@ -33,7 +33,12 @@ function TextForm() {
             { length: text.split("\n").length },
             (_, index) => index + 1
           ).map((number) => (
-            <span key={number}>{number}</span>
+            <span
+              className={invalidLines.has(number) ? "error" : ""}
+              key={number}
+            >
+              {number}
+            </span>
           ))}
         </div>
 
