@@ -6,17 +6,19 @@ import { dummyData } from "./data";
 
 function App() {
   const [data, setData] = useState(null);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   return (
     <>
       <h1 className="logo">Audify</h1>
-      <button>You give us the song names...</button>
-      <div id="main">
+      <button onClick={() => setPage(0)}>You give us the song names...</button>
+      <div className="window">
         {page === 0 && <TextForm />}
-        <Table data={dummyData} />
+        {page === 1 && <Table data={dummyData} />}
       </div>
 
-      <button>You get their audio features back!</button>
+      <button onClick={() => setPage(1)}>
+        You get their audio features back!
+      </button>
     </>
   );
 }

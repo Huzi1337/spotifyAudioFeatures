@@ -12,3 +12,12 @@
 .logo {
   color: colors.$green;
 }
+
+.window {
+  border: 6px solid colors.$white;
+  overflow-y: auto;
+  border-radius: 45px;
+  padding: 45px;
+  width: 80%;
+  height: 60vh;
+}

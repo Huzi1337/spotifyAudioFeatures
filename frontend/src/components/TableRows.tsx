@@ -2,14 +2,14 @@ import { Props } from "./Table";
 
 export function TableRows({ data }: Props) {
   return (
-    <>
-      {data.map((song) => (
-        <tr>
-          {Object.values(song).map((value) => (
-            <td>{value}</td>
+    <tbody>
+      {data.map((song, index) => (
+        <tr key={index}>
+          {Object.values(song).map((value, innerIndex) => (
+            <td key={innerIndex}>{value}</td>
           ))}
         </tr>
       ))}
-    </>
+    </tbody>
   );
 }
