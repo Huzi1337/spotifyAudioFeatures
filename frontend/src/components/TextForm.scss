@@ -1,0 +1,49 @@
+.textForm__topBar {
+  position: absolute;
+  top: 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 90px);
+}
+
+.textForm__inputWrapper {
+  position: relative;
+  height: 100%;
+
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+
+  font-size: 16px;
+  line-height: 22px;
+  color: white;
+
+  overflow: auto;
+
+  .innerText {
+    height: auto;
+    height: max-content;
+
+    padding: 0;
+    border: 0;
+
+    flex-grow: 19;
+    min-height: 100%;
+
+    resize: none;
+    background-color: gray;
+
+    line-height: 22px;
+    color: white;
+    font-size: 16px;
+
+    overflow-y: hidden;
+
+    &::placeholder {
+      color: white;
+      opacity: 0.8;
+    }
+  }
+}

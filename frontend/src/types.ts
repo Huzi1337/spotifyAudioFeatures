@@ -8,6 +8,10 @@ export interface SongQuery {
   title: string;
 }
 
+export type Options = {
+  audioFeatures: AudioFeatures;
+};
+
 export type AudioFeatures = {
   acousticness?: number | boolean;
   danceability?: number | boolean;

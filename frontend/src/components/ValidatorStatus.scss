@@ -1,0 +1,33 @@
+@use "../assets/colors";
+@use "../assets/mixins";
+
+.validatorStatusWrapper {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  .statusMsg {
+    color: white;
+  }
+  .statusMsg.error {
+    color: colors.$red;
+  }
+
+  .statusMsg.success {
+    color: colors.$green;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .icon.success {
+    @include mixins.set-icon-bg;
+    background-image: url(/done.svg);
+  }
+
+  .icon.error {
+    @include mixins.set-icon-bg;
+    background-image: url(/error.svg);
+  }
+}

@@ -1,0 +1,14 @@
+.modalBackground {
+  z-index: -1;
+  position: fixed;
+  inset: 0;
+  opacity: 0.2;
+  background-color: white;
+}
+.modalWrapper {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 0;
+}

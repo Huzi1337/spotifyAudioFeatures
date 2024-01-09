@@ -1,0 +1,9 @@
+@use "./assets/colors";
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: colors.$black;
+}
