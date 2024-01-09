@@ -14,10 +14,12 @@
 }
 
 .window {
+  position: relative;
   border: 6px solid colors.$white;
   overflow-y: auto;
   border-radius: 45px;
   padding: 45px;
+  padding-top: 60px;
   width: 80%;
   height: 60vh;
 }

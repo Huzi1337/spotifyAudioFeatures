@@ -1,0 +1,29 @@
+@use "../assets/colors";
+
+.optionsPanelWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+
+  .settings {
+    width: 2.5em;
+    height: 2.5em;
+
+    background-image: url(/settings.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    opacity: 0.9;
+    border: 0;
+    transform-origin: center;
+    transform: scale(1);
+    transition-duration: 100ms;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+}

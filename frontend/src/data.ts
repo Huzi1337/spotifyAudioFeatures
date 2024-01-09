@@ -1,4 +1,20 @@
-import { AudioFeatures } from "./types";
+export const OptionsDefault = {
+  audioFeatures: {
+    acousticness: true,
+    danceability: true,
+    duration_ms: true,
+    energy: true,
+    instrumentalness: true,
+    liveness: true,
+    loudness: true,
+    mode: true,
+    speechiness: true,
+    tempo: true,
+    time_signature: true,
+    valence: true,
+    key: true,
+  },
+};
 
 export const includedAudioFeatures = {
   acousticness: true,

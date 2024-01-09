@@ -1,4 +1,4 @@
-import "./AudioFeatureTable.scss";
+import "./Table.scss";
 import { TableHeaders } from "./TableHeaders";
 import { TableRows } from "./TableRows";
 

@@ -1,13 +1,20 @@
-import { useMemo, useRef, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import useValidateInput from "../hooks/useValidateInput";
 import "./TextForm.scss";
+import LineCount from "./LineCount";
+import ValidatorStatus from "./ValidatorStatus";
+import { OptionsContext } from "../context/OptionsProvier";
+import OptionsPanel from "./OptionsPanel";
+
+const LINE_HEIGHT = 22;
 
 function TextForm() {
   const [text, setText] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const { invalidLines, isValidating } = useValidateInput(text);
   const [shouldReplaceHeight, setShouldReplaceHeight] = useState(false);
-
+  const temp = useContext(OptionsContext);
+  console.log(temp);
   function changeHandler({
     target: { value },
   }: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -18,36 +25,35 @@ function TextForm() {
   function lineNumberHandler() {
     const { current } = ref;
     if (current) {
-      setShouldReplaceHeight(current.clientHeight < numberOfLines * 22);
+      setShouldReplaceHeight(
+        current.clientHeight < numberOfLines * LINE_HEIGHT
+      );
       console.log(shouldReplaceHeight);
     }
   }
 
-  function addLineNumbers() {}
-
   return (
     <>
-      <div ref={ref} className="inputWrapper">
-        <div className="lineNumberWrapper">
-          {Array.from(
-            { length: text.split("\n").length },
-            (_, index) => index + 1
-          ).map((number) => (
-            <span
-              className={invalidLines.has(number) ? "error" : ""}
-              key={number}
-            >
-              {number}
-            </span>
-          ))}
-        </div>
+      <div className="textForm__topBar">
+        <ValidatorStatus
+          isValidating={isValidating}
+          isError={invalidLines.size != 0}
+        />
+        <OptionsPanel />
+      </div>
+
+      <div ref={ref} className="textForm__inputWrapper">
+        <LineCount invalidLines={invalidLines} text={text} />
 
         <textarea
           onKeyUp={lineNumberHandler}
-          style={shouldReplaceHeight ? { height: numberOfLines * 22 } : {}}
+          style={
+            shouldReplaceHeight ? { height: numberOfLines * LINE_HEIGHT } : {}
+          }
           className="innerText"
           value={text}
           onChange={changeHandler}
+          placeholder="Submit one song per line in the following format: <songTitle>;<songAuthor>"
         ></textarea>
       </div>
 
