@@ -5,7 +5,7 @@ export function TableRows({ data }: Props) {
     <tbody>
       {data.map((song, index) => (
         <tr key={index}>
-          {Object.values(song).map((value, innerIndex) => (
+          {Object.entries(song).map(([key, value], innerIndex) => (
             <td key={innerIndex}>{value}</td>
           ))}
         </tr>

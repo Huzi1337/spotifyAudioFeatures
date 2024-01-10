@@ -1,4 +1,4 @@
-export const OptionsDefault = {
+export const options = {
   audioFeatures: {
     acousticness: true,
     danceability: true,

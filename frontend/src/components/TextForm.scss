@@ -47,3 +47,14 @@
     }
   }
 }
+
+.textForm__botBar {
+  position: absolute;
+
+  bottom: 15px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 90px);
+}

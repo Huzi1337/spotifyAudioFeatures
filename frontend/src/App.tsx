@@ -1,23 +1,50 @@
-import { useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import "./App.scss";
 import Table from "./components/Table";
 import TextForm from "./components/TextForm";
-import { OptionsDefault, dummyData } from "./data";
+import { options, dummyData } from "./data";
 import { OptionsContext } from "./context/OptionsProvier";
+import useFetch from "./hooks/useFetch";
+import prepareReqBody from "./utils/prepareReqBody";
+import { ApiResponse, AudioFeaturesResponse } from "./types";
 
 function App() {
-  const [data, setData] = useState(null);
+  const [text, setText] = useState("");
   const [page, setPage] = useState(0);
+  const { data, error, fetchData, isLoading } = useFetch<ApiResponse>();
+  const previousText = useRef(text);
+
+  async function submitHandler() {
+    if (text != previousText.current && !isLoading) {
+      const body = prepareReqBody(text, options.audioFeatures);
+      const reqOptions = {
+        method: "POST",
+        body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      await fetchData("http://localhost:3000/api/v1/audioFeatures", reqOptions);
+      previousText.current = text;
+      setPage(1);
+    }
+  }
+
   return (
-    <OptionsContext.Provider value={OptionsDefault}>
+    <OptionsContext.Provider value={options}>
       <h1 className="logo">Audify</h1>
       <button onClick={() => setPage(0)}>You give us the song names...</button>
       <div className="window">
-        {page === 0 && <TextForm />}
-        {page === 1 && <Table data={dummyData} />}
+        {!isLoading && !error && page === 0 && (
+          <TextForm setText={setText} text={text} onSubmit={submitHandler} />
+        )}
+        {data && page === 1 && (
+          <Table data={data.songs.map((song) => song.audioFeatures)} />
+        )}
       </div>
 
-      <button onClick={() => setPage(1)}>
+      <button disabled={!data} onClick={() => setPage(1)}>
         You get their audio features back!
       </button>
     </OptionsContext.Provider>

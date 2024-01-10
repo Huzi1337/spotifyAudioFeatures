@@ -3,6 +3,19 @@ export interface UserQuery {
   includedAudioFeatures: AudioFeatures;
 }
 
+export type ApiResponse = {
+  songs: AudioFeaturesResponse[];
+  CSV: string;
+};
+
+export type AudioFeaturesResponse = {
+  artist: string;
+  title: string;
+  audioFeatures: AudioFeatures;
+  spotifyURL: string;
+  id: string;
+};
+
 export interface SongQuery {
   artist: string;
   title: string;

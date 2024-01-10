@@ -3,18 +3,21 @@ import useValidateInput from "../hooks/useValidateInput";
 import "./TextForm.scss";
 import LineCount from "./LineCount";
 import ValidatorStatus from "./ValidatorStatus";
-import { OptionsContext } from "../context/OptionsProvier";
 import OptionsPanel from "./OptionsPanel";
 
 const LINE_HEIGHT = 22;
 
-function TextForm() {
-  const [text, setText] = useState("");
+type Props = {
+  text: string;
+  setText: React.Dispatch<React.SetStateAction<string>>;
+  onSubmit: () => void;
+};
+
+function TextForm({ text, setText, onSubmit }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const { invalidLines, isValidating } = useValidateInput(text);
   const [shouldReplaceHeight, setShouldReplaceHeight] = useState(false);
-  const temp = useContext(OptionsContext);
-  console.log(temp);
+
   function changeHandler({
     target: { value },
   }: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -56,30 +59,16 @@ function TextForm() {
           placeholder="Submit one song per line in the following format: <songTitle>;<songAuthor>"
         ></textarea>
       </div>
-
-      {/* <button disabled={!isValid || isValidating}>BIG BUTTON</button> */}
+      <div className="textForm__botBar">
+        <button
+          disabled={invalidLines.size > 0 || isValidating || !text.length}
+          onClick={onSubmit}
+        >
+          Search Audio Features
+        </button>
+      </div>
     </>
   );
 }
 
 export default TextForm;
-
-// async function submitHandler() {
-//   const songs: SongQuery[] = [];
-//   for (const arr of text.split("\n")) {
-//     const [title, artist] = arr.split(";");
-//     songs.push({ title, artist });
-//   }
-
-//   const query: UserQuery = { songs, includedAudioFeatures };
-//   console.log(query);
-//   const response = await fetch("http://localhost:3000/api/v1/audioFeatures", {
-//     method: "POST",
-//     body: JSON.stringify(query),
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-//   let data = await response.json();
-//   setRes(data.CSV);
-// }

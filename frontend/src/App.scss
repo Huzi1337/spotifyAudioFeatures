@@ -18,8 +18,8 @@
   border: 6px solid colors.$white;
   overflow-y: auto;
   border-radius: 45px;
-  padding: 45px;
-  padding-top: 60px;
+  padding: 60px 45px;
   width: 80%;
+  max-width: 1280px;
   height: 60vh;
 }

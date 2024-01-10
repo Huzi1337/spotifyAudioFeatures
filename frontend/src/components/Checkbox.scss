@@ -1,0 +1,15 @@
+@use "../assets/mixins";
+@use "../assets/colors";
+
+.checkBoxWrapper {
+  @include mixins.set-icon-bg;
+  border: 1px solid colors.$white;
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  background-color: colors.$black;
+}
+
+.checkBoxWrapper.checked {
+  background-image: url(/done.svg);
+}
