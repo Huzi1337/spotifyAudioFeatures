@@ -40,7 +40,13 @@ function App() {
           <TextForm setText={setText} text={text} onSubmit={submitHandler} />
         )}
         {data && page === 1 && (
-          <Table data={data.songs.map((song) => song.audioFeatures)} />
+          <Table
+            data={data.songs.map((song) => ({
+              title: song.title,
+              artist: song.artist,
+              ...song.audioFeatures,
+            }))}
+          />
         )}
       </div>
 

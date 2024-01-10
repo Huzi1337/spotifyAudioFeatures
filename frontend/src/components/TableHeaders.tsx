@@ -1,14 +1,14 @@
-import { Props } from "./Table";
+type Props = {
+  headers: string[];
+};
 
-export function TableHeaders({ data }: Props) {
+export function TableHeaders({ headers }: Props) {
   return (
     <thead>
       <tr>
-        {Object.entries(data[0]).map(([key, value]) =>
-          value ? (
-            <th key={key}>{key[0].toUpperCase() + key.slice(1)}</th>
-          ) : null
-        )}
+        {headers.map((key) => (
+          <th key={key}>{key[0].toUpperCase() + key.slice(1)}</th>
+        ))}
       </tr>
     </thead>
   );
