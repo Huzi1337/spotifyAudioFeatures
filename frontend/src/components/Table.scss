@@ -1,4 +1,6 @@
 @use "../assets/colors";
+@use "../assets/mixins";
+
 .tableWrapper {
   max-width: 100%;
   display: flex;
@@ -9,7 +11,7 @@
     table-layout: auto;
     color: white;
     tr:nth-child(even) {
-      background-color: colors.$green;
+      background-color: colors.$darkGreen;
     }
     tr {
       td,
@@ -17,6 +19,9 @@
         padding: 8px;
         text-align: center;
         min-width: max-content;
+      }
+      th {
+        font-weight: 600;
       }
       th:nth-child(1) {
         min-width: 250px;
@@ -38,4 +43,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  p {
+    min-width: 5em;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  color: colors.$white;
+
+  .paginationBtn {
+    @include mixins.set-icon-bg;
+    background-color: transparent;
+    border: 0;
+    width: 24px;
+    height: 24px;
+    transition-duration: 150ms;
+
+    &:hover {
+      filter: brightness(0) saturate(100%) invert(64%) sepia(80%) saturate(511%)
+        hue-rotate(84deg) brightness(94%) contrast(85%);
+    }
+    &:disabled {
+      filter: brightness(0) saturate(100%) invert(64%) sepia(1%) saturate(1340%)
+        hue-rotate(202deg) brightness(88%) contrast(80%);
+    }
+  }
+  .paginationBtn.next {
+    background-image: url(/rightArrow.svg);
+  }
+  .paginationBtn.prev {
+    background-image: url(/leftArrow.svg);
+  }
 }
