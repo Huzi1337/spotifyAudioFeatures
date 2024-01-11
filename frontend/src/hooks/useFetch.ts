@@ -7,11 +7,8 @@ function useFetch<T>() {
   console.log(data);
   async function fetchData(url: string, options?: RequestInit) {
     try {
-      console.log(options);
-      console.log("running fetch data");
       setIsLoading(true);
       let response = await fetch(url, options);
-      console.log("response", response);
 
       setData(await response.json());
     } catch (e) {

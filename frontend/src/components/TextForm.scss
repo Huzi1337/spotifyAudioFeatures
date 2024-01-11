@@ -58,13 +58,14 @@
 
 .textForm__botBar {
   position: absolute;
-
-  bottom: 15px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 60px;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(100% - 120px);
 
   .submitBtn {
     background-color: transparent;

@@ -15,7 +15,7 @@ const AudioFeatureSelection = forwardRef(function AudioFeatureSelection(
       <h2>Audio Features</h2>
       {Object.entries(audioFeatures).map(([key, value]) => (
         <div className="inputLine">
-          <label>{key}</label>
+          <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
           <Checkbox
             key={key}
             value={value as boolean}

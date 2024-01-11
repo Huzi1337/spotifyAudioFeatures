@@ -21,10 +21,10 @@
   font-family: "Nunito";
   font-size: 32px;
   font-weight: 400;
+  transition: 100ms color;
 
-  transition-duration: 100ms;
   &:hover {
-    transform: scale(1.05);
+    color: colors.$green;
   }
 
   &:disabled {
@@ -33,6 +33,10 @@
       transform: scale(1);
     }
   }
+}
+
+.pageBtn.transition {
+  transition: 350ms transform;
 }
 
 .logo {
