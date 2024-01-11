@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useDelay from "./useDelay";
 
 function useValidateInput(input: string) {
@@ -7,6 +7,11 @@ function useValidateInput(input: string) {
   const { isTimeout } = useDelay(() => {
     validateInput();
   }, [input]);
+
+  useEffect(() => {
+    console.log("running", input.length > 0);
+    if (input.length > 0) validateInput();
+  }, []);
 
   return { isValidating: isTimeout, invalidLines };
 

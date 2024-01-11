@@ -71,7 +71,9 @@ function App() {
             ? `translateY(${(page === 0 ? 1 : -1) * (distance as number)}px)`
             : "",
         }}
-        className={`pageBtn${isTransition ? " transition" : ""}`}
+        className={`pageBtn${isTransition ? " transition" : ""}${
+          page === 0 ? " current" : ""
+        }`}
         onTransitionEnd={() => transitionHandler(0)}
         onClick={() => clickHandler(0)}
       >
@@ -101,7 +103,9 @@ function App() {
             ? `translateY(${(page === 1 ? 1 : -1) * (distance as number)}px)`
             : "",
         }}
-        className={`pageBtn${isTransition ? " transition" : ""}`}
+        className={`pageBtn${isTransition ? " transition" : ""}${
+          page === 1 ? " current" : ""
+        }`}
         disabled={!data}
         onClick={() => clickHandler(1)}
         onTransitionEnd={() => transitionHandler(1)}

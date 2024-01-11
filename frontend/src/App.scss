@@ -39,6 +39,10 @@
   transition: 350ms transform;
 }
 
+.pageBtn.current {
+  font-weight: 600;
+}
+
 .logo {
   color: colors.$green;
   justify-self: start;

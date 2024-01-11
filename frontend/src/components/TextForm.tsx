@@ -16,7 +16,7 @@ type Props = {
 function TextForm({ text, setText, onSubmit }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const { invalidLines, isValidating } = useValidateInput(text);
-  const [shouldReplaceHeight, setShouldReplaceHeight] = useState(false);
+  const [shouldReplaceHeight, setShouldReplaceHeight] = useState(true);
 
   function changeHandler({
     target: { value },
@@ -51,7 +51,9 @@ function TextForm({ text, setText, onSubmit }: Props) {
         <textarea
           onKeyUp={lineNumberHandler}
           style={
-            shouldReplaceHeight ? { height: numberOfLines * LINE_HEIGHT } : {}
+            shouldReplaceHeight
+              ? { height: numberOfLines * LINE_HEIGHT + 16 }
+              : {}
           }
           className="innerText"
           value={text}
