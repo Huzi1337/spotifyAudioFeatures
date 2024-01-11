@@ -3,14 +3,44 @@
 #root {
   width: 100%;
   height: 100vh;
+
+  padding: 32px;
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+}
+
+.pageBtn {
+  border: 0;
+  background-color: transparent;
+  color: colors.$white;
+  cursor: pointer;
+
+  font-family: "Nunito";
+  font-size: 32px;
+  font-weight: 400;
+
+  transition-duration: 100ms;
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    color: grey;
+    &:hover {
+      transform: scale(1);
+    }
+  }
 }
 
 .logo {
   color: colors.$green;
+  justify-self: start;
+  font-family: "Nunito";
+  font-size: 64px;
+  font-weight: 600;
 }
 
 .window {
@@ -18,7 +48,7 @@
   border: 6px solid colors.$white;
   overflow-y: auto;
   border-radius: 45px;
-  padding: 60px 45px;
+  padding: 60px;
   width: 80%;
   max-width: 1280px;
   height: 60vh;

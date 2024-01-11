@@ -1,4 +1,4 @@
-import { useContext, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import useValidateInput from "../hooks/useValidateInput";
 import "./TextForm.scss";
 import LineCount from "./LineCount";
@@ -61,6 +61,7 @@ function TextForm({ text, setText, onSubmit }: Props) {
       </div>
       <div className="textForm__botBar">
         <button
+          className="submitBtn"
           disabled={invalidLines.size > 0 || isValidating || !text.length}
           onClick={onSubmit}
         >

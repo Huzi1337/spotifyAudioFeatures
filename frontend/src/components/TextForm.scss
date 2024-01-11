@@ -1,3 +1,4 @@
+@use "../assets/colors";
 .textForm__topBar {
   position: absolute;
   top: 15px;
@@ -5,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: calc(100% - 90px);
+  width: calc(100% - 120px);
 }
 
 .textForm__inputWrapper {
@@ -26,7 +27,10 @@
     height: auto;
     height: max-content;
 
-    padding: 0;
+    font-family: "Nunito";
+    font-weight: 400;
+
+    padding: 8px;
     border: 0;
 
     flex-grow: 19;
@@ -45,6 +49,10 @@
       color: white;
       opacity: 0.8;
     }
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 }
 
@@ -56,5 +64,33 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(100% - 90px);
+  width: calc(100% - 120px);
+
+  .submitBtn {
+    background-color: transparent;
+
+    padding: 8px;
+    border-radius: 30px;
+    border: 2px solid colors.$green;
+
+    font-weight: 600;
+    color: colors.$green;
+
+    transition-property: color, background-color;
+    transition-duration: 150ms;
+
+    cursor: pointer;
+
+    &:hover {
+      color: colors.$white;
+      background-color: colors.$green;
+    }
+
+    &:disabled {
+      background-color: transparent;
+      color: colors.$grey;
+      border-color: colors.$grey;
+      cursor: not-allowed;
+    }
+  }
 }

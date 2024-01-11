@@ -1,12 +1,13 @@
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import "./App.scss";
 import Table from "./components/Table";
 import TextForm from "./components/TextForm";
-import { options, dummyData } from "./data";
+import { options } from "./data";
 import { OptionsContext } from "./context/OptionsProvier";
 import useFetch from "./hooks/useFetch";
 import prepareReqBody from "./utils/prepareReqBody";
-import { ApiResponse, AudioFeaturesResponse } from "./types";
+import { ApiResponse } from "./types";
+import { ClipLoader } from "react-spinners";
 
 function App() {
   const [text, setText] = useState("");
@@ -34,7 +35,9 @@ function App() {
   return (
     <OptionsContext.Provider value={options}>
       <h1 className="logo">Audify</h1>
-      <button onClick={() => setPage(0)}>You give us the song names...</button>
+      <button className="pageBtn" onClick={() => setPage(0)}>
+        You give us the song names...
+      </button>
       <div className="window">
         {!isLoading && !error && page === 0 && (
           <TextForm setText={setText} text={text} onSubmit={submitHandler} />
@@ -48,9 +51,10 @@ function App() {
             }))}
           />
         )}
+        {isLoading && <ClipLoader color="white" />}
       </div>
 
-      <button disabled={!data} onClick={() => setPage(1)}>
+      <button className="pageBtn" disabled={!data} onClick={() => setPage(1)}>
         You get their audio features back!
       </button>
     </OptionsContext.Provider>
