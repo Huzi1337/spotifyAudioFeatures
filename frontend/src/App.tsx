@@ -92,7 +92,16 @@ function App() {
             }))}
           />
         )}
-        {isLoading && <ClipLoader color="white" />}
+        {isLoading && (
+          <div className="loading">
+            <ClipLoader color="white" />
+          </div>
+        )}
+        {error && (
+          <div className="loading">
+            <p>An error has occurred. Reload or try again later.</p>
+          </div>
+        )}
       </div>
 
       <button

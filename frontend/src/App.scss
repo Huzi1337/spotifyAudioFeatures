@@ -53,6 +53,7 @@
 
 .window {
   position: relative;
+
   border: 6px solid colors.$white;
   overflow-y: auto;
   border-radius: 45px;
@@ -60,4 +61,13 @@
   width: 80%;
   max-width: 1280px;
   height: 60vh;
+
+  .loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+  }
 }

@@ -1,5 +1,6 @@
 import ClipLoader from "react-spinners/ClipLoader";
 import "./ValidatorStatus.scss";
+import { useState } from "react";
 
 type Props = {
   isValidating: boolean;
@@ -16,11 +17,22 @@ function ValidatorStatus(props: Props) {
 
 function ValidatorMessage({ isError, isValidating }: Props) {
   const errorOccurred = isError && !isValidating;
+  const [isHover, setIsHover] = useState(false);
 
   if (errorOccurred)
     return (
       <>
-        <div className="icon error" />
+        <div
+          onMouseOver={() => setIsHover(true)}
+          onMouseOut={() => setIsHover(false)}
+          className="icon error"
+        >
+          {isHover && (
+            <div className="tooltip">
+              {"Ensure all lines are in the format: <songTitle>;<songArtist>."}
+            </div>
+          )}
+        </div>
         <p className="statusMsg error">Invalid lines</p>
       </>
     );

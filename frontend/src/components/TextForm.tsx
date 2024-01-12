@@ -4,6 +4,7 @@ import "./TextForm.scss";
 import LineCount from "./LineCount";
 import ValidatorStatus from "./ValidatorStatus";
 import OptionsPanel from "./OptionsPanel";
+import { sampleInput } from "../data";
 
 const LINE_HEIGHT = 22;
 
@@ -35,6 +36,10 @@ function TextForm({ text, setText, onSubmit }: Props) {
     }
   }
 
+  function sampleInputHandler() {
+    setText(sampleInput);
+  }
+
   return (
     <>
       <div className="textForm__topBar">
@@ -42,6 +47,9 @@ function TextForm({ text, setText, onSubmit }: Props) {
           isValidating={isValidating}
           isError={invalidLines.size != 0}
         />
+        <button className="submitBtn" onClick={sampleInputHandler}>
+          Sample Input
+        </button>
         <OptionsPanel />
       </div>
 
