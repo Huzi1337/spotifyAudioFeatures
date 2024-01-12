@@ -38,6 +38,7 @@ function TextForm({ text, setText, onSubmit }: Props) {
 
   function sampleInputHandler() {
     setText(sampleInput);
+    setShouldReplaceHeight(true);
   }
 
   return (
