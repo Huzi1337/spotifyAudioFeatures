@@ -4,12 +4,12 @@ export class SpotifyAuth {
   private static instance: SpotifyAuth | null = null;
   private clientId: string;
   private clientSecret: string;
-  private _token: string | null;
+  private _token: string | null = "";
 
   static async getInstance() {
     if (!this.instance) {
       this.instance = new SpotifyAuth();
-      await this.instance.getNewToken();
+      // await this.instance.getNewToken();
     }
     return this.instance;
   }
@@ -21,7 +21,8 @@ export class SpotifyAuth {
   private constructor() {
     this.clientId = process.env.CLIENT_ID as string;
     this.clientSecret = process.env.CLIENT_SECRET as string;
-    this._token = null;
+    this._token =
+      "Bearer BQDAyW-egryClJpnHw3ej4WCQhvjRf_bF3qyRQLSRf1N_A74fDV3ev4zTdxFxazkViNRukmYKo1LqnBrhKAiWueVPedhPc2BO-Pw4-RfE-5GahFBmZ4";
   }
 
   async getNewToken() {

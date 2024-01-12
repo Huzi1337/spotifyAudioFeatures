@@ -10,7 +10,6 @@ export const spotifyResponseHandler = async (url: string) => {
   });
 
   if (!response.ok) {
-    console.log("spotifyResponseHandler: response not ok");
     throw new HttpError(response.statusText, response.status);
   }
 

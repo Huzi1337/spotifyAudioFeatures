@@ -1,5 +1,6 @@
 import { BASE_DELAY, MAX_RETRIES } from "../data.js";
 import HttpError, { ErrorCodes } from "./HttpError.js";
+import { SpotifyAuth } from "./SpotifyAuth.js";
 
 class RequestRetryHandler {
   private retryLimit = MAX_RETRIES;
@@ -15,7 +16,7 @@ class RequestRetryHandler {
   }
 
   async retryRequest() {
-    if (this.shouldRetry()) {
+    if (await this.shouldRetry()) {
       console.log("Retrying");
       return new Promise(this.waitAndRetry.bind(this)) as Promise<any>;
     } else {
@@ -23,12 +24,17 @@ class RequestRetryHandler {
     }
   }
 
-  shouldRetry() {
+  async shouldRetry() {
     console.log(
       `shouldRetry:\nstatus: ${this.error.status} count: ${this.tryCount}`
     );
+    if (this.error.status === ErrorCodes.BAD_TOKEN) {
+      let spotifyAuth = await SpotifyAuth.getInstance();
+      await spotifyAuth.getNewToken();
+      return true;
+    }
     return (
-      this.error.message === "Too Many Requests" &&
+      this.error.status === ErrorCodes.TOO_MANY_REQUESTS &&
       this.tryCount < this.retryLimit
     );
   }

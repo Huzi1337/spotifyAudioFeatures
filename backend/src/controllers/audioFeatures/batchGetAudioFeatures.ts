@@ -60,7 +60,6 @@ function batchFilterSongs({
   includedAudioFeatures,
   batchStart,
 }: SongBatchProcessParams) {
-  console.log(`batchFilterSongs: ${audioFeatures}`);
   for (let j = 0; j < audioFeatures.length; j++) {
     if (!audioFeatures[j]) continue;
 
@@ -73,7 +72,6 @@ function filterAudioFeatures(
   allValues: AudioFeatures,
   selectedValues: AudioFeatures
 ) {
-  console.log(allValues, selectedValues);
   let requestedAudioFeatures: AudioFeatures = {};
 
   for (const key in selectedValues) {

@@ -16,7 +16,7 @@ export const searchSongId = async ({ title, artist }: SongQuery) => {
 
     return { id, title, spotifyURL };
   } else {
-    console.log(data);
-    throw new Error("No tracks found");
+    console.log("No tracks found.");
+    return {};
   }
 };
