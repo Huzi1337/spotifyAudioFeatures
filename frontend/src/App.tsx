@@ -38,13 +38,15 @@ function App() {
         },
       };
 
-      await fetchData("http://localhost:3000/api/v1/audioFeatures", reqOptions);
+      await fetchData(
+        "https://u9zgoic04e.execute-api.eu-central-1.amazonaws.com/prod/api/v1/audioFeatures",
+        reqOptions
+      );
       previousText.current = text;
       clickHandler(1);
     }
   }
-  //https://u9zgoic04e.execute-api.eu-central-1.amazonaws.com/prod/api/v1/audioFeatures
-  //"http://localhost:3000/api/v1/audioFeatures"
+
   const transitionTo = useRef(0);
 
   function clickHandler(pageNumber: number) {
