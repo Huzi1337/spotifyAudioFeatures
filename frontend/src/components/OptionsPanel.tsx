@@ -6,7 +6,6 @@ import useClickOutside from "../hooks/useClickOutside";
 import AudioFeatureSelection from "./AudioFeatures";
 
 function OptionsPanel() {
-  const temp = useContext(OptionsContext);
   const { isVisible, ref, setIsVisible } = useClickOutside<HTMLDivElement>();
   return (
     <div className="optionsPanelWrapper">
