@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import "./OptionsPanel.scss";
-import { OptionsContext } from "../context/OptionsProvier";
 import Modal from "./Modal";
 import useClickOutside from "../hooks/useClickOutside";
 import AudioFeatureSelection from "./AudioFeatures";
