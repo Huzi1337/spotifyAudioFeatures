@@ -1,15 +1,23 @@
 @use "../assets/mixins";
 @use "../assets/colors";
+@use "../assets/size";
+@use "../assets/breakpoints";
 
 .checkBoxWrapper {
   @include mixins.set-icon-bg;
   border: 1px solid colors.$white;
   border-radius: 6px;
-  width: 24px;
-  height: 24px;
+  width: size.$buttonSizeM;
+  height: size.$buttonSizeM;
   background-color: colors.$black;
 }
 
 .checkBoxWrapper.checked {
   background-image: url(/done.svg);
+}
+@media (min-width: breakpoints.$lg) {
+  .checkBoxWrapper {
+    width: size.$buttonSizeL;
+    height: size.$buttonSizeL;
+  }
 }

@@ -1,15 +1,6 @@
 @use "../assets/colors";
 @use "../assets/breakpoints";
-
-.textForm__topBar {
-  position: absolute;
-  top: 15px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: calc(100% - 120px);
-}
+@use "../assets/fonts";
 
 .textForm__inputWrapper {
   position: relative;
@@ -19,7 +10,7 @@
   align-items: stretch;
   justify-content: stretch;
 
-  font-size: 16px;
+  font-size: fonts.$textM;
   line-height: 22px;
   color: white;
 
@@ -56,6 +47,16 @@
       outline: none;
     }
   }
+}
+
+.textForm__topBar {
+  position: absolute;
+  top: 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 120px);
 }
 
 .textForm__botBar {
@@ -118,5 +119,27 @@
   }
   .textForm__botBar {
     bottom: -60px;
+  }
+}
+@media (min-width: breakpoints.$lg) {
+  .textForm__inputWrapper {
+    font-size: fonts.$textL;
+    line-height: 28px;
+    .innerText {
+      line-height: 28px;
+
+      font-size: fonts.$textL;
+    }
+  }
+  .textForm__topBar {
+    top: 0;
+  }
+  .textForm__topBar,
+  .textForm__botBar {
+    height: 80px;
+    .submitBtn {
+      font-size: fonts.$textL;
+      border-width: 4px;
+    }
   }
 }

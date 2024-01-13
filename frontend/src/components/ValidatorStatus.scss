@@ -1,6 +1,8 @@
 @use "../assets/colors";
 @use "../assets/mixins";
 @use "../assets/breakpoints";
+@use "../assets/size";
+@use "../assets/fonts";
 
 .validatorStatusWrapper {
   display: flex;
@@ -21,8 +23,8 @@
   }
 
   .icon {
-    width: 24px;
-    height: 24px;
+    width: size.$buttonSizeM;
+    height: size.$buttonSizeM;
   }
 
   .icon.success {
@@ -59,6 +61,18 @@
         left: 0;
         bottom: -300%;
       }
+    }
+  }
+}
+
+@media (min-width: breakpoints.$lg) {
+  .validatorStatusWrapper {
+    .icon {
+      width: size.$buttonSizeL;
+      height: size.$buttonSizeL;
+    }
+    .statusMsg {
+      font-size: fonts.$textL;
     }
   }
 }

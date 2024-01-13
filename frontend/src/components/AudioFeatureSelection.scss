@@ -1,5 +1,7 @@
 @use "../assets/colors";
 @use "../assets/mixins";
+@use "../assets/fonts";
+@use "../assets/breakpoints";
 
 .audioFeatureSelectionWrapper {
   width: 400px;
@@ -23,6 +25,16 @@
     align-items: center;
     label {
       margin-right: auto;
+    }
+  }
+}
+
+@media (min-width: breakpoints.$lg) {
+  .audioFeatureSelectionWrapper {
+    font-size: fonts.$textL;
+    width: 600px;
+    h2 {
+      font-size: fonts.$textL;
     }
   }
 }

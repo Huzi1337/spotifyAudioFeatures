@@ -1,6 +1,8 @@
 @use "../assets/colors";
 @use "../assets/mixins";
 @use "../assets/breakpoints";
+@use "../assets/fonts";
+@use "../assets/size";
 
 .tableWrapper {
   max-width: 100%;
@@ -58,8 +60,8 @@
     @include mixins.set-icon-bg;
     background-color: transparent;
     border: 0;
-    width: 24px;
-    height: 24px;
+    width: size.$buttonSizeM;
+    height: size.$buttonSizeM;
     transition-duration: 150ms;
 
     &:hover {
@@ -82,5 +84,18 @@
 @media (max-width: breakpoints.$md) {
   .tablePagination {
     bottom: -60px;
+  }
+}
+
+@media (min-width: breakpoints.$lg) {
+  .audioFeatureTable {
+    font-size: fonts.$textL;
+  }
+  .tablePagination {
+    font-size: fonts.$textL;
+    .paginationBtn {
+      width: size.$buttonSizeL;
+      height: size.$buttonSizeL;
+    }
   }
 }

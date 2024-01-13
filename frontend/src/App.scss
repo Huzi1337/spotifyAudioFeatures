@@ -1,5 +1,6 @@
 @use "./assets/colors";
 @use "./assets/breakpoints";
+@use "./assets/fonts";
 
 #root {
   width: 100%;
@@ -89,10 +90,10 @@
     min-width: 400px;
   }
   .logo {
-    font-size: 48px;
+    font-size: fonts.$logoS;
   }
   .pageBtn {
-    font-size: 24px;
+    font-size: fonts.$subHeadS;
   }
   .window {
     width: 100%;
@@ -103,5 +104,17 @@
     margin: 60px 0;
 
     overflow: visible;
+  }
+}
+
+@media (min-width: breakpoints.$lg) {
+  .logo {
+    font-size: fonts.$logoL;
+  }
+  .pageBtn {
+    font-size: fonts.$subHeadL;
+  }
+  .window {
+    padding: 80px;
   }
 }
