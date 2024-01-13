@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import "./LineCount.scss";
-import { OptionsContext } from "../context/OptionsProvier";
 
 type Props = {
   text: string;

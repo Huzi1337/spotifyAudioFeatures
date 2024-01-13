@@ -5,7 +5,7 @@ import Checkbox from "./Checkbox";
 import "./AudioFeatureSelection.scss";
 
 const AudioFeatureSelection = forwardRef(function AudioFeatureSelection(
-  props,
+  _props,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
   const { audioFeatures } = useContext(OptionsContext);
