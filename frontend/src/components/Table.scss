@@ -1,5 +1,6 @@
 @use "../assets/colors";
 @use "../assets/mixins";
+@use "../assets/breakpoints";
 
 .tableWrapper {
   max-width: 100%;
@@ -22,6 +23,7 @@
       }
       th {
         font-weight: 600;
+        border-bottom: 2px solid colors.$white;
       }
       th:nth-child(1) {
         min-width: 250px;
@@ -37,7 +39,7 @@
   position: absolute;
   right: 0;
   left: 0;
-  bottom: 0;
+  bottom: -60px;
   height: 60px;
 
   display: flex;
@@ -74,5 +76,11 @@
   }
   .paginationBtn.prev {
     background-image: url(/leftArrow.svg);
+  }
+}
+
+@media (max-width: breakpoints.$md) {
+  .tablePagination {
+    bottom: -60px;
   }
 }

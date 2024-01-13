@@ -7,9 +7,11 @@ export class SpotifyAuth {
   private _token: string | null = "";
 
   static async getInstance() {
+    console.log("getinstance-------------", this.instance);
     if (!this.instance) {
       this.instance = new SpotifyAuth();
-      // await this.instance.getNewToken();
+      console.log("awaiting------------");
+      await this.instance.getNewToken();
     }
     return this.instance;
   }

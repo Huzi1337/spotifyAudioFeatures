@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import usePagination from "../hooks/usePagination";
 import "./Table.scss";
 import { TableHeaders } from "./TableHeaders";
@@ -14,9 +15,21 @@ function Table({ data }: Props) {
   const { nextPage, prevPage, page, pageSlice, isFirstPage, isLastPage } =
     usePagination(data, pageSize);
 
+  const ref = useRef<HTMLDivElement>(null);
+
+  function pageChangeHandler(fn: () => void) {
+    fn();
+    scrollUp();
+  }
+
+  function scrollUp() {
+    const { current } = ref;
+    if (current) current.scrollTop = 0;
+  }
+
   return (
     <>
-      <div className="tableWrapper">
+      <div ref={ref} className="tableWrapper">
         <table className="audioFeatureTable">
           <TableHeaders headers={headers} />
           <TableRows headers={headers} data={pageSlice} />
@@ -26,7 +39,7 @@ function Table({ data }: Props) {
         <button
           className="paginationBtn prev"
           disabled={isFirstPage}
-          onClick={prevPage}
+          onClick={() => pageChangeHandler(prevPage)}
         ></button>
         <p>
           {page * pageSize + 1}-{page * pageSize + pageSlice.length}
@@ -34,7 +47,7 @@ function Table({ data }: Props) {
         <button
           className="paginationBtn next"
           disabled={isLastPage}
-          onClick={nextPage}
+          onClick={() => pageChangeHandler(nextPage)}
         ></button>
       </div>
     </>

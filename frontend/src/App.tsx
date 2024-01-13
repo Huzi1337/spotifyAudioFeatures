@@ -40,10 +40,11 @@ function App() {
 
       await fetchData("http://localhost:3000/api/v1/audioFeatures", reqOptions);
       previousText.current = text;
-      setPage(1);
+      clickHandler(1);
     }
   }
-
+  //https://u9zgoic04e.execute-api.eu-central-1.amazonaws.com/prod/api/v1/audioFeatures
+  //"http://localhost:3000/api/v1/audioFeatures"
   const transitionTo = useRef(0);
 
   function clickHandler(pageNumber: number) {
@@ -77,9 +78,12 @@ function App() {
         onTransitionEnd={() => transitionHandler(0)}
         onClick={() => clickHandler(0)}
       >
-        You give us the song names...
+        Give us the song names...
       </button>
-      <div style={{ order: 2 }} className="window">
+      <div
+        style={{ order: 2 }}
+        className={"window" + (page === 1 ? " wide" : "")}
+      >
         {!isLoading && !error && page === 0 && (
           <TextForm setText={setText} text={text} onSubmit={submitHandler} />
         )}
@@ -119,7 +123,7 @@ function App() {
         onClick={() => clickHandler(1)}
         onTransitionEnd={() => transitionHandler(1)}
       >
-        You get their audio features back!
+        Get their audio features back!
       </button>
     </OptionsContext.Provider>
   );

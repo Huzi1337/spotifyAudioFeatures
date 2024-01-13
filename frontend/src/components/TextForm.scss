@@ -1,4 +1,6 @@
 @use "../assets/colors";
+@use "../assets/breakpoints";
+
 .textForm__topBar {
   position: absolute;
   top: 15px;
@@ -100,5 +102,21 @@
       border-color: colors.$grey;
       cursor: not-allowed;
     }
+  }
+}
+
+@media (max-width: breakpoints.$md) {
+  .textForm__botBar,
+  .textForm__topBar {
+    height: 60px;
+    left: 0;
+    right: 0;
+    width: auto;
+  }
+  .textForm__topBar {
+    top: -60px;
+  }
+  .textForm__botBar {
+    bottom: -60px;
   }
 }

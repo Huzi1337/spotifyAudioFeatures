@@ -5,7 +5,6 @@ export const searchSongId = async ({ title, artist }: SongQuery) => {
   const URL = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
     title
   )}&artist=${encodeURIComponent(artist)}&type=track&limit=1`;
-  console.log(URL);
   const data = await spotifyResponseHandler(URL);
 
   if (data.tracks.items[0]) {

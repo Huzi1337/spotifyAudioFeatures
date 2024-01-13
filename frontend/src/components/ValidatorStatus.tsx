@@ -29,7 +29,9 @@ function ValidatorMessage({ isError, isValidating }: Props) {
         >
           {isHover && (
             <div className="tooltip">
-              {"Ensure all lines are in the format: <songTitle>;<songArtist>."}
+              Correct line format:
+              <br />
+              {"<songTitle>;<songArtist>"}
             </div>
           )}
         </div>
