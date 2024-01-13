@@ -1,25 +1,120 @@
 @use "./assets/colors";
+@use "./assets/breakpoints";
+@use "./assets/fonts";
 
 #root {
   width: 100%;
   height: 100vh;
+
+  padding: 32px;
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  min-height: 600px;
+}
+
+.pageBtn {
+  border: 0;
+  background-color: transparent;
+  color: colors.$white;
+  cursor: pointer;
+
+  font-family: "Nunito";
+  font-size: 32px;
+  font-weight: 400;
+  transition: 100ms color;
+
+  &:hover {
+    color: colors.$green;
+  }
+
+  &:disabled {
+    color: grey;
+    &:hover {
+      transform: scale(1);
+    }
+  }
+}
+
+.pageBtn.transition {
+  transition: 350ms transform;
+}
+
+.pageBtn.current {
+  font-weight: 600;
 }
 
 .logo {
   color: colors.$green;
+  justify-self: start;
+  font-family: "Nunito";
+  font-size: 64px;
+  font-weight: 600;
 }
 
 .window {
   position: relative;
+
   border: 6px solid colors.$white;
   overflow-y: auto;
   border-radius: 45px;
-  padding: 45px;
-  padding-top: 60px;
-  width: 80%;
+
+  padding: 60px;
+  margin: 60px 0;
+
+  width: 95%;
+  max-width: 1280px;
   height: 60vh;
+  min-height: 360px;
+  .loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+  }
+}
+
+.window.wide {
+  height: auto;
+  padding: 16px;
+  overflow-y: visible;
+}
+
+@media (max-width: breakpoints.$md) {
+  #root {
+    padding: 16px;
+    min-width: 400px;
+  }
+  .logo {
+    font-size: fonts.$logoS;
+  }
+  .pageBtn {
+    font-size: fonts.$subHeadS;
+  }
+  .window {
+    width: 100%;
+
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    margin: 60px 0;
+
+    overflow: visible;
+  }
+}
+
+@media (min-width: breakpoints.$lg) {
+  .logo {
+    font-size: fonts.$logoL;
+  }
+  .pageBtn {
+    font-size: fonts.$subHeadL;
+  }
+  .window {
+    padding: 80px;
+  }
 }

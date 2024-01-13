@@ -4,6 +4,7 @@
   inset: 0;
   opacity: 0.2;
   background-color: white;
+  animation: fadeIn 100ms ease-in;
 }
 .modalWrapper {
   position: fixed;
@@ -11,4 +12,23 @@
   justify-content: center;
   align-items: center;
   inset: 0;
+  animation: fadeIn2 100ms ease-in;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes fadeIn2 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

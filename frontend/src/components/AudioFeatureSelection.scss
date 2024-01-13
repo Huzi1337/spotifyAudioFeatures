@@ -1,0 +1,40 @@
+@use "../assets/colors";
+@use "../assets/mixins";
+@use "../assets/fonts";
+@use "../assets/breakpoints";
+
+.audioFeatureSelectionWrapper {
+  width: 400px;
+  height: auto;
+
+  padding: 24px;
+  padding-bottom: 32px;
+  @include mixins.column;
+
+  background-color: colors.$black;
+  color: colors.$white;
+
+  gap: 4px;
+  h2 {
+    text-align: center;
+    color: colors.$green;
+    margin-bottom: 8px;
+  }
+  .inputLine {
+    display: flex;
+    align-items: center;
+    label {
+      margin-right: auto;
+    }
+  }
+}
+
+@media (min-width: breakpoints.$lg) {
+  .audioFeatureSelectionWrapper {
+    font-size: fonts.$textL;
+    width: 600px;
+    h2 {
+      font-size: fonts.$textL;
+    }
+  }
+}

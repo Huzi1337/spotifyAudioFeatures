@@ -2,10 +2,8 @@ import express from "express";
 import "dotenv/config";
 import audioFeatureRoutes from "./routes/audioFeatures.js";
 import cors from "cors";
-import { SpotifyAuth } from "./models/SpotifyAuth.js";
 
-export const startServer = async () => {
-  await SpotifyAuth.getInstance();
+export const startServer = () => {
   const PORT = 3000;
   const app = express();
   app.use(cors());

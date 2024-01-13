@@ -1,12 +1,6 @@
-.textForm__topBar {
-  position: absolute;
-  top: 15px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: calc(100% - 90px);
-}
+@use "../assets/colors";
+@use "../assets/breakpoints";
+@use "../assets/fonts";
 
 .textForm__inputWrapper {
   position: relative;
@@ -16,7 +10,7 @@
   align-items: stretch;
   justify-content: stretch;
 
-  font-size: 16px;
+  font-size: fonts.$textM;
   line-height: 22px;
   color: white;
 
@@ -26,7 +20,10 @@
     height: auto;
     height: max-content;
 
-    padding: 0;
+    font-family: "Nunito";
+    font-weight: 400;
+
+    padding: 8px;
     border: 0;
 
     flex-grow: 19;
@@ -44,6 +41,105 @@
     &::placeholder {
       color: white;
       opacity: 0.8;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
+
+.textForm__topBar {
+  position: absolute;
+  top: 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 120px);
+}
+
+.textForm__botBar {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 60px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.textForm__topBar,
+.textForm__botBar {
+  .submitBtn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: transparent;
+
+    padding: 8px;
+    border-radius: 30px;
+    border: 2px solid colors.$green;
+
+    font-weight: 600;
+    color: colors.$green;
+
+    transition-property: color, background-color;
+    transition-duration: 150ms;
+
+    cursor: pointer;
+
+    &:hover {
+      color: colors.$white;
+      background-color: colors.$green;
+    }
+
+    &:disabled {
+      background-color: transparent;
+      color: colors.$grey;
+      border-color: colors.$grey;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@media (max-width: breakpoints.$md) {
+  .textForm__botBar,
+  .textForm__topBar {
+    height: 60px;
+    left: 0;
+    right: 0;
+    width: auto;
+  }
+  .textForm__topBar {
+    top: -60px;
+  }
+  .textForm__botBar {
+    bottom: -60px;
+  }
+}
+@media (min-width: breakpoints.$lg) {
+  .textForm__inputWrapper {
+    font-size: fonts.$textL;
+    line-height: 28px;
+    .innerText {
+      line-height: 28px;
+
+      font-size: fonts.$textL;
+    }
+  }
+  .textForm__topBar {
+    top: 0;
+  }
+  .textForm__topBar,
+  .textForm__botBar {
+    height: 80px;
+    .submitBtn {
+      font-size: fonts.$textL;
+      border-width: 4px;
     }
   }
 }

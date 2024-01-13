@@ -1,12 +1,18 @@
 @use "../assets/colors";
 @use "../assets/mixins";
+@use "../assets/breakpoints";
+@use "../assets/size";
+@use "../assets/fonts";
 
 .validatorStatusWrapper {
   display: flex;
   gap: 5px;
   align-items: center;
+
   .statusMsg {
     color: white;
+    font-family: "Nunito";
+    font-weight: 400;
   }
   .statusMsg.error {
     color: colors.$red;
@@ -17,8 +23,8 @@
   }
 
   .icon {
-    width: 24px;
-    height: 24px;
+    width: size.$buttonSizeM;
+    height: size.$buttonSizeM;
   }
 
   .icon.success {
@@ -29,5 +35,44 @@
   .icon.error {
     @include mixins.set-icon-bg;
     background-image: url(/error.svg);
+    position: relative;
+    .tooltip {
+      position: absolute;
+      width: 900%;
+      left: 0;
+      bottom: -300%;
+
+      z-index: 10;
+
+      padding: 8px;
+      border-radius: 4px;
+
+      background-color: colors.$white;
+      pointer-events: none;
+    }
+  }
+}
+
+@media (max-width: breakpoints.$md) {
+  .validatorStatusWrapper {
+    .icon.error {
+      .tooltip {
+        width: 900%;
+        left: 0;
+        bottom: -300%;
+      }
+    }
+  }
+}
+
+@media (min-width: breakpoints.$lg) {
+  .validatorStatusWrapper {
+    .icon {
+      width: size.$buttonSizeL;
+      height: size.$buttonSizeL;
+    }
+    .statusMsg {
+      font-size: fonts.$textL;
+    }
   }
 }

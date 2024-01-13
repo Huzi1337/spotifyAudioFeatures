@@ -1,8 +1,101 @@
-.audioFeatureTable {
-  color: white;
-  tr {
-    td {
-      text-align: center;
+@use "../assets/colors";
+@use "../assets/mixins";
+@use "../assets/breakpoints";
+@use "../assets/fonts";
+@use "../assets/size";
+
+.tableWrapper {
+  max-width: 100%;
+  display: flex;
+  align-items: start;
+  overflow-x: auto;
+  height: 100%;
+  .audioFeatureTable {
+    table-layout: auto;
+    color: white;
+    tr:nth-child(even) {
+      background-color: colors.$darkGreen;
+    }
+    tr {
+      td,
+      th {
+        padding: 8px;
+        text-align: center;
+        min-width: max-content;
+      }
+      th {
+        font-weight: 600;
+        border-bottom: 2px solid colors.$white;
+      }
+      th:nth-child(1) {
+        min-width: 250px;
+      }
+      th:nth-child(2) {
+        min-width: 100px;
+      }
+    }
+  }
+}
+
+.tablePagination {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: -60px;
+  height: 60px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    min-width: 5em;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  color: colors.$white;
+
+  .paginationBtn {
+    @include mixins.set-icon-bg;
+    background-color: transparent;
+    border: 0;
+    width: size.$buttonSizeM;
+    height: size.$buttonSizeM;
+    transition-duration: 150ms;
+
+    &:hover {
+      filter: brightness(0) saturate(100%) invert(64%) sepia(80%) saturate(511%)
+        hue-rotate(84deg) brightness(94%) contrast(85%);
+    }
+    &:disabled {
+      filter: brightness(0) saturate(100%) invert(64%) sepia(1%) saturate(1340%)
+        hue-rotate(202deg) brightness(88%) contrast(80%);
+    }
+  }
+  .paginationBtn.next {
+    background-image: url(/rightArrow.svg);
+  }
+  .paginationBtn.prev {
+    background-image: url(/leftArrow.svg);
+  }
+}
+
+@media (max-width: breakpoints.$md) {
+  .tablePagination {
+    bottom: -60px;
+  }
+}
+
+@media (min-width: breakpoints.$lg) {
+  .audioFeatureTable {
+    font-size: fonts.$textL;
+  }
+  .tablePagination {
+    font-size: fonts.$textL;
+    .paginationBtn {
+      width: size.$buttonSizeL;
+      height: size.$buttonSizeL;
     }
   }
 }

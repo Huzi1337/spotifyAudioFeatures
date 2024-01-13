@@ -1,15 +1,17 @@
-// // (async () => {
-// //   const browser = await puppeteer.launch({ headless: false });
-// //   const page = await browser.newPage();
-// //   await page.goto("https://open.spotify.com/track/27NovPIUIRrOZoCHxABJwK");
-// //   await page.waitForSelector('[data-testid="playcount"]');
+import express from "express";
+import "dotenv/config";
+import audioFeatureRoutes from "./src/routes/audioFeatures.js";
+import ServerlessHttp from "serverless-http";
+import cors from "cors";
 
-// //   const data = await page.evaluate(() => {
-// //     const playCount = document.querySelectorAll(
-// //       ".Type__TypeElement-sc-goli3j-0"
-// //     );
-// //     console.log(document.querySelector('[data-testid="playcount"]'));
-// //     return document.querySelector('[data-testid="playcount"]').textContent;
-// //   });
-// //   console.log(data);
-// // })();
+export const startServer = () => {
+  const app = express();
+  app.use(cors());
+  app.use(express.json());
+
+  app.use("/api/v1/audioFeatures", audioFeatureRoutes);
+
+  return app;
+};
+
+export const handler = ServerlessHttp(startServer());
