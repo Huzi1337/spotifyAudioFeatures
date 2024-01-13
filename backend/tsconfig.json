@@ -8,6 +8,6 @@
     "sourceMap": true,
     "moduleResolution": "NodeNext"
   },
-  "include": ["src/**/*", "jest.config.js"], // Adjust this path based on your project's directory structure
+  "include": ["src/**/*", "jest.config.js", "server.ts"], // Adjust this path based on your project's directory structure
   "exclude": ["node_modules"]
 }

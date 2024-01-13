@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import "./App.scss";
 import Table from "./components/Table";
 import TextForm from "./components/TextForm";
