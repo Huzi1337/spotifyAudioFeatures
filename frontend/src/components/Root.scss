@@ -1,0 +1,82 @@
+@use "../assets/colors";
+@use "../assets/fonts";
+@use "../assets/mixins";
+
+#root {
+  padding: 8px;
+}
+
+.root__container {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) 2fr 2fr;
+  grid-template-rows: 0.3fr 1.5fr 1.2fr;
+  gap: 8px;
+  grid-template-areas:
+    "Sidebar Topbar Topbar"
+    "Sidebar Main Main"
+    "Sidebar Main Main";
+
+  .sidebar,
+  .topbar,
+  main {
+    padding: 8px;
+    background-color: colors.$darkGrey;
+    border: 2px solid black;
+    border-radius: 16px;
+  }
+
+  .sidebar {
+    grid-area: Sidebar;
+    @include mixins.column();
+    align-items: center;
+    h1 {
+      font-size: fonts.$logoS;
+      color: colors.$green;
+      font-weight: bold;
+    }
+
+    ul {
+      @include mixins.column();
+      padding: 0;
+      width: 100%;
+      gap: 16px;
+      align-items: center;
+      .linkContainer {
+        position: relative;
+        .circle {
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          top: 50%;
+          transform: translateY(-50%);
+          left: -16px;
+          border-radius: 99px;
+          background-color: colors.$white;
+          animation: expandIn 0.2s ease-in;
+        }
+      }
+    }
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    grid-area: Topbar;
+  }
+
+  main {
+    grid-area: Main;
+  }
+}
+
+@keyframes expandIn {
+  0% {
+    transform: translateY(-50%) scale(0);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
