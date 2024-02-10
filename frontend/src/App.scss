@@ -84,6 +84,17 @@
   overflow-y: visible;
 }
 
+button {
+  border: 0;
+  border-radius: 45px;
+  padding: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
 @media (max-width: breakpoints.$md) {
   #root {
     padding: 16px;

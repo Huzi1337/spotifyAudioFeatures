@@ -4,7 +4,6 @@ function useFetch<T>() {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<T | null>(null);
-  console.log(data);
   async function fetchData(url: string, options?: RequestInit) {
     try {
       setIsLoading(true);
@@ -18,7 +17,7 @@ function useFetch<T>() {
     }
   }
 
-  return { error, isLoading, fetchData, data };
+  return { error, isLoading, fetchData, data, setError };
 }
 
 export default useFetch;
