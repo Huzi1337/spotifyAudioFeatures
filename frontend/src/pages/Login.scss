@@ -1,0 +1,30 @@
+@use "../assets/mixins";
+@use "../assets/fonts";
+@use "../assets/colors";
+
+.login__form {
+  @include mixins.column();
+  font-size: fonts.$textM;
+  gap: 8px;
+  label {
+    margin-top: 16px;
+  }
+  input {
+    border: 1px solid colors.$grey;
+    background-color: transparent;
+    color: colors.$white;
+    padding: 8px;
+    width: 280px;
+    border-radius: 4px;
+    transition: all 100ms;
+    font-size: fonts.$textM;
+
+    &:hover {
+      border-color: colors.$white;
+    }
+  }
+  .login__submit {
+    background-color: colors.$green;
+    margin-top: 16px;
+  }
+}

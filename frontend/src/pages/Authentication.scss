@@ -1,0 +1,42 @@
+@use "../assets/colors";
+@use "../assets/fonts";
+@use "../assets/mixins";
+
+.auth__container {
+  @include mixins.column();
+  gap: 8px;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.auth__topbar,
+.auth__content {
+  background-color: colors.$darkGrey;
+  border-radius: 16px;
+}
+
+.auth__topbar {
+  width: 100%;
+  padding: 8px;
+  color: colors.$green;
+  font-size: fonts.$subHeadM;
+}
+
+.auth__content {
+  @include mixins.column();
+  flex-grow: 1;
+  align-items: center;
+  color: colors.$white;
+}
+
+.auth__header {
+  color: colors.$white;
+  font-size: fonts.$subHeadL;
+}
+
+.line {
+  width: 60%;
+  margin: 64px 0;
+  height: 1px;
+  background-color: colors.$white;
+}
