@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import Authentication from "./Authentication";
-import "./Login.scss";
 import { useRef, useState } from "react";
 import { signIn } from "aws-amplify/auth";
-import ClipLoader from "react-spinners/ClipLoader";
-import { BeatLoader, DotLoader } from "react-spinners";
+import BeatLoader from "react-spinners/BeatLoader";
+import { validateEmail, validatePassword } from "../utils/inputValidators";
+import "./Login.scss";
 
 const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -20,17 +20,12 @@ const Login = () => {
       let email = emailRef.current.value;
       let password = passwordRef.current.value;
 
-      if (!validateInput(email, password)) {
+      if (!validateEmail(email) || !validatePassword(password)) {
         setError("Invalid email address or password.");
         return;
       }
       await attemptSignIn(email, password);
 
-      function validateInput(email: string, password: string) {
-        let emailFormatIsValid = /^.+@.+\..+$/g.test(email);
-
-        return emailFormatIsValid && password.trim().length > 0;
-      }
       async function attemptSignIn(email: string, password: string) {
         try {
           setIsLoading(true);

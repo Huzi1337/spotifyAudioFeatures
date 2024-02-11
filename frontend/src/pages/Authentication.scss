@@ -5,6 +5,7 @@
 .auth__container {
   @include mixins.column();
   gap: 8px;
+  padding: 8px;
   width: 100%;
   flex-grow: 1;
 }
