@@ -3,11 +3,14 @@ import Authentication from "./Authentication";
 import "./Login.scss";
 import { useRef, useState } from "react";
 import { signIn } from "aws-amplify/auth";
+import ClipLoader from "react-spinners/ClipLoader";
+import { BeatLoader, DotLoader } from "react-spinners";
 
 const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,17 +29,20 @@ const Login = () => {
       function validateInput(email: string, password: string) {
         let emailFormatIsValid = /^.+@.+\..+$/g.test(email);
 
-        return emailFormatIsValid || password.trim().length <= 0;
+        return emailFormatIsValid && password.trim().length > 0;
       }
       async function attemptSignIn(email: string, password: string) {
         try {
+          setIsLoading(true);
           const { isSignedIn } = await signIn({
             username: email,
             password,
           });
           if (isSignedIn) navigate("/v2/home");
         } catch (error) {
-          setError("Error: " + (error as Error).message);
+          setError((error as Error).message);
+        } finally {
+          setIsLoading(false);
         }
       }
     }
@@ -44,18 +50,37 @@ const Login = () => {
 
   return (
     <Authentication
-      link={<Link to={"/v2/signup"}>Sign up to Audify</Link>}
+      link={
+        <Link className="login__redirect" to={"/v2/signup"}>
+          Sign up to Audify
+        </Link>
+      }
       altText="Don't have an account yet? "
       headText="Log in to Audify"
     >
+      {error && (
+        <p className="login__error">
+          <img src="/errorWhite.svg" width={24} height={24} />
+          {error}
+        </p>
+      )}
       <form onSubmit={submitHandler} className="login__form">
-        {error && <h1>Elo error</h1>}
         <label>Email Address</label>
         <input ref={emailRef} placeholder="Email Address" />
         <label>Password</label>
-        <input ref={passwordRef} placeholder="Password" />
+        <input type="password" ref={passwordRef} placeholder="Password" />
+
         <button className="login__submit" type="submit">
-          Log in
+          {isLoading ? (
+            <BeatLoader
+              size={8}
+              speedMultiplier={1}
+              loading={true}
+              color="#000000"
+            />
+          ) : (
+            "Log in"
+          )}
         </button>
       </form>
     </Authentication>
