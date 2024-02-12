@@ -3,20 +3,28 @@ import { useNavigate } from "react-router-dom";
 
 type Args = {
   refs: React.RefObject<HTMLInputElement>[];
-  validatorFn: () => boolean;
+  validators: ((value: string) => boolean)[];
   authFn: (args: any) => Promise<boolean>;
   redirectURL: string;
 };
 
-function useAuth({ refs, validatorFn, authFn, redirectURL }: Args) {
+function useAuth({ refs, validators, authFn, redirectURL }: Args) {
+  if (refs.length != validators.length)
+    console.error("The number of refs and validators is not equal");
+
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  async function onSubmit() {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     try {
+      e.preventDefault();
+      setError("");
       setIsLoading(true);
-      if (!validatorFn()) throw new Error("Invalid fields.");
+      refs.forEach(({ current }, i) => {
+        if (!current || (current && !validators[i](current.value)))
+          throw new Error("Invalid fields.");
+      });
       if (await authFn(true)) navigate(redirectURL);
     } catch (error) {
       setError((error as Error).message);

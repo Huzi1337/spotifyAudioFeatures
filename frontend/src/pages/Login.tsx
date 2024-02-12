@@ -1,47 +1,34 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Authentication from "./Authentication";
-import { useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { signIn } from "aws-amplify/auth";
 import BeatLoader from "react-spinners/BeatLoader";
 import { validateEmail, validatePassword } from "../utils/inputValidators";
 import "./Login.scss";
+import useAuth from "../hooks/useAuth";
+
+const redirectURL = "/v2/home";
 
 const Login = () => {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError("");
+  const refs = Array.from({ length: 2 }, () => useRef<HTMLInputElement>(null));
+  const validators = [
+    useCallback(validateEmail, []),
+    useCallback(validatePassword, []),
+  ];
+  const { error, isLoading, onSubmit } = useAuth({
+    refs,
+    validators,
+    authFn,
+    redirectURL,
+  });
 
-    if (emailRef.current && passwordRef.current) {
-      let email = emailRef.current.value;
-      let password = passwordRef.current.value;
-
-      if (!validateEmail(email) || !validatePassword(password)) {
-        setError("Invalid email address or password.");
-        return;
-      }
-      await attemptSignIn(email, password);
-
-      async function attemptSignIn(email: string, password: string) {
-        try {
-          setIsLoading(true);
-          const { isSignedIn } = await signIn({
-            username: email,
-            password,
-          });
-          if (isSignedIn) navigate("/v2/home");
-        } catch (error) {
-          setError((error as Error).message);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    }
-  };
+  async function authFn() {
+    const { isSignedIn } = await signIn({
+      username: (refs[0].current as HTMLInputElement).value,
+      password: (refs[1].current as HTMLInputElement).value,
+    });
+    return isSignedIn;
+  }
 
   return (
     <Authentication
@@ -59,11 +46,11 @@ const Login = () => {
           {error}
         </p>
       )}
-      <form onSubmit={submitHandler} className="login__form">
+      <form onSubmit={onSubmit} className="login__form">
         <label>Email Address</label>
-        <input ref={emailRef} placeholder="Email Address" />
+        <input ref={refs[0]} placeholder="Email Address" />
         <label>Password</label>
-        <input type="password" ref={passwordRef} placeholder="Password" />
+        <input type="password" ref={refs[1]} placeholder="Password" />
 
         <button className="login__submit" type="submit">
           {isLoading ? (
