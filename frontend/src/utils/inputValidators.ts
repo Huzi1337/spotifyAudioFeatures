@@ -13,3 +13,7 @@ export function validatePassword(password: string) {
 export function validateUsername(username: string) {
   return username.length > 1;
 }
+
+export function validateCode(code: string) {
+  return code.length === 6 && !/\D/.test(code);
+}

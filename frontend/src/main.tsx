@@ -9,6 +9,7 @@ import awsconfig from "./amplifyconfiguration.json";
 import { Authenticator } from "@aws-amplify/ui-react";
 import Login from "./pages/Login.tsx";
 import SignUp from "./pages/SignUp.tsx";
+import ConfirmSignUp from "./pages/ConfirmSignUp.tsx";
 
 Amplify.configure(awsconfig);
 
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
   userRoutes,
   { path: "/v2/login", element: <Login /> },
   { path: "/v2/signup", element: <SignUp /> },
+  { path: "/v2/confirm", element: <ConfirmSignUp /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

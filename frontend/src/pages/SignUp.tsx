@@ -1,21 +1,47 @@
 import { Link } from "react-router-dom";
 import Authentication from "./Authentication";
-import { useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
+import useAuth from "../hooks/useAuth";
+import { validateEmail, validatePassword } from "../utils/inputValidators";
+import { signUp } from "aws-amplify/auth";
 
-const signUpFields = ["Email Address", "Username", "Password"];
+const signUpFields = ["Email Address", "Password"];
+const redirectURL = "/v2/home";
 
 const SignUp = () => {
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const refs = Array.from({ length: 2 }, () => useRef<HTMLInputElement>(null));
+  const validators = [
+    useCallback(validateEmail, []),
+    useCallback(validatePassword, []),
+  ];
 
-  const formRefs = Array.from({ length: 3 }, () =>
-    useRef<HTMLInputElement>(null)
-  );
+  const { onSubmit, error, isLoading } = useAuth({
+    refs,
+    validators,
+    redirectURL,
+    authFn,
+  });
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  async function authFn() {
+    const { nextStep } = await signUp({
+      username: (refs[0].current as HTMLInputElement).value,
+      password: (refs[1].current as HTMLInputElement).value,
+      options: {
+        userAttributes: {
+          email: (refs[0].current as HTMLInputElement).value,
+        },
+        autoSignIn: true,
+      },
+    });
+
+    sessionStorage.setItem(
+      "email",
+      (refs[0].current as HTMLInputElement).value
+    );
+
+    return nextStep.signUpStep;
+  }
 
   return (
     <Authentication
@@ -33,12 +59,13 @@ const SignUp = () => {
           {error}
         </p>
       )}
-      <form onSubmit={submitHandler} className="login__form">
+      <form onSubmit={onSubmit} className="login__form">
         {signUpFields.map((field, index) => (
           <>
-            <label>{field}</label>
+            <label key={`label${index}`}>{field}</label>
             <input
-              ref={formRefs[index]}
+              key={`input${index}`}
+              ref={refs[index]}
               type={field != "Password" ? "text" : "password"}
               placeholder={field}
             />

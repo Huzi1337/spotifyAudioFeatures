@@ -23,11 +23,16 @@ const Login = () => {
   });
 
   async function authFn() {
-    const { isSignedIn } = await signIn({
+    const { nextStep } = await signIn({
       username: (refs[0].current as HTMLInputElement).value,
       password: (refs[1].current as HTMLInputElement).value,
     });
-    return isSignedIn;
+    if (nextStep.signInStep != "DONE")
+      sessionStorage.setItem(
+        "email",
+        (refs[0].current as HTMLInputElement).value
+      );
+    return nextStep.signInStep;
   }
 
   return (

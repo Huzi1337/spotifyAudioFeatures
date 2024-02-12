@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SignInApiResponse } from "../types";
+import { autoSignIn } from "aws-amplify/auth";
 
 type Args = {
   refs: React.RefObject<HTMLInputElement>[];
   validators: ((value: string) => boolean)[];
-  authFn: (args: any) => Promise<boolean>;
+  authFn: () => Promise<SignInApiResponse>;
   redirectURL: string;
 };
 
@@ -25,7 +27,14 @@ function useAuth({ refs, validators, authFn, redirectURL }: Args) {
         if (!current || (current && !validators[i](current.value)))
           throw new Error("Invalid fields.");
       });
-      if (await authFn(true)) navigate(redirectURL);
+      const status = await authFn();
+      console.log(status);
+      if (status === "DONE") navigate(redirectURL);
+      else if (status === "CONFIRM_SIGN_UP") navigate("/v2/confirm");
+      else if (status === "COMPLETE_AUTO_SIGN_IN") {
+        await autoSignIn();
+        navigate(redirectURL);
+      }
     } catch (error) {
       setError((error as Error).message);
     } finally {
