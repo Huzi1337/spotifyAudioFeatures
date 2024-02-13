@@ -2,7 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.scss";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 import Root from "./components/Root.tsx";
 import { Amplify } from "aws-amplify";
 import awsconfig from "./amplifyconfiguration.json";
@@ -11,6 +15,7 @@ import Login from "./pages/Login.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import ConfirmSignUp from "./pages/ConfirmSignUp.tsx";
 import Home from "./pages/Home.tsx";
+import About from "./pages/About.tsx";
 
 Amplify.configure(awsconfig);
 
@@ -31,7 +36,7 @@ const userRoutes = {
     },
     {
       path: "about",
-      element: <div>elo about</div>,
+      element: <About />,
     },
     {
       path: "profile",
