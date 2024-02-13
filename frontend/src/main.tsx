@@ -10,8 +10,16 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import Login from "./pages/Login.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import ConfirmSignUp from "./pages/ConfirmSignUp.tsx";
+import Home from "./pages/Home.tsx";
 
 Amplify.configure(awsconfig);
+
+export const URLS = {
+  signUp: "/v2/signup",
+  logIn: "/v2/login",
+  confirm: "/v2/confirm",
+  home: "/v2/home",
+};
 
 const userRoutes = {
   path: "/v2",
@@ -19,7 +27,7 @@ const userRoutes = {
   children: [
     {
       path: "home",
-      element: <div>elo home</div>,
+      element: <Home />,
     },
     {
       path: "about",
