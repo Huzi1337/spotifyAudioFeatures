@@ -16,6 +16,7 @@ import SignUp from "./pages/SignUp.tsx";
 import ConfirmSignUp from "./pages/ConfirmSignUp.tsx";
 import Home from "./pages/Home.tsx";
 import About from "./pages/About.tsx";
+import AudioFeatures from "./pages/AudioFeatures.tsx";
 
 Amplify.configure(awsconfig);
 
@@ -44,7 +45,7 @@ const userRoutes = {
     },
     {
       path: "audioFeatures",
-      element: <div>elo audio</div>,
+      element: <AudioFeatures />,
     },
   ],
 };

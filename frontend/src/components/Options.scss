@@ -1,0 +1,16 @@
+@use "../assets/mixins";
+
+.options__container {
+  order: 1;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+$iconSize: 24px;
+.options__prev,
+.options__next {
+  @include mixins.set-icon-bg();
+  width: $iconSize;
+  height: $iconSize;
+}

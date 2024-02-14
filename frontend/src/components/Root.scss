@@ -66,6 +66,9 @@
     display: flex;
     justify-content: space-between;
     grid-area: Topbar;
+    .signout {
+      order: 2;
+    }
   }
 
   main {
