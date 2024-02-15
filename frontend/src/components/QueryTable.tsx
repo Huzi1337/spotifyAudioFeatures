@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { SongQuery } from "../types";
 import "./QueryTable.scss";
+import BeatLoader from "react-spinners/BeatLoader";
 
 type Props = {
   onSubmit: (e: React.FormEvent) => Promise<void>;
   setQueries: React.Dispatch<React.SetStateAction<SongQuery[]>>;
   queries: SongQuery[];
+  isLoading: boolean;
 };
 
-function QueryTable({ onSubmit, queries, setQueries }: Props) {
+function QueryTable({ onSubmit, queries, setQueries, isLoading }: Props) {
   function addQuery() {
     setQueries((prev) => [...prev, { artist: "", title: "" }]);
   }
@@ -73,7 +75,18 @@ function QueryTable({ onSubmit, queries, setQueries }: Props) {
           onClick={addQuery}
         ></button>
       </form>
-      <button className="queryTable__submitBtn">sabmit</button>
+      <button onClick={onSubmit} className="queryTable__submitBtn">
+        {isLoading ? (
+          <BeatLoader
+            size={8}
+            speedMultiplier={1}
+            loading={true}
+            color="#000000"
+          />
+        ) : (
+          "Submit"
+        )}
+      </button>
     </>
   );
 }

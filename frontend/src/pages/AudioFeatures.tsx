@@ -2,13 +2,15 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import "./Home.scss";
 import { createPortal } from "react-dom";
 import { useCallback, useEffect, useState } from "react";
-import { SongQuery } from "../types";
+import { ApiResponse, SongQuery } from "../types";
 import useFetch from "../hooks/useFetch";
 import QueryTable from "../components/QueryTable";
 import usePager from "../hooks/usePager";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { URLS } from "../main";
 import Options from "../components/Options";
+import { options } from "../data";
+import Table from "../components/Table";
 
 function AudioFeatures() {
   const [queries, setQueries] = useState<SongQuery[]>([
@@ -18,17 +20,31 @@ function AudioFeatures() {
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   const { nextPage, page, prevPage } = usePager(2);
 
-  const { fetchData, data, isLoading, error } = useFetch();
+  const { fetchData, data, isLoading, error } = useFetch<ApiResponse>();
 
   const onSubmit = useCallback(
     async function onSubmit(e: React.FormEvent) {
       e.preventDefault();
-      console.log(
-        queries.filter(
+      console.log("click");
+      const body = JSON.stringify({
+        songs: queries.filter(
           ({ artist, title }) => artist.length > 0 && title.length > 0
-        )
+        ),
+        includedAudioFeatures: options.audioFeatures,
+      });
+      const reqOptions = {
+        method: "POST",
+        body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      await fetchData(
+        "https://u9zgoic04e.execute-api.eu-central-1.amazonaws.com/prod/api/v1/audioFeatures",
+        reqOptions
       );
-      await fetchData("ass");
+      nextPage();
     },
     [queries]
   );
@@ -37,19 +53,35 @@ function AudioFeatures() {
     if (authStatus != "authenticated") navigate(URLS.home);
   }, []);
 
-  return (
-    <div className="home__container">
-      <Options onNext={nextPage} onPrev={prevPage} />
-      {page === 0 && (
-        <QueryTable
-          onSubmit={onSubmit}
-          queries={queries}
-          setQueries={setQueries}
+  if (!error)
+    return (
+      <div className="home__container">
+        <Options
+          nextDisabled={page === 1 || !data}
+          prevDisabled={page === 0}
+          onNext={nextPage}
+          onPrev={prevPage}
         />
-      )}
-      {page === 1 && <div>elo</div>}
-    </div>
-  );
+        {page === 0 && (
+          <QueryTable
+            isLoading={isLoading}
+            onSubmit={onSubmit}
+            queries={queries}
+            setQueries={setQueries}
+          />
+        )}
+        {page === 1 && data && (
+          <Table
+            data={data.songs.map((song) => ({
+              title: song.title,
+              artist: song.artist,
+              ...song.audioFeatures,
+            }))}
+          />
+        )}
+      </div>
+    );
+  else return <div className="home__container">An error has occurred.</div>;
 }
 
 export default AudioFeatures;
