@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { SongQuery } from "../types";
 import "./QueryTable.scss";
 
@@ -11,6 +12,7 @@ function QueryTable({ onSubmit, queries, setQueries }: Props) {
   function addQuery() {
     setQueries((prev) => [...prev, { artist: "", title: "" }]);
   }
+  const [hoveredElement, setHoveredElement] = useState(-1);
 
   function changeInput(
     index: number,
@@ -28,34 +30,51 @@ function QueryTable({ onSubmit, queries, setQueries }: Props) {
     setQueries(newQueries);
   }
   return (
-    <form className="queryTable__container" onSubmit={onSubmit}>
-      <div className="queryTable__headers">
-        <div className="queryTable__col">Title</div>
-        <div className="queryTable__col">Artist</div>
-      </div>
-      {queries.map((query, index) => (
-        <div className="queryTable__row" key={index}>
-          {/* <button
-            disabled={queries.length <= 1}
-            type="button"
-            onClick={() => deleteQuery(index)}
-          >
-            Delete query
-          </button> */}
-          {Object.entries(query).map(([key, value]) => (
-            <input
-              className="queryTable__col"
-              key={`${key}${index}`}
-              name={key}
-              value={value}
-              onChange={(event) => changeInput(index, event)}
-            />
-          ))}
+    <>
+      <form className="queryTable__container" onSubmit={onSubmit}>
+        <div className="queryTable__headers">
+          <div className="queryTable__col">Title</div>
+          <div className="queryTable__col">Artist</div>
         </div>
-      ))}
-      <button type="button" onClick={addQuery}></button>
-      <button>sabmit</button>
-    </form>
+        {queries.map((query, index) => (
+          <div
+            className="queryTable__row"
+            onMouseLeave={() => setHoveredElement(-1)}
+            onMouseEnter={() => setHoveredElement(index)}
+            key={index}
+          >
+            {Object.entries(query).map(([key, value]) => (
+              <input
+                className="queryTable__col"
+                key={`${key}${index}`}
+                name={key}
+                value={value}
+                onChange={(event) => changeInput(index, event)}
+              />
+            ))}
+
+            <div className="queryTable__deleteContainer">
+              {hoveredElement === index && (
+                <button
+                  className="queryTable__deleteBtn"
+                  disabled={queries.length <= 1}
+                  type="button"
+                  onClick={() => deleteQuery(index)}
+                >
+                  -
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+        <button
+          type="button"
+          className="queryTable__addBtn"
+          onClick={addQuery}
+        ></button>
+      </form>
+      <button className="queryTable__submitBtn">sabmit</button>
+    </>
   );
 }
 
