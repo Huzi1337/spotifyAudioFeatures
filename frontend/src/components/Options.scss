@@ -1,0 +1,37 @@
+@use "../assets/mixins";
+
+.options__container {
+  order: 1;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+$iconSize: 24px;
+.options__prev,
+.options__next,
+.options__settings {
+  @include mixins.set-icon-bg();
+  transition-duration: 100ms;
+  width: $iconSize;
+  height: $iconSize;
+  background-color: transparent;
+  &:disabled {
+    opacity: 0.6;
+    &:hover {
+      transform: scale(1);
+    }
+  }
+}
+
+.options__next {
+  background-image: url(/rightArrow.svg);
+}
+
+.options__prev {
+  background-image: url(/leftArrow.svg);
+}
+
+.options__settings {
+  background-image: url(/settings.svg);
+}

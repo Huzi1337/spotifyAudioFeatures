@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Authentication.scss";
 
 type Props = {
@@ -11,7 +12,7 @@ const Authentication = ({ children, headText, link, altText }: Props) => {
   return (
     <div className="auth__container">
       <div className="auth__topbar">
-        <h3>Audify</h3>
+        <Link to={"/v2/home"}>Audify</Link>
       </div>
       <main className="auth__content">
         <h1 className="auth__header">{headText}</h1>

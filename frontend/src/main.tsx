@@ -2,15 +2,30 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.scss";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 import Root from "./components/Root.tsx";
 import { Amplify } from "aws-amplify";
 import awsconfig from "./amplifyconfiguration.json";
 import { Authenticator } from "@aws-amplify/ui-react";
 import Login from "./pages/Login.tsx";
 import SignUp from "./pages/SignUp.tsx";
+import ConfirmSignUp from "./pages/ConfirmSignUp.tsx";
+import Home from "./pages/Home.tsx";
+import About from "./pages/About.tsx";
+import AudioFeatures from "./pages/AudioFeatures.tsx";
 
 Amplify.configure(awsconfig);
+
+export const URLS = {
+  signUp: "/v2/signup",
+  logIn: "/v2/login",
+  confirm: "/v2/confirm",
+  home: "/v2/home",
+};
 
 const userRoutes = {
   path: "/v2",
@@ -18,11 +33,11 @@ const userRoutes = {
   children: [
     {
       path: "home",
-      element: <div>elo home</div>,
+      element: <Home />,
     },
     {
       path: "about",
-      element: <div>elo about</div>,
+      element: <About />,
     },
     {
       path: "profile",
@@ -30,7 +45,7 @@ const userRoutes = {
     },
     {
       path: "audioFeatures",
-      element: <div>elo audio</div>,
+      element: <AudioFeatures />,
     },
   ],
 };
@@ -40,6 +55,7 @@ const router = createBrowserRouter([
   userRoutes,
   { path: "/v2/login", element: <Login /> },
   { path: "/v2/signup", element: <SignUp /> },
+  { path: "/v2/confirm", element: <ConfirmSignUp /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

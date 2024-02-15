@@ -11,6 +11,7 @@ async function handleSignUp({ password, email, username }: SignUpParameters) {
     const { isSignUpComplete, userId, nextStep } = await signUp({
       username,
       password,
+
       options: {
         userAttributes: {
           email,
@@ -19,8 +20,9 @@ async function handleSignUp({ password, email, username }: SignUpParameters) {
         autoSignIn: true, // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
       },
     });
-
+    console.log(isSignUpComplete);
     console.log(userId);
+    console.log(nextStep);
   } catch (error) {
     console.log("error signing up:", error);
   }

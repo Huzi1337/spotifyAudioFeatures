@@ -1,0 +1,84 @@
+@use "../assets/colors";
+@use "../assets/mixins";
+
+.queryTable__container {
+  @include mixins.column();
+  width: 100%;
+  border-radius: 16px;
+  padding: 8px 32px;
+}
+
+.queryTable__table {
+  @include mixins.column();
+}
+
+.queryTable__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10%;
+  min-height: 40px;
+}
+
+.queryTable__row,
+.queryTable__headers {
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+.queryTable__col {
+  width: 50%;
+  color: colors.$white;
+  padding: 8px;
+  background-color: transparent;
+  text-align: center;
+  padding: 8px;
+  font-weight: bold;
+  border: solid 4px colors.$white;
+  border-top-width: 0;
+  &:first-child {
+    border-right-width: 2px;
+  }
+  &:last-child {
+    border-left-width: 2px;
+  }
+}
+
+.queryTable__row {
+  position: relative;
+}
+
+$iconSize: 24px;
+.queryTable__deleteBtn {
+  width: $iconSize;
+  height: $iconSize;
+  background-color: colors.$red;
+  border-radius: 45px;
+}
+
+.queryTable__deleteContainer {
+  z-index: 99;
+  position: absolute;
+  width: 32px;
+  right: -32px;
+  min-height: 27px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-left: 8px;
+}
+
+.queryTable__addBtn {
+  min-width: 32px;
+  min-height: 32px;
+  margin: 8px auto;
+}
+
+.queryTable__headers {
+  background-color: colors.$darkGreen;
+  border-top: 4px solid colors.$white;
+}
+
+.queryTable__submitBtn {
+  margin-top: auto;
+}

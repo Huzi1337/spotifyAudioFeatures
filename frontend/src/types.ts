@@ -8,6 +8,18 @@ export type ApiResponse = {
   CSV: string;
 };
 
+export type SignInApiResponse =
+  | "DONE"
+  | "CONFIRM_SIGN_UP"
+  | "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE"
+  | "CONTINUE_SIGN_IN_WITH_MFA_SELECTION"
+  | "CONFIRM_SIGN_IN_WITH_SMS_CODE"
+  | "CONFIRM_SIGN_IN_WITH_TOTP_CODE"
+  | "CONTINUE_SIGN_IN_WITH_TOTP_SETUP"
+  | "RESET_PASSWORD"
+  | "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
+  | any;
+
 export type AudioFeaturesResponse = {
   artist: string;
   title: string;

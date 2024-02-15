@@ -9,3 +9,8 @@
 body {
   background-color: colors.$black;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

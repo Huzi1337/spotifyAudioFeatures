@@ -22,6 +22,7 @@
   .sidebar,
   .topbar,
   main {
+    color: colors.$white;
     padding: 8px;
     background-color: colors.$darkGrey;
     border: 2px solid black;
@@ -65,10 +66,15 @@
     display: flex;
     justify-content: space-between;
     grid-area: Topbar;
+    .signout {
+      order: 2;
+    }
   }
 
   main {
     grid-area: Main;
+    @include mixins.column();
+    overflow-y: auto;
   }
 }
 

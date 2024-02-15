@@ -5,6 +5,7 @@
 .auth__container {
   @include mixins.column();
   gap: 8px;
+  padding: 8px;
   width: 100%;
   flex-grow: 1;
 }
@@ -39,4 +40,8 @@
   margin: 64px 0;
   height: 1px;
   background-color: colors.$white;
+}
+
+.login__redirect:hover {
+  color: colors.$green;
 }

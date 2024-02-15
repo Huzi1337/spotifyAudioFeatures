@@ -1,0 +1,33 @@
+@use "../assets/fonts";
+@use "../assets/colors";
+@use "../assets/mixins";
+
+.home__container {
+  @include mixins.column();
+  flex-grow: 1;
+  align-items: center;
+
+  gap: 64px;
+  h1 {
+    font-size: fonts.$subHeadL;
+  }
+  h3 {
+    font-size: fonts.$subHeadM;
+  }
+  h1,
+  h3 {
+    span {
+      color: colors.$green;
+    }
+  }
+
+  .home__btnContainer {
+    display: flex;
+    gap: 42px;
+    button {
+      font-size: fonts.$subHeadM;
+      font-weight: 400;
+      padding: 16px 24px;
+    }
+  }
+}

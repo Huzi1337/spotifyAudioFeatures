@@ -1,0 +1,25 @@
+@use "../assets/fonts";
+@use "../assets/colors";
+@use "../assets/mixins";
+
+.about__container {
+  @include mixins.column();
+  flex-grow: 1;
+  padding: 8px;
+  h1 {
+    font-size: fonts.$subHeadL;
+  }
+  h3,
+  li {
+    font-size: fonts.$subHeadM;
+  }
+  h1 {
+    align-self: center;
+  }
+  h1,
+  h3 {
+    span {
+      color: colors.$green;
+    }
+  }
+}
