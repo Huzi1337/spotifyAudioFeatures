@@ -1,6 +1,5 @@
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Home.scss";
-import { createPortal } from "react-dom";
 import { useCallback, useEffect, useState } from "react";
 import { ApiResponse, SongQuery } from "../types";
 import useFetch from "../hooks/useFetch";

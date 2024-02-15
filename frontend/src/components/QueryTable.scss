@@ -55,6 +55,11 @@ $iconSize: 24px;
   height: $iconSize;
   background-color: colors.$red;
   border-radius: 45px;
+
+  &:disabled {
+    background-color: colors.$grey;
+    opacity: 0.5;
+  }
 }
 
 .queryTable__deleteContainer {
@@ -72,13 +77,29 @@ $iconSize: 24px;
   min-width: 32px;
   min-height: 32px;
   margin: 8px auto;
+  background-color: colors.$green;
 }
 
+.queryTable__addBtn,
+.queryTable__deleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .queryTable__headers {
-  background-color: colors.$darkGreen;
+  background-color: colors.$green;
   border-top: 4px solid colors.$white;
 }
 
 .queryTable__submitBtn {
   margin-top: auto;
+  padding: 8px 16px;
+  background-color: colors.$green;
+  &:disabled {
+    background-color: colors.$grey;
+    &:hover {
+      transform: scale(1);
+      cursor: not-allowed;
+    }
+  }
 }

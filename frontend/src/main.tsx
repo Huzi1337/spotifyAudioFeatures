@@ -2,11 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.scss";
-import {
-  createBrowserRouter,
-  redirect,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./components/Root.tsx";
 import { Amplify } from "aws-amplify";
 import awsconfig from "./amplifyconfiguration.json";
