@@ -28,7 +28,7 @@ function Settings({ chosenFeatures, setChosenFeatures }: Props) {
 
   return (
     <div className="settings__audioFeaturesQuery__container">
-      <h3>Audio Features</h3>
+      <h3 className="settings__label">Audio Features</h3>
       {Object.entries(chosenFeatures).map(([key, value]) => (
         <div className="settings__audioFeaturesQuery__checkbox" key={key}>
           <Tooltip text={TOOLTIPS[key].tooltip}>

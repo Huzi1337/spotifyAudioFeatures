@@ -1,9 +1,9 @@
 .modalBackground {
-  z-index: -1;
+  z-index: 1;
   position: fixed;
   inset: 0;
-  opacity: 0.2;
-  background-color: white;
+  opacity: 0.6;
+  background-color: black;
   animation: fadeIn 100ms ease-in;
 }
 .modalWrapper {
@@ -13,6 +13,7 @@
   align-items: center;
   inset: 0;
   animation: fadeIn2 100ms ease-in;
+  z-index: 2;
 }
 
 @keyframes fadeIn {
