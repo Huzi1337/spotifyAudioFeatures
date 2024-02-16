@@ -97,6 +97,7 @@ $iconSize: 24px;
 .queryTable__submitBtn {
   margin-top: auto;
   padding: 8px 16px;
+  max-width: fit-content;
   background-color: colors.$green;
   &:disabled {
     background-color: colors.$grey;

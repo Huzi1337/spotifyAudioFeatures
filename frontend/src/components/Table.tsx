@@ -6,11 +6,14 @@ import { TableRows } from "./TableRows";
 
 export type Props = {
   data: Object[];
+  className?: {
+    paginationContainer: string;
+  };
 };
 
 const pageSize = 10;
 
-function Table({ data }: Props) {
+function Table({ data, className }: Props) {
   let headers = Object.keys(data[0]);
   const { nextPage, prevPage, page, pageSlice, isFirstPage, isLastPage } =
     usePagination(data, pageSize);
@@ -35,7 +38,11 @@ function Table({ data }: Props) {
           <TableRows headers={headers} data={pageSlice} />
         </table>
       </div>
-      <div className="tablePagination">
+      <div
+        className={`tablePagination${
+          className ? ` ${className.paginationContainer}` : ""
+        }`}
+      >
         <button
           className="paginationBtn prev"
           disabled={isFirstPage}

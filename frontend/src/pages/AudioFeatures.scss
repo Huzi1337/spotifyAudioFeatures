@@ -1,0 +1,14 @@
+@use "../assets/mixins";
+
+.audioFeatures__container {
+  @include mixins.column();
+  align-items: center;
+  height: 100%;
+}
+
+.tablePagination.audioFeatures__tablePagination {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  right: auto;
+}

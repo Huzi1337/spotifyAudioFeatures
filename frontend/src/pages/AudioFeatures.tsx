@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./Home.scss";
+import "./AudioFeatures.scss";
 import { useCallback, useEffect, useState } from "react";
 import { ApiResponse, SongQuery } from "../types";
 import useFetch from "../hooks/useFetch";
@@ -54,7 +54,7 @@ function AudioFeatures() {
 
   if (!error)
     return (
-      <div className="home__container">
+      <div className="audioFeatures__container">
         <Options
           nextDisabled={page === 1 || !data}
           prevDisabled={page === 0}
@@ -76,6 +76,9 @@ function AudioFeatures() {
               artist: song.artist,
               ...song.audioFeatures,
             }))}
+            className={{
+              paginationContainer: "audioFeatures__tablePagination",
+            }}
           />
         )}
       </div>
