@@ -1,0 +1,18 @@
+@use "../assets/colors";
+
+.tooltip {
+  position: absolute;
+  top: 100%;
+  color: colors.$white;
+  z-index: 999;
+  background-color: colors.$black;
+  padding: 8px;
+  pointer-events: none;
+  width: max-content;
+  max-width: 400px;
+  border-radius: 16px;
+  border: 2px solid colors.$white;
+}
+.tooltip__container {
+  position: relative;
+}

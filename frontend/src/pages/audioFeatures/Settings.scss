@@ -1,0 +1,15 @@
+@use "../../assets/mixins";
+
+.settings__audioFeaturesQuery__container {
+  display: grid;
+  position: relative;
+  grid-template-rows: repeat(1fr, 7);
+  grid-template-columns: 1fr 1fr;
+  background-color: black;
+  color: white;
+  padding: 8px;
+}
+
+.settings__audioFeaturesQuery__checkbox {
+  display: flex;
+}

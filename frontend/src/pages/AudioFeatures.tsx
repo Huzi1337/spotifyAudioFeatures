@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./AudioFeatures.scss";
 import { useCallback, useEffect, useState } from "react";
-import { ApiResponse, SongQuery } from "../types";
+import { ApiResponse, SelectedAudioFeatures, SongQuery } from "../types";
 import useFetch from "../hooks/useFetch";
 import QueryTable from "../components/QueryTable";
 import usePager from "../hooks/usePager";
@@ -10,16 +10,18 @@ import { URLS } from "../main";
 import Options from "../components/Options";
 import { options } from "../data";
 import Table from "../components/Table";
+import Settings from "./audioFeatures/Settings";
 
 function AudioFeatures() {
   const [queries, setQueries] = useState<SongQuery[]>([
     { artist: "", title: "" },
   ]);
-  const navigate = useNavigate();
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   const { nextPage, page, prevPage } = usePager(2);
-
   const { fetchData, data, isLoading, error } = useFetch<ApiResponse>();
+
+  const [chosenFeatures, setChosenFeatures] = useState<SelectedAudioFeatures>(
+    options.audioFeatures
+  );
 
   const onSubmit = useCallback(
     async function onSubmit(e: React.FormEvent) {
@@ -48,6 +50,8 @@ function AudioFeatures() {
     [queries]
   );
 
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
+  const navigate = useNavigate();
   useEffect(() => {
     if (authStatus != "authenticated") navigate(URLS.home);
   }, []);
@@ -60,6 +64,12 @@ function AudioFeatures() {
           prevDisabled={page === 0}
           onNext={nextPage}
           onPrev={prevPage}
+          settingsContent={
+            <Settings
+              setChosenFeatures={setChosenFeatures}
+              chosenFeatures={chosenFeatures}
+            />
+          }
         />
         {page === 0 && (
           <QueryTable
