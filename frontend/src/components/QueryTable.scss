@@ -47,6 +47,9 @@
 
 .queryTable__row {
   position: relative;
+  &:hover {
+    background-color: colors.$darkGreen;
+  }
 }
 
 $iconSize: 24px;
