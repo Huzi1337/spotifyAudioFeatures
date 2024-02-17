@@ -11,6 +11,7 @@ import Options from "../components/Options";
 import { options } from "../data";
 import Table from "../components/Table";
 import Settings from "./audioFeatures/Settings";
+import { TOOLTIPS } from "./audioFeatures/tooltipData";
 
 function AudioFeatures() {
   const [queries, setQueries] = useState<SongQuery[]>([
@@ -31,7 +32,7 @@ function AudioFeatures() {
         songs: queries.filter(
           ({ artist, title }) => artist.length > 0 && title.length > 0
         ),
-        includedAudioFeatures: options.audioFeatures,
+        includedAudioFeatures: chosenFeatures,
       });
       const reqOptions = {
         method: "POST",
@@ -47,7 +48,7 @@ function AudioFeatures() {
       );
       nextPage();
     },
-    [queries]
+    [queries, chosenFeatures]
   );
 
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
@@ -89,6 +90,7 @@ function AudioFeatures() {
             className={{
               paginationContainer: "audioFeatures__tablePagination",
             }}
+            headerOptions={TOOLTIPS}
           />
         )}
       </div>

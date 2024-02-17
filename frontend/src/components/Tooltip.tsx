@@ -9,6 +9,8 @@ type Props = {
 function Tooltip({ children, text }: Props) {
   const [visible, setVisible] = useState(false);
 
+  if (!text) return <>{children}</>;
+
   return (
     <div
       onMouseLeave={() => setVisible(false)}

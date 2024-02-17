@@ -1,9 +1,4 @@
-type FeatureDesc = {
-  [key: string]: {
-    label: string;
-    tooltip: string;
-  };
-};
+import { FeatureDesc } from "../../types";
 
 export const TOOLTIPS: FeatureDesc = {
   acousticness: {

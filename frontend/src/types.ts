@@ -68,3 +68,10 @@ export type SelectedAudioFeatures = {
   valence: number | boolean;
   key: number | boolean;
 };
+
+export type FeatureDesc = {
+  [key: string]: {
+    label: string;
+    tooltip: string;
+  };
+};
