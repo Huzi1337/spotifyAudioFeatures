@@ -11,7 +11,7 @@ export type Props = {
     paginationContainer: string;
   };
   pageSize?: number;
-  headerOptions: FeatureDesc;
+  headerOptions?: FeatureDesc;
 };
 
 function Table({ data, className, pageSize = 10, headerOptions }: Props) {

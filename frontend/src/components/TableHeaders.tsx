@@ -3,12 +3,10 @@ import Tooltip from "./Tooltip";
 
 type Props = {
   headers: string[];
-  options: FeatureDesc;
+  options?: FeatureDesc;
 };
 
-export function TableHeaders({ headers, options }: Props) {
-  console.log(options);
-  console.log(headers);
+export function TableHeaders({ headers, options = {} }: Props) {
   return (
     <thead>
       <tr>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Checkbox from "../../components/v2/Checkbox";
 import { SelectedAudioFeatures } from "../../types";
 import "./Settings.scss";
@@ -11,12 +10,7 @@ type Props = {
     React.SetStateAction<SelectedAudioFeatures>
   >;
 };
-const d = {
-  audioFeatures: {
-    label: "ass",
-    tooltip: "asadasdasd",
-  },
-};
+
 function Settings({ chosenFeatures, setChosenFeatures }: Props) {
   const onClickHandler = (key: keyof SelectedAudioFeatures) => {
     setChosenFeatures((prev) => {
