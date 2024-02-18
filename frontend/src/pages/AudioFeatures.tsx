@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./AudioFeatures.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import {
   ApiResponse,
   AudioFeatures as TAudioFeatures,
@@ -18,6 +18,39 @@ import Table from "../components/Table";
 import Settings from "./audioFeatures/Settings";
 import { TOOLTIPS } from "./audioFeatures/tooltipData";
 
+type DisplayedState = {
+  features: TAudioFeatures | null;
+  recordsPerPage: number;
+};
+
+type FeaturesAction = {
+  type: "set_features";
+  payload: TAudioFeatures | null;
+};
+
+type RecordsAction = {
+  type: "set_recordsPerPage";
+  payload: number;
+};
+
+function reducer(
+  state: DisplayedState,
+  action: FeaturesAction | RecordsAction
+) {
+  switch (action.type) {
+    case "set_features": {
+      return { ...state, features: { ...state.features, ...action.payload } };
+    }
+    case "set_recordsPerPage": {
+      return { ...state, recordsPerPage: action.payload };
+    }
+  }
+}
+const initialState: DisplayedState = {
+  features: null,
+  recordsPerPage: 10,
+};
+
 function AudioFeatures() {
   const [queries, setQueries] = useState<SongQuery[]>([
     { artist: "", title: "" },
@@ -28,19 +61,18 @@ function AudioFeatures() {
     options.audioFeatures
   );
 
-  const [displayedFeatures, setDisplayedFeatures] =
-    useState<TAudioFeatures | null>(null);
-
+  const [displayedState, dispatch] = useReducer(reducer, initialState);
+  console.log(displayedState);
   useEffect(() => {
     initializeDisplayedFeatures();
 
     function initializeDisplayedFeatures() {
-      if (!data) return setDisplayedFeatures(null);
+      if (!data) return dispatch({ type: "set_features", payload: null });
       const availableFeatures: { [key: string]: boolean } = {};
       Object.keys(data.songs[0].audioFeatures).forEach(
         (key) => (availableFeatures[key] = true)
       );
-      setDisplayedFeatures(availableFeatures);
+      dispatch({ type: "set_features", payload: availableFeatures });
     }
   }, [data]);
 
@@ -83,7 +115,7 @@ function AudioFeatures() {
       return (data as ApiResponse).songs.map((song) => {
         const mappedSong: TAudioFeatures = {};
         const { audioFeatures } = song;
-        Object.entries(displayedFeatures as TAudioFeatures).forEach(
+        Object.entries(displayedState.features as TAudioFeatures).forEach(
           ([key, value]) =>
             value
               ? (mappedSong[key as keyof TAudioFeatures] =
@@ -93,7 +125,7 @@ function AudioFeatures() {
         return { title: song.title, artist: song.artist, ...mappedSong };
       });
     },
-    [data, displayedFeatures]
+    [data, displayedState]
   );
 
   if (!error)
@@ -126,7 +158,7 @@ function AudioFeatures() {
             setQueries={setQueries}
           />
         )}
-        {page === 1 && data && displayedFeatures && (
+        {page === 1 && data && displayedState.features && (
           <Table
             data={handleTableData()}
             className={{

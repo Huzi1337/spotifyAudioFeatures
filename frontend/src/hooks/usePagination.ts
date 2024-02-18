@@ -8,7 +8,7 @@ function usePagination(data: any[], pageSize: number) {
   );
   const pageSlice = useMemo(
     () => data.slice(page * pageSize, (1 + page) * pageSize),
-    [page]
+    [page, data]
   );
   const isLastPage = !(page < numberOfPages - 1);
   const isFirstPage = !(page > 0);
