@@ -1,5 +1,5 @@
 function ResetSuccess() {
-  return <div></div>;
+  return <div>Sakses</div>;
 }
 
 export default ResetSuccess;

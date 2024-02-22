@@ -1,8 +1,6 @@
-import { useRef, useState } from "react";
-import useAuth from "../hooks/useAuth";
+import { useState } from "react";
 import Authentication from "./Authentication";
-import { resetPassword } from "aws-amplify/auth";
-import { validateEmail } from "../utils/inputValidators";
+
 import { Outlet } from "react-router-dom";
 
 export type OutletContext = {
@@ -13,13 +11,13 @@ export type OutletContext = {
 };
 
 function PasswordRecovery() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(sessionStorage.getItem("email") || "");
   const [error, setError] = useState("");
-
+  console.log("mainerror", error);
   return (
     <Authentication
       altText=""
-      error=""
+      error={error}
       headText="Password Recovery"
       link={<></>}
     >

@@ -30,9 +30,6 @@ function useAuth({ refs, validators, authFn, redirectURL = "" }: Args) {
       const status = await authFn();
       console.log(status);
       switch (status) {
-        case "DONE":
-          if (redirectURL.length != 0) navigate(redirectURL);
-          break;
         case "CONFIRM_SIGN_UP":
           navigate("/v2/confirm");
           break;
@@ -40,6 +37,8 @@ function useAuth({ refs, validators, authFn, redirectURL = "" }: Args) {
           await autoSignIn();
           if (redirectURL.length != 0) navigate(redirectURL);
           break;
+        default:
+          if (redirectURL.length != 0) navigate(redirectURL);
       }
     } catch (error) {
       setError((error as Error).message);

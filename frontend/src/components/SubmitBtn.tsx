@@ -7,7 +7,11 @@ type Props = {
 
 function SubmitBtn({ isLoading, text }: Props) {
   return (
-    <button className="submitBtn" type="submit">
+    <button
+      onClick={() => console.log("click")}
+      className="submitBtn"
+      type="submit"
+    >
       {isLoading ? (
         <BeatLoader
           size={8}

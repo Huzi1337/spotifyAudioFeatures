@@ -5,37 +5,47 @@ import { validateEmail } from "../../../utils/inputValidators";
 import { URLS } from "../../../main";
 import { useOutletContext } from "react-router-dom";
 import { OutletContext } from "../../PasswordRecovery";
-import BeatLoader from "react-spinners/BeatLoader";
 import SubmitBtn from "../../../components/SubmitBtn";
 
 function SendCode() {
-  const recoverRefs = [useRef<HTMLInputElement>(null)];
-  const recoverValidators = [validateEmail];
+  const refs = [useRef<HTMLInputElement>(null)];
+  const validators = [validateEmail];
 
   const { onSubmit, error, isLoading } = useAuth({
-    refs: recoverRefs,
-    validators: recoverValidators,
+    refs,
+    validators,
     redirectURL: `${URLS.recoverPassword}/resetPassword`,
     authFn: recoverFn,
   });
-  const { setError, setEmail } = useOutletContext<OutletContext>();
+  const {
+    setError,
+    setEmail,
+    error: teror,
+  } = useOutletContext<OutletContext>();
+  console.log("teror", teror);
   useEffect(() => {
+    console.log(error);
     setError(error);
   }, [error]);
 
   async function recoverFn() {
-    const username = (recoverRefs[0].current as HTMLInputElement).value;
+    console.log("boop");
+    const username = (refs[0].current as HTMLInputElement).value;
     const { nextStep } = await resetPassword({
       username,
     });
     setEmail(username);
+    sessionStorage.setItem(
+      "email",
+      (refs[0].current as HTMLInputElement).value
+    );
 
     return nextStep.resetPasswordStep;
   }
   return (
     <form onSubmit={onSubmit}>
       <label>Email Address</label>
-      <input placeholder="Email Address" />
+      <input ref={refs[0]} placeholder="Email Address" />
       <SubmitBtn isLoading={isLoading} text="Send reset code" />
     </form>
   );

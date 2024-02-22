@@ -63,7 +63,7 @@ const router = createBrowserRouter([
     children: [
       { path: "sendCode", element: <SendCode /> },
       { path: "resetPassword", element: <ResetPassword /> },
-      { path: "resetSuccess", element: <ResetSuccess /> },
+      { path: "success", element: <ResetSuccess /> },
     ],
   },
 ]);
