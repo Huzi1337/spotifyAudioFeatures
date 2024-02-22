@@ -1,3 +1,5 @@
+@use "./colors";
+
 @mixin set-icon-bg {
   background-repeat: no-repeat;
   background-position: center;
@@ -7,4 +9,20 @@
 @mixin column {
   display: flex;
   flex-direction: column;
+}
+
+@mixin settings-grid {
+  display: grid;
+  position: relative;
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "header header"
+    "rest rest";
+  background-color: colors.$black;
+  color: colors.$white;
+  padding: 32px;
+  border: 2px solid colors.$white;
+  border-radius: 16px;
+  gap: 16px;
 }

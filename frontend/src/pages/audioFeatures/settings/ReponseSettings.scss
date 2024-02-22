@@ -1,0 +1,7 @@
+@use "../../../assets/mixins";
+@use "../../../assets/colors";
+@use "../../../assets/fonts";
+
+.settings__audioFeaturesResponse__container {
+  @include mixins.settings-grid();
+}

@@ -7,10 +7,10 @@ type Args = {
   refs: React.RefObject<HTMLInputElement>[];
   validators: ((value: string) => boolean)[];
   authFn: () => Promise<SignInApiResponse>;
-  redirectURL: string;
+  redirectURL?: string;
 };
 
-function useAuth({ refs, validators, authFn, redirectURL }: Args) {
+function useAuth({ refs, validators, authFn, redirectURL = "" }: Args) {
   if (refs.length != validators.length)
     console.error("The number of refs and validators is not equal");
 
@@ -29,11 +29,17 @@ function useAuth({ refs, validators, authFn, redirectURL }: Args) {
       });
       const status = await authFn();
       console.log(status);
-      if (status === "DONE") navigate(redirectURL);
-      else if (status === "CONFIRM_SIGN_UP") navigate("/v2/confirm");
-      else if (status === "COMPLETE_AUTO_SIGN_IN") {
-        await autoSignIn();
-        navigate(redirectURL);
+      switch (status) {
+        case "DONE":
+          if (redirectURL.length != 0) navigate(redirectURL);
+          break;
+        case "CONFIRM_SIGN_UP":
+          navigate("/v2/confirm");
+          break;
+        case "COMPLETE_AUTO_SIGN_IN":
+          await autoSignIn();
+          if (redirectURL.length != 0) navigate(redirectURL);
+          break;
       }
     } catch (error) {
       setError((error as Error).message);

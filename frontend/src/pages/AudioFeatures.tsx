@@ -15,37 +15,11 @@ import { URLS } from "../main";
 import Options from "../components/Options";
 import { options } from "../data";
 import Table from "../components/Table";
-import Settings from "./audioFeatures/Settings";
+import QuerySettings from "./audioFeatures/settings/QuerySettings";
 import { TOOLTIPS } from "./audioFeatures/tooltipData";
+import reducer, { DisplayedState } from "./audioFeatures/reducer";
+import ResponseSettings from "./audioFeatures/settings/ResponseSettings";
 
-type DisplayedState = {
-  features: TAudioFeatures | null;
-  recordsPerPage: number;
-};
-
-type FeaturesAction = {
-  type: "set_features";
-  payload: TAudioFeatures | null;
-};
-
-type RecordsAction = {
-  type: "set_recordsPerPage";
-  payload: number;
-};
-
-function reducer(
-  state: DisplayedState,
-  action: FeaturesAction | RecordsAction
-) {
-  switch (action.type) {
-    case "set_features": {
-      return { ...state, features: { ...state.features, ...action.payload } };
-    }
-    case "set_recordsPerPage": {
-      return { ...state, recordsPerPage: action.payload };
-    }
-  }
-}
 const initialState: DisplayedState = {
   features: null,
   recordsPerPage: 10,
@@ -138,15 +112,12 @@ function AudioFeatures() {
           onPrev={prevPage}
           settingsContent={
             page === 1 ? (
-              <Settings
+              <QuerySettings
                 setChosenFeatures={setChosenFeatures}
                 chosenFeatures={chosenFeatures}
               />
             ) : (
-              <Settings
-                setChosenFeatures={setChosenFeatures}
-                chosenFeatures={chosenFeatures}
-              />
+              <ResponseSettings dispatch={dispatch} state={displayedState} />
             )
           }
         />
@@ -164,6 +135,7 @@ function AudioFeatures() {
             className={{
               paginationContainer: "audioFeatures__tablePagination",
             }}
+            pageSize={displayedState.recordsPerPage}
             headerOptions={TOOLTIPS}
           />
         )}

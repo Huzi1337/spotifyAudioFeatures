@@ -1,8 +1,8 @@
-import Checkbox from "../../components/v2/Checkbox";
-import { SelectedAudioFeatures } from "../../types";
-import "./Settings.scss";
-import Tooltip from "../../components/Tooltip";
-import { TOOLTIPS } from "./tooltipData";
+import Checkbox from "../../../components/v2/Checkbox";
+import { SelectedAudioFeatures } from "../../../types";
+import "./QuerySettings.scss";
+import Tooltip from "../../../components/Tooltip";
+import { TOOLTIPS } from "../tooltipData";
 
 type Props = {
   chosenFeatures: SelectedAudioFeatures;
@@ -11,7 +11,7 @@ type Props = {
   >;
 };
 
-function Settings({ chosenFeatures, setChosenFeatures }: Props) {
+function QuerySettings({ chosenFeatures, setChosenFeatures }: Props) {
   const onClickHandler = (key: keyof SelectedAudioFeatures) => {
     setChosenFeatures((prev) => {
       const newChosenFeatures = { ...prev };
@@ -40,4 +40,4 @@ function Settings({ chosenFeatures, setChosenFeatures }: Props) {
   );
 }
 
-export default Settings;
+export default QuerySettings;
