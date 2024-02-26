@@ -4,4 +4,14 @@
 
 .settings__audioFeaturesResponse__container {
   @include mixins.settings-grid();
+  .settings____audioFeaturesResponse__label {
+    grid-area: header;
+    text-align: center;
+    font-size: fonts.$subHeadS;
+  }
+}
+.settings__audioFeaturesResponse__checkbox {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
 }

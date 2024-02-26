@@ -111,7 +111,7 @@ function AudioFeatures() {
           onNext={nextPage}
           onPrev={prevPage}
           settingsContent={
-            page === 1 ? (
+            page === 0 ? (
               <QuerySettings
                 setChosenFeatures={setChosenFeatures}
                 chosenFeatures={chosenFeatures}

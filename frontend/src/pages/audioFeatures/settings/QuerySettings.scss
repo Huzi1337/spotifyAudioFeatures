@@ -5,7 +5,7 @@
 .settings__audioFeaturesQuery__container {
   @include mixins.settings-grid();
 
-  .settings__label {
+  .settings____audioFeaturesQuery__label {
     grid-area: header;
     text-align: center;
     font-size: fonts.$subHeadS;

@@ -13,6 +13,7 @@
   border-radius: 16px;
   border: 2px solid colors.$white;
   font-weight: inherit;
+  z-index: 99;
 }
 .tooltip__container {
   position: relative;
