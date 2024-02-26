@@ -1,4 +1,5 @@
 import BeatLoader from "react-spinners/BeatLoader";
+import "./SubmitBtn.scss";
 
 type Props = {
   isLoading: boolean;

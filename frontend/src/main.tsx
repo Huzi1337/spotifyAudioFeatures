@@ -17,6 +17,7 @@ import PasswordRecovery from "./pages/PasswordRecovery.tsx";
 import SendCode from "./pages/audioFeatures/PasswordRecovery/SendCode.tsx";
 import ResetPassword from "./pages/audioFeatures/PasswordRecovery/ResetPassword.tsx";
 import ResetSuccess from "./pages/audioFeatures/PasswordRecovery/ResetSuccess.tsx";
+import Profile from "./pages/Profile.tsx";
 
 Amplify.configure(awsconfig);
 
@@ -42,7 +43,7 @@ const userRoutes = {
     },
     {
       path: "profile",
-      element: <div>elo profile</div>,
+      element: <Profile />,
     },
     {
       path: "audioFeatures",

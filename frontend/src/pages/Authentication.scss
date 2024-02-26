@@ -29,6 +29,26 @@
   align-items: center;
   color: colors.$white;
   padding: 8px;
+
+  form {
+    @include mixins.column();
+    gap: 8px;
+
+    input {
+      border: 1px solid colors.$grey;
+      background-color: transparent;
+      color: colors.$white;
+      padding: 8px;
+      width: 280px;
+      border-radius: 4px;
+      transition: all 100ms;
+      font-size: fonts.$textM;
+
+      &:hover {
+        border-color: colors.$white;
+      }
+    }
+  }
 }
 
 .auth__header {

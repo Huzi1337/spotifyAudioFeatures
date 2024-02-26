@@ -17,19 +17,13 @@ function SendCode() {
     redirectURL: `${URLS.recoverPassword}/resetPassword`,
     authFn: recoverFn,
   });
-  const {
-    setError,
-    setEmail,
-    error: teror,
-  } = useOutletContext<OutletContext>();
-  console.log("teror", teror);
+  const { setError, setEmail } = useOutletContext<OutletContext>();
   useEffect(() => {
     console.log(error);
     setError(error);
   }, [error]);
 
   async function recoverFn() {
-    console.log("boop");
     const username = (refs[0].current as HTMLInputElement).value;
     const { nextStep } = await resetPassword({
       username,
