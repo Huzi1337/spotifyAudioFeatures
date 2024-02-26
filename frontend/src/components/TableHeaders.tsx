@@ -1,3 +1,4 @@
+import useGetMousePos from "../hooks/useGetMousePos";
 import { FeatureDesc } from "../types";
 import Tooltip from "./Tooltip";
 
@@ -7,6 +8,8 @@ type Props = {
 };
 
 export function TableHeaders({ headers, options = {} }: Props) {
+  const mousePos = useGetMousePos();
+
   return (
     <thead>
       <tr>
@@ -14,7 +17,7 @@ export function TableHeaders({ headers, options = {} }: Props) {
           let desc = options[key];
           return (
             <th key={key}>
-              <Tooltip text={desc ? desc.tooltip : ""}>
+              <Tooltip position={mousePos} text={desc ? desc.tooltip : ""}>
                 {desc
                   ? desc.label
                   : key.charAt(0).toUpperCase() + key.substring(1)}

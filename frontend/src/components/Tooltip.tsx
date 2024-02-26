@@ -1,12 +1,17 @@
 import { useState } from "react";
 import "./Tooltip.scss";
+import ReactDOM from "react-dom";
 
 type Props = {
   children: React.ReactNode;
   text: string;
+  position: {
+    x: number;
+    y: number;
+  };
 };
 
-function Tooltip({ children, text }: Props) {
+function Tooltip({ children, text, position: { x, y } }: Props) {
   const [visible, setVisible] = useState(false);
 
   if (!text) return <>{children}</>;
@@ -17,7 +22,13 @@ function Tooltip({ children, text }: Props) {
       onMouseEnter={() => setVisible(true)}
       className="tooltip__container"
     >
-      {visible && <div className="tooltip">{text}</div>}
+      {visible &&
+        ReactDOM.createPortal(
+          <div className="tooltip" style={{ top: y, left: x }}>
+            {text}
+          </div>,
+          document.body
+        )}
       {children}
     </div>
   );

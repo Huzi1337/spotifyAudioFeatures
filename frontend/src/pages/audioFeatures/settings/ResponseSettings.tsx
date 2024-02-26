@@ -5,6 +5,7 @@ import { TOOLTIPS } from "../tooltipData";
 import Tooltip from "../../../components/Tooltip";
 import Checkbox from "../../../components/v2/Checkbox";
 import { SelectedAudioFeatures } from "../../../types";
+import useGetMousePos from "../../../hooks/useGetMousePos";
 
 type Props = {
   dispatch: React.Dispatch<Action>;
@@ -15,6 +16,8 @@ function ResponseSettings({
   dispatch,
   state: { features, recordsPerPage },
 }: Props) {
+  const mousePos = useGetMousePos();
+
   const [current, setCurrent] = useState(0);
   function onClickHandler(key: keyof SelectedAudioFeatures) {
     const newDisplayedFeatures = { ...features };
@@ -34,7 +37,7 @@ function ResponseSettings({
               className="settings__audioFeaturesResponse__checkbox"
               key={key}
             >
-              <Tooltip text={TOOLTIPS[key].tooltip}>
+              <Tooltip position={mousePos} text={TOOLTIPS[key].tooltip}>
                 <label>{TOOLTIPS[key].label}</label>
               </Tooltip>
 

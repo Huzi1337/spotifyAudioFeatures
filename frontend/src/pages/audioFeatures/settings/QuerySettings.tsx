@@ -3,6 +3,7 @@ import { SelectedAudioFeatures } from "../../../types";
 import "./QuerySettings.scss";
 import Tooltip from "../../../components/Tooltip";
 import { TOOLTIPS } from "../tooltipData";
+import useGetMousePos from "../../../hooks/useGetMousePos";
 
 type Props = {
   chosenFeatures: SelectedAudioFeatures;
@@ -12,6 +13,8 @@ type Props = {
 };
 
 function QuerySettings({ chosenFeatures, setChosenFeatures }: Props) {
+  const mousePos = useGetMousePos();
+
   const onClickHandler = (key: keyof SelectedAudioFeatures) => {
     setChosenFeatures((prev) => {
       const newChosenFeatures = { ...prev };
@@ -25,7 +28,7 @@ function QuerySettings({ chosenFeatures, setChosenFeatures }: Props) {
       <h3 className="settings____audioFeaturesQuery__label">Audio Features</h3>
       {Object.entries(chosenFeatures).map(([key, value]) => (
         <div className="settings__audioFeaturesQuery__checkbox" key={key}>
-          <Tooltip text={TOOLTIPS[key].tooltip}>
+          <Tooltip position={mousePos} text={TOOLTIPS[key].tooltip}>
             <label>{TOOLTIPS[key].label}</label>
           </Tooltip>
 

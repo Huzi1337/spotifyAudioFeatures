@@ -1,8 +1,7 @@
 @use "../assets/colors";
 
 .tooltip {
-  position: absolute;
-  top: 100%;
+  position: fixed;
   color: colors.$white;
   z-index: 999;
   background-color: colors.$black;
