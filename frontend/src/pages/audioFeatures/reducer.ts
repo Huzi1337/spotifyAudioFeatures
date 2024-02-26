@@ -6,7 +6,7 @@ export type DisplayedState = {
 };
 
 type FeaturesAction = {
-  type: "set_features";
+  type: "set_features" | "update_features";
   payload: AudioFeatures | null;
 };
 
@@ -20,6 +20,9 @@ export type Action = RecordsAction | FeaturesAction;
 function reducer(state: DisplayedState, action: Action) {
   switch (action.type) {
     case "set_features": {
+      return { ...state, features: { ...action.payload } };
+    }
+    case "update_features": {
       return { ...state, features: { ...state.features, ...action.payload } };
     }
     case "set_recordsPerPage": {

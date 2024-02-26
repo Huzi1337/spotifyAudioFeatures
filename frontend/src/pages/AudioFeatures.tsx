@@ -43,6 +43,7 @@ function AudioFeatures() {
     function initializeDisplayedFeatures() {
       if (!data) return dispatch({ type: "set_features", payload: null });
       const availableFeatures: { [key: string]: boolean } = {};
+      console.log(Object.keys(data.songs[0].audioFeatures));
       Object.keys(data.songs[0].audioFeatures).forEach(
         (key) => (availableFeatures[key] = true)
       );
@@ -99,7 +100,7 @@ function AudioFeatures() {
         return { title: song.title, artist: song.artist, ...mappedSong };
       });
     },
-    [data, displayedState]
+    [data, displayedState.features]
   );
 
   if (!error)
