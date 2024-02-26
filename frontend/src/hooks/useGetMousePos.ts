@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 function useGetMousePos() {
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
+  const [x, setX] = useState<number>(-window.innerWidth);
+  const [y, setY] = useState<number>(-window.innerHeight);
 
   useEffect(() => {
     window.addEventListener("mousemove", tooltipPositionHandler);
