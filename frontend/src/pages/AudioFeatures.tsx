@@ -84,7 +84,7 @@ function AudioFeatures() {
 
   const handleTableData = useCallback(
     function handleTableData() {
-      const result = (data as ApiResponse).songs
+      const tableData = (data as ApiResponse).songs
         .map((song) => {
           const mappedSong: TAudioFeatures = {};
           const { audioFeatures } = song;
@@ -103,13 +103,9 @@ function AudioFeatures() {
             b[displayedState.sortedBy] as string
           )
         );
-      console.log(result);
-      return result;
+      return tableData;
 
       function tableSort(a: string, b: string) {
-        console.log(displayedState.sortedBy, displayedState.sortOrder);
-        console.log(a, parseInt(a), b, parseInt(b));
-
         if (!isNaN(parseInt(a)) && !isNaN(parseInt(b))) {
           let numA = parseInt(a),
             numB = parseInt(b);
@@ -128,7 +124,6 @@ function AudioFeatures() {
       displayedState.features,
       displayedState.sortedBy,
       displayedState.sortOrder,
-      displayedState,
     ]
   );
 

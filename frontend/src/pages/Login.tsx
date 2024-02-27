@@ -9,6 +9,8 @@ import { URLS } from "../main";
 import SubmitBtn from "../components/SubmitBtn";
 
 const redirectURL = "/v2/home";
+const testEmail = "aaudifyuser@gmail.com";
+const testPassword = "password$1";
 
 const Login = () => {
   const refs = Array.from({ length: 2 }, () => useRef<HTMLInputElement>(null));
@@ -36,6 +38,14 @@ const Login = () => {
     return nextStep.signInStep;
   }
 
+  function testAccountHandler() {
+    const [{ current: email }, { current: password }] = refs;
+    if (email && password) {
+      email.value = testEmail;
+      password.value = testPassword;
+    }
+  }
+
   return (
     <Authentication
       link={
@@ -53,6 +63,8 @@ const Login = () => {
         <label>Password</label>
         <input type="password" ref={refs[1]} placeholder="Password" />
         <SubmitBtn text="Log in" isLoading={isLoading} />
+        <button onClick={testAccountHandler}>Use test account</button>
+
         <Link
           className="login__forgotPassword"
           to={`${URLS.recoverPassword}/sendCode`}
