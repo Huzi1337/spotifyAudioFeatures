@@ -1,6 +1,7 @@
 @use "../assets/colors";
 @use "../assets/fonts";
 @use "../assets/mixins";
+@use "../assets/breakpoints";
 
 .auth__container {
   @include mixins.column();
@@ -48,6 +49,11 @@
         border-color: colors.$white;
       }
     }
+    ul,
+    li {
+      max-width: 280px;
+      padding: 0;
+    }
   }
 }
 
@@ -67,6 +73,10 @@
   color: colors.$green;
 }
 
+.login__redirect {
+  text-decoration: underline;
+}
+
 .auth__error {
   width: 60%;
   display: flex;
@@ -74,4 +84,19 @@
   gap: 8px;
   background-color: colors.$red;
   padding: 8px 16px;
+}
+
+@media (max-width: breakpoints.$v2mobile) {
+  .auth__container {
+    padding: 0;
+  }
+  .auth__error {
+    width: 100%;
+  }
+  .line {
+    width: 100%;
+  }
+  .auth__header {
+    font-size: fonts.$subHeadM;
+  }
 }

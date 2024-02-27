@@ -12,6 +12,7 @@ function SubmitBtn({ isLoading, text }: Props) {
       onClick={() => console.log("click")}
       className="submitBtn"
       type="submit"
+      disabled={isLoading}
     >
       {isLoading ? (
         <BeatLoader

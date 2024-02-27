@@ -1,6 +1,7 @@
 @use "../assets/fonts";
 @use "../assets/colors";
 @use "../assets/mixins";
+@use "../assets/breakpoints";
 
 .about__container {
   @include mixins.column();
@@ -20,6 +21,22 @@
   h3 {
     span {
       color: colors.$green;
+    }
+  }
+}
+
+@media (max-width: breakpoints.$v2mobile) {
+  .about__container {
+    h1 {
+      font-size: fonts.$subHeadM;
+    }
+    h3,
+    li {
+      font-size: fonts.$textL;
+    }
+    h1,
+    h3 {
+      text-align: justify;
     }
   }
 }

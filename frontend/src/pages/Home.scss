@@ -1,6 +1,7 @@
 @use "../assets/fonts";
 @use "../assets/colors";
 @use "../assets/mixins";
+@use "../assets/breakpoints";
 
 .home__container {
   @include mixins.column();
@@ -28,6 +29,28 @@
       font-size: fonts.$subHeadM;
       font-weight: 400;
       padding: 16px 24px;
+    }
+  }
+}
+
+@media (max-width: breakpoints.$v2mobile) {
+  .home__container {
+    h1 {
+      font-size: fonts.$subHeadM;
+    }
+    h3 {
+      font-size: fonts.$subHeadS;
+    }
+    h1,
+    h3 {
+      text-align: center;
+    }
+    .home__btnContainer {
+      button {
+        font-size: fonts.$subHeadS;
+        font-weight: 400;
+        padding: 8px 12px;
+      }
     }
   }
 }

@@ -4,8 +4,10 @@ import { validatePassword } from "../utils/inputValidators";
 import { updatePassword } from "aws-amplify/auth";
 import "./Profile.scss";
 import SubmitBtn from "../components/SubmitBtn";
+import useCheckAuth from "../hooks/useCheckAuth";
 
 function Profile() {
+  useCheckAuth();
   const refs = Array.from({ length: 2 }, () => useRef<HTMLInputElement>(null));
   const validators = [validatePassword, validatePassword];
   const [isSuccess, setIsSuccess] = useState(false);
@@ -26,7 +28,6 @@ function Profile() {
       setTimeout(() => setIsSuccess(false), 4000);
     }
   }
-
   return (
     <div className="profile__container">
       <h1>Profile Page</h1>
@@ -45,6 +46,13 @@ function Profile() {
         <input type="password" ref={refs[0]} />
         <label>New password</label>
         <input ref={refs[1]} />
+        <ul>
+          The password must contain:
+          <li>10 characters</li>
+          <li>At least 1 letter</li>
+          <li>At least 1 number</li>
+          <li>At least 1 special character</li>
+        </ul>
         <SubmitBtn text="Change password" isLoading={isLoading} />
       </form>
     </div>

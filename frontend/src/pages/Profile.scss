@@ -1,6 +1,7 @@
 @use "../assets/mixins";
 @use "../assets/fonts";
 @use "../assets/colors";
+@use "../assets/breakpoints";
 
 .profile__container {
   @include mixins.column();
@@ -43,4 +44,17 @@
 .profile__success {
   background-color: colors.$green;
   color: colors.$black;
+}
+
+@media (max-width: breakpoints.$v2mobile) {
+  .profile__container {
+    h1 {
+      text-align: center;
+      font-size: fonts.$subHeadM;
+    }
+  }
+  .profile__error,
+  .profile__success {
+    width: 100%;
+  }
 }

@@ -66,6 +66,13 @@ const SignUp = () => {
             />
           </>
         ))}
+        <ul>
+          The password must contain:
+          <li>10 characters</li>
+          <li>At least 1 letter</li>
+          <li>At least 1 number</li>
+          <li>At least 1 special character</li>
+        </ul>
 
         <SubmitBtn text="Create an account" isLoading={isLoading} />
       </form>

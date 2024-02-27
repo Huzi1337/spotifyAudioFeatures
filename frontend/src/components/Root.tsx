@@ -2,7 +2,8 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./Root.scss";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { signOut } from "@aws-amplify/auth";
-import { useRef } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
+import useClickOutside from "../hooks/useClickOutside";
 
 const pages = ["home", "about"];
 const authPages = ["profile", "audioFeatures"];
@@ -12,11 +13,32 @@ const Root = () => {
   const { pathname } = useLocation();
   const currentPage = pathname.split("/").pop();
   const navigate = useNavigate();
-  console.log(authStatus);
   const topbarRef = useRef<HTMLDivElement>(null);
+  const { isVisible, setIsVisible, ref } = useClickOutside<HTMLDivElement>();
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
+  useEffect(() => {
+    window.addEventListener("resize", checkIfMobile);
+    function checkIfMobile() {
+      setIsMobile(window.innerWidth <= 900);
+    }
+
+    return () => {
+      window.removeEventListener("resize", checkIfMobile);
+    };
+  }, []);
+
+  function mobileShowMenuHandler(e: MouseEvent) {
+    e.stopPropagation();
+    setIsVisible((prev) => !prev);
+  }
+
   return (
     <div className="root__container">
-      <div className="sidebar">
+      <div
+        ref={ref}
+        className={isMobile ? `sidebar${isVisible ? "" : " hide"}` : "sidebar"}
+      >
         <h1>Audify</h1>
         <ul>
           {pages.map((page) => (
@@ -37,10 +59,13 @@ const Root = () => {
               </div>
             ))}
         </ul>
+        {isMobile && !isVisible && (
+          <button onClick={mobileShowMenuHandler} className="root__showMenu" />
+        )}
       </div>
       <div ref={topbarRef} className="topbar">
         {authStatus != "authenticated" ? (
-          <div>
+          <div className="topbar__authentication">
             <button onClick={() => navigate("/v2/signup")}>Sign Up</button>
             <button onClick={() => navigate("/v2/login")}>Log In</button>
           </div>

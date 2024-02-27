@@ -1,6 +1,7 @@
 @use "../assets/colors";
 @use "../assets/fonts";
 @use "../assets/mixins";
+@use "../assets/breakpoints";
 
 #root {
   padding: 8px;
@@ -43,6 +44,7 @@
       @include mixins.column();
       padding: 0;
       width: 100%;
+      font-size: fonts.$textL;
       gap: 16px;
       align-items: center;
       .linkContainer {
@@ -71,6 +73,12 @@
     }
   }
 
+  .topbar__authentication {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   main {
     grid-area: Main;
     @include mixins.column();
@@ -84,5 +92,47 @@
   }
   100% {
     transform: translateY(-50%) scale(1);
+  }
+}
+
+@media (max-width: breakpoints.$v2tablet) {
+  .root__container {
+    @include mixins.column();
+    main {
+      flex-grow: 1;
+    }
+
+    .sidebar {
+      z-index: 999;
+
+      position: fixed;
+      top: 8px;
+      bottom: 8px;
+      width: 200px;
+      transition-duration: 150ms;
+      .root__showMenu {
+        @include mixins.set-icon-bg();
+        background-image: url("/arrow_right_black.svg");
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        right: -28px;
+        transition-duration: transform 100ms;
+        &:hover {
+          transform: translateY(-50%) scale(1.05);
+        }
+      }
+    }
+    .sidebar.hide {
+      transform: translateX(-200px);
+    }
+  }
+}
+
+@media (max-width: breakpoints.$v2mobile) {
+  #root {
+    padding: 0;
   }
 }

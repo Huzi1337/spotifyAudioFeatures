@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import "./AudioFeatures.scss";
 import { useCallback, useEffect, useReducer, useState } from "react";
 import {
@@ -10,8 +9,6 @@ import {
 import useFetch from "../hooks/useFetch";
 import QueryTable from "../components/QueryTable";
 import usePager from "../hooks/usePager";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import { URLS } from "../main";
 import Options from "../components/Options";
 import { options } from "../data";
 import Table from "../components/Table";
@@ -19,6 +16,7 @@ import QuerySettings from "./audioFeatures/settings/QuerySettings";
 import { TOOLTIPS } from "./audioFeatures/tooltipData";
 import reducer, { DisplayedState } from "./audioFeatures/reducer";
 import ResponseSettings from "./audioFeatures/settings/ResponseSettings";
+import useCheckAuth from "../hooks/useCheckAuth";
 
 const initialState: DisplayedState = {
   features: null,
@@ -26,6 +24,8 @@ const initialState: DisplayedState = {
 };
 
 function AudioFeatures() {
+  useCheckAuth();
+
   const [queries, setQueries] = useState<SongQuery[]>([
     { artist: "", title: "" },
   ]);
@@ -78,12 +78,6 @@ function AudioFeatures() {
     },
     [queries, chosenFeatures, data]
   );
-
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (authStatus != "authenticated") navigate(URLS.home);
-  }, []);
 
   const handleTableData = useCallback(
     function handleTableData() {
