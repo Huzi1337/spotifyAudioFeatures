@@ -1,11 +1,10 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { URLS } from "../main";
 import "./Home.scss";
 
 function Home() {
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
-  const ref = useOutletContext<React.RefObject<HTMLDivElement>>();
   const navigate = useNavigate();
 
   return (
