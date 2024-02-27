@@ -11,9 +11,11 @@ export const searchSongId = async ({ title, artist }: SongQuery) => {
     const {
       external_urls: { spotify: spotifyURL },
       id,
+      name,
+      artists,
     } = data.tracks.items[0];
 
-    return { id, title, spotifyURL };
+    return { id, title: name, artist: artists[0].name, spotifyURL };
   } else {
     console.log("No tracks found.");
     return {};

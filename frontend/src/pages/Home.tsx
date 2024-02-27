@@ -25,7 +25,7 @@ function Home() {
             Access Spotify Web API with <span>Audify</span> today!
           </h3>
           <div className="home__btnContainer">
-            <button onClick={() => console.log(ref.current)}>Sign up</button>
+            <button onClick={() => navigate(URLS.signUp)}>Sign up</button>
             <button onClick={() => navigate(URLS.logIn)}>Log in</button>
           </div>
         </>

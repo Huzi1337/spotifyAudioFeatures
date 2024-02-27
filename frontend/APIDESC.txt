@@ -1,4 +1,0 @@
-
-1. Searching for tracks:
-GET https://api.spotify.com/v1/search?q=industry+baby&type=track
-tracks.items[0].id => song url id

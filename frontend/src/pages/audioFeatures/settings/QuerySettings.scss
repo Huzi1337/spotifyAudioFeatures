@@ -1,0 +1,19 @@
+@use "../../../assets/mixins";
+@use "../../../assets/colors";
+@use "../../../assets/fonts";
+
+.settings__audioFeaturesQuery__container {
+  @include mixins.settings-grid();
+  max-width: 100vw;
+  .settings____audioFeaturesQuery__label {
+    grid-area: header;
+    text-align: center;
+    font-size: fonts.$subHeadS;
+  }
+}
+
+.settings__audioFeaturesQuery__checkbox {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}

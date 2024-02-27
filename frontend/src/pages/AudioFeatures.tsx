@@ -1,26 +1,58 @@
-import { useNavigate, useOutletContext } from "react-router-dom";
-import "./Home.scss";
-import { createPortal } from "react-dom";
-import { useCallback, useEffect, useState } from "react";
-import { ApiResponse, SongQuery } from "../types";
+import "./AudioFeatures.scss";
+import { useCallback, useEffect, useReducer, useState } from "react";
+import {
+  ApiResponse,
+  AudioFeatures as TAudioFeatures,
+  SelectedAudioFeatures,
+  SongQuery,
+} from "../types";
 import useFetch from "../hooks/useFetch";
 import QueryTable from "../components/QueryTable";
 import usePager from "../hooks/usePager";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import { URLS } from "../main";
 import Options from "../components/Options";
 import { options } from "../data";
 import Table from "../components/Table";
+import QuerySettings from "./audioFeatures/settings/QuerySettings";
+import { TOOLTIPS } from "./audioFeatures/tooltipData";
+import reducer, { Action, DisplayedState } from "./audioFeatures/reducer";
+import ResponseSettings from "./audioFeatures/settings/ResponseSettings";
+import useCheckAuth from "../hooks/useCheckAuth";
+
+const initialState: DisplayedState = {
+  features: null,
+  pageSize: 10,
+  sortedBy: "title",
+  sortOrder: "ascending",
+};
 
 function AudioFeatures() {
+  useCheckAuth();
+
   const [queries, setQueries] = useState<SongQuery[]>([
     { artist: "", title: "" },
   ]);
-  const navigate = useNavigate();
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   const { nextPage, page, prevPage } = usePager(2);
-
   const { fetchData, data, isLoading, error } = useFetch<ApiResponse>();
+  const [chosenFeatures, setChosenFeatures] = useState<SelectedAudioFeatures>(
+    options.audioFeatures
+  );
+
+  const [displayedState, dispatch] = useReducer<
+    (state: DisplayedState, action: Action) => DisplayedState
+  >(reducer, initialState);
+  useEffect(() => {
+    initializeDisplayedFeatures();
+
+    function initializeDisplayedFeatures() {
+      if (!data) return dispatch({ type: "set_features", payload: null });
+      const availableFeatures: { [key: string]: boolean } = {};
+      console.log(Object.keys(data.songs[0].audioFeatures));
+      Object.keys(data.songs[0].audioFeatures).forEach(
+        (key) => (availableFeatures[key] = true)
+      );
+      dispatch({ type: "set_features", payload: availableFeatures });
+    }
+  }, [data]);
 
   const onSubmit = useCallback(
     async function onSubmit(e: React.FormEvent) {
@@ -30,7 +62,7 @@ function AudioFeatures() {
         songs: queries.filter(
           ({ artist, title }) => artist.length > 0 && title.length > 0
         ),
-        includedAudioFeatures: options.audioFeatures,
+        includedAudioFeatures: chosenFeatures,
       });
       const reqOptions = {
         method: "POST",
@@ -44,23 +76,75 @@ function AudioFeatures() {
         "https://u9zgoic04e.execute-api.eu-central-1.amazonaws.com/prod/api/v1/audioFeatures",
         reqOptions
       );
+
       nextPage();
     },
-    [queries]
+    [queries, chosenFeatures, data]
   );
 
-  useEffect(() => {
-    if (authStatus != "authenticated") navigate(URLS.home);
-  }, []);
+  const handleTableData = useCallback(
+    function handleTableData() {
+      const tableData = (data as ApiResponse).songs
+        .map((song) => {
+          const mappedSong: TAudioFeatures = {};
+          const { audioFeatures } = song;
+          Object.entries(displayedState.features as TAudioFeatures).forEach(
+            ([key, value]) =>
+              value
+                ? (mappedSong[key as keyof TAudioFeatures] =
+                    audioFeatures[key as keyof TAudioFeatures])
+                : null
+          );
+          return { title: song.title, artist: song.artist, ...mappedSong };
+        })
+        .sort((a, b) =>
+          tableSort(
+            a[displayedState.sortedBy] as string,
+            b[displayedState.sortedBy] as string
+          )
+        );
+      return tableData;
+
+      function tableSort(a: string, b: string) {
+        if (!isNaN(parseInt(a)) && !isNaN(parseInt(b))) {
+          let numA = parseInt(a),
+            numB = parseInt(b);
+
+          return displayedState.sortOrder === "ascending"
+            ? numA - numB
+            : numB - numA;
+        } else {
+          if (displayedState.sortOrder === "ascending") return a > b ? 1 : -1;
+          else return a > b ? -1 : 1;
+        }
+      }
+    },
+    [
+      data,
+      displayedState.features,
+      displayedState.sortedBy,
+      displayedState.sortOrder,
+    ]
+  );
 
   if (!error)
     return (
-      <div className="home__container">
+      <div className="audioFeatures__container">
         <Options
           nextDisabled={page === 1 || !data}
           prevDisabled={page === 0}
           onNext={nextPage}
           onPrev={prevPage}
+          settingsContent={
+            page === 0 ? (
+              <QuerySettings
+                setChosenFeatures={setChosenFeatures}
+                chosenFeatures={chosenFeatures}
+              />
+            ) : (
+              <ResponseSettings dispatch={dispatch} state={displayedState} />
+            )
+          }
         />
         {page === 0 && (
           <QueryTable
@@ -70,13 +154,14 @@ function AudioFeatures() {
             setQueries={setQueries}
           />
         )}
-        {page === 1 && data && (
+        {page === 1 && data && displayedState.features && (
           <Table
-            data={data.songs.map((song) => ({
-              title: song.title,
-              artist: song.artist,
-              ...song.audioFeatures,
-            }))}
+            data={handleTableData()}
+            className={{
+              paginationContainer: "audioFeatures__tablePagination",
+            }}
+            pageSize={displayedState.pageSize}
+            headerOptions={TOOLTIPS}
           />
         )}
       </div>

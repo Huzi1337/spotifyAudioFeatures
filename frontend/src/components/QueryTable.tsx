@@ -31,6 +31,7 @@ function QueryTable({ onSubmit, queries, setQueries, isLoading }: Props) {
     newQueries.splice(index, 1);
     setQueries(newQueries);
   }
+
   return (
     <>
       <form className="queryTable__container" onSubmit={onSubmit}>
@@ -63,19 +64,25 @@ function QueryTable({ onSubmit, queries, setQueries, isLoading }: Props) {
                   type="button"
                   onClick={() => deleteQuery(index)}
                 >
-                  -
+                  <img width={16} height={16} src="/minus.svg" />
                 </button>
               )}
             </div>
           </div>
         ))}
-        <button
-          type="button"
-          className="queryTable__addBtn"
-          onClick={addQuery}
-        ></button>
+        <button type="button" className="queryTable__addBtn" onClick={addQuery}>
+          <img width={24} height={24} src="/plus.svg" />
+        </button>
       </form>
-      <button onClick={onSubmit} className="queryTable__submitBtn">
+      <button
+        disabled={
+          queries.filter(
+            ({ artist, title }) => artist.length > 0 && title.length > 0
+          ).length === 0
+        }
+        onClick={onSubmit}
+        className="queryTable__submitBtn"
+      >
         {isLoading ? (
           <BeatLoader
             size={8}

@@ -3,15 +3,21 @@ import usePagination from "../hooks/usePagination";
 import "./Table.scss";
 import { TableHeaders } from "./TableHeaders";
 import { TableRows } from "./TableRows";
+import { FeatureDesc } from "../types";
 
 export type Props = {
   data: Object[];
+  className?: {
+    paginationContainer: string;
+  };
+  pageSize?: number;
+  headerOptions?: FeatureDesc;
+  criteria?: string[] | null;
 };
 
-const pageSize = 10;
-
-function Table({ data }: Props) {
+function Table({ data, className, pageSize = 10, headerOptions }: Props) {
   let headers = Object.keys(data[0]);
+
   const { nextPage, prevPage, page, pageSlice, isFirstPage, isLastPage } =
     usePagination(data, pageSize);
 
@@ -31,11 +37,15 @@ function Table({ data }: Props) {
     <>
       <div ref={ref} className="tableWrapper">
         <table className="audioFeatureTable">
-          <TableHeaders headers={headers} />
+          <TableHeaders options={headerOptions} headers={headers} />
           <TableRows headers={headers} data={pageSlice} />
         </table>
       </div>
-      <div className="tablePagination">
+      <div
+        className={`tablePagination${
+          className ? ` ${className.paginationContainer}` : ""
+        }`}
+      >
         <button
           className="paginationBtn prev"
           disabled={isFirstPage}

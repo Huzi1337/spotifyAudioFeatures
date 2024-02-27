@@ -2,12 +2,15 @@ import { Link } from "react-router-dom";
 import Authentication from "./Authentication";
 import { useCallback, useRef } from "react";
 import { signIn } from "aws-amplify/auth";
-import BeatLoader from "react-spinners/BeatLoader";
 import { validateEmail, validatePassword } from "../utils/inputValidators";
 import "./Login.scss";
 import useAuth from "../hooks/useAuth";
+import { URLS } from "../main";
+import SubmitBtn from "../components/SubmitBtn";
 
 const redirectURL = "/v2/home";
+const testEmail = "aaudifyuser@gmail.com";
+const testPassword = "password$1";
 
 const Login = () => {
   const refs = Array.from({ length: 2 }, () => useRef<HTMLInputElement>(null));
@@ -35,6 +38,14 @@ const Login = () => {
     return nextStep.signInStep;
   }
 
+  function testAccountHandler() {
+    const [{ current: email }, { current: password }] = refs;
+    if (email && password) {
+      email.value = testEmail;
+      password.value = testPassword;
+    }
+  }
+
   return (
     <Authentication
       link={
@@ -44,31 +55,22 @@ const Login = () => {
       }
       altText="Don't have an account yet? "
       headText="Log in to Audify"
+      error={error}
     >
-      {error && (
-        <p className="login__error">
-          <img src="/errorWhite.svg" width={24} height={24} />
-          {error}
-        </p>
-      )}
       <form onSubmit={onSubmit} className="login__form">
         <label>Email Address</label>
         <input ref={refs[0]} placeholder="Email Address" />
         <label>Password</label>
         <input type="password" ref={refs[1]} placeholder="Password" />
+        <SubmitBtn text="Log in" isLoading={isLoading} />
+        <button onClick={testAccountHandler}>Use test account</button>
 
-        <button className="login__submit" type="submit">
-          {isLoading ? (
-            <BeatLoader
-              size={8}
-              speedMultiplier={1}
-              loading={true}
-              color="#000000"
-            />
-          ) : (
-            "Log in"
-          )}
-        </button>
+        <Link
+          className="login__forgotPassword"
+          to={`${URLS.recoverPassword}/sendCode`}
+        >
+          Forgot your password?
+        </Link>
       </form>
     </Authentication>
   );

@@ -23,7 +23,7 @@ function About() {
         In its current state Audify has the following features:
         <ul>
           {features.map((feat) => (
-            <li>{feat}</li>
+            <li key={feat}>{feat}</li>
           ))}
         </ul>
       </h3>

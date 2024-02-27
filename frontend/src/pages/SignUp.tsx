@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import Authentication from "./Authentication";
 import { useCallback, useRef } from "react";
-import BeatLoader from "react-spinners/BeatLoader";
 import useAuth from "../hooks/useAuth";
 import { validateEmail, validatePassword } from "../utils/inputValidators";
 import { signUp } from "aws-amplify/auth";
+import SubmitBtn from "../components/SubmitBtn";
 
 const signUpFields = ["Email Address", "Password"];
 const redirectURL = "/v2/home";
@@ -52,13 +52,8 @@ const SignUp = () => {
       }
       altText="Already have an Audify account? "
       headText="Create an Audify account"
+      error={error}
     >
-      {error && (
-        <p className="login__error">
-          <img src="/errorWhite.svg" width={24} height={24} />
-          {error}
-        </p>
-      )}
       <form onSubmit={onSubmit} className="login__form">
         {signUpFields.map((field, index) => (
           <>
@@ -71,19 +66,15 @@ const SignUp = () => {
             />
           </>
         ))}
+        <ul>
+          The password must contain:
+          <li>10 characters</li>
+          <li>At least 1 letter</li>
+          <li>At least 1 number</li>
+          <li>At least 1 special character</li>
+        </ul>
 
-        <button className="login__submit" type="submit">
-          {isLoading ? (
-            <BeatLoader
-              size={8}
-              speedMultiplier={1}
-              loading={true}
-              color="#000000"
-            />
-          ) : (
-            "Create an account"
-          )}
-        </button>
+        <SubmitBtn text="Create an account" isLoading={isLoading} />
       </form>
     </Authentication>
   );
