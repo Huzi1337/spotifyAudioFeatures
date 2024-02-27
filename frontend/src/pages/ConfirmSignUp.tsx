@@ -34,16 +34,11 @@ const ConfirmSignUp = () => {
 
   return (
     <Authentication
+      error={error}
       link={<></>}
       altText="The code has been sent to your email address."
       headText="Confirm your email address."
     >
-      {error && (
-        <p className="login__error">
-          <img src="/errorWhite.svg" width={24} height={24} />
-          {error}
-        </p>
-      )}
       <form onSubmit={onSubmit} className="login__form">
         <label>Verification code</label>
         <input ref={refs[0]} placeholder="Verification code" />
