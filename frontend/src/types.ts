@@ -37,7 +37,7 @@ export type Options = {
   audioFeatures: AudioFeatures;
 };
 
-export type AudioFeatures = {
+export interface AudioFeatures {
   acousticness?: number | boolean;
   danceability?: number | boolean;
   duration_ms?: number | boolean;
@@ -51,7 +51,12 @@ export type AudioFeatures = {
   time_signature?: number | boolean;
   valence?: number | boolean;
   key?: number | boolean;
-};
+}
+
+export interface AudioFeaturesTableData extends AudioFeatures {
+  title: string;
+  artist: string;
+}
 
 export type SelectedAudioFeatures = {
   acousticness: number | boolean;

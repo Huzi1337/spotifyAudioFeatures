@@ -14,13 +14,15 @@ import { options } from "../data";
 import Table from "../components/Table";
 import QuerySettings from "./audioFeatures/settings/QuerySettings";
 import { TOOLTIPS } from "./audioFeatures/tooltipData";
-import reducer, { DisplayedState } from "./audioFeatures/reducer";
+import reducer, { Action, DisplayedState } from "./audioFeatures/reducer";
 import ResponseSettings from "./audioFeatures/settings/ResponseSettings";
 import useCheckAuth from "../hooks/useCheckAuth";
 
 const initialState: DisplayedState = {
   features: null,
-  recordsPerPage: 10,
+  pageSize: 10,
+  sortedBy: "title",
+  sortOrder: "ascending",
 };
 
 function AudioFeatures() {
@@ -35,8 +37,9 @@ function AudioFeatures() {
     options.audioFeatures
   );
 
-  const [displayedState, dispatch] = useReducer(reducer, initialState);
-  console.log(displayedState);
+  const [displayedState, dispatch] = useReducer<
+    (state: DisplayedState, action: Action) => DisplayedState
+  >(reducer, initialState);
   useEffect(() => {
     initializeDisplayedFeatures();
 
@@ -81,20 +84,52 @@ function AudioFeatures() {
 
   const handleTableData = useCallback(
     function handleTableData() {
-      return (data as ApiResponse).songs.map((song) => {
-        const mappedSong: TAudioFeatures = {};
-        const { audioFeatures } = song;
-        Object.entries(displayedState.features as TAudioFeatures).forEach(
-          ([key, value]) =>
-            value
-              ? (mappedSong[key as keyof TAudioFeatures] =
-                  audioFeatures[key as keyof TAudioFeatures])
-              : null
+      const result = (data as ApiResponse).songs
+        .map((song) => {
+          const mappedSong: TAudioFeatures = {};
+          const { audioFeatures } = song;
+          Object.entries(displayedState.features as TAudioFeatures).forEach(
+            ([key, value]) =>
+              value
+                ? (mappedSong[key as keyof TAudioFeatures] =
+                    audioFeatures[key as keyof TAudioFeatures])
+                : null
+          );
+          return { title: song.title, artist: song.artist, ...mappedSong };
+        })
+        .sort((a, b) =>
+          tableSort(
+            a[displayedState.sortedBy] as string,
+            b[displayedState.sortedBy] as string
+          )
         );
-        return { title: song.title, artist: song.artist, ...mappedSong };
-      });
+      console.log(result);
+      return result;
+
+      function tableSort(a: string, b: string) {
+        console.log(displayedState.sortedBy, displayedState.sortOrder);
+        console.log(a, parseInt(a), b, parseInt(b));
+
+        if (!isNaN(parseInt(a)) && !isNaN(parseInt(b))) {
+          let numA = parseInt(a),
+            numB = parseInt(b);
+
+          return displayedState.sortOrder === "ascending"
+            ? numA - numB
+            : numB - numA;
+        } else {
+          if (displayedState.sortOrder === "ascending") return a > b ? 1 : -1;
+          else return a > b ? -1 : 1;
+        }
+      }
     },
-    [data, displayedState.features]
+    [
+      data,
+      displayedState.features,
+      displayedState.sortedBy,
+      displayedState.sortOrder,
+      displayedState,
+    ]
   );
 
   if (!error)
@@ -130,7 +165,7 @@ function AudioFeatures() {
             className={{
               paginationContainer: "audioFeatures__tablePagination",
             }}
-            pageSize={displayedState.recordsPerPage}
+            pageSize={displayedState.pageSize}
             headerOptions={TOOLTIPS}
           />
         )}

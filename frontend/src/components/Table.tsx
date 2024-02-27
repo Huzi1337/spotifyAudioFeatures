@@ -17,7 +17,6 @@ export type Props = {
 
 function Table({ data, className, pageSize = 10, headerOptions }: Props) {
   let headers = Object.keys(data[0]);
-  console.log("headers", headers);
 
   const { nextPage, prevPage, page, pageSlice, isFirstPage, isLastPage } =
     usePagination(data, pageSize);
