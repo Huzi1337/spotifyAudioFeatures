@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SongQuery } from "../types";
 import "./QueryTable.scss";
 import BeatLoader from "react-spinners/BeatLoader";
+import { MOCK_QUERIES } from "../assets/mockData";
 
 type Props = {
   onSubmit: (e: React.FormEvent) => Promise<void>;
@@ -24,6 +25,10 @@ function QueryTable({ onSubmit, queries, setQueries, isLoading }: Props) {
     const newQueries = [...queries];
     queries[index][name as keyof SongQuery] = value;
     setQueries(newQueries);
+  }
+
+  function inputMockQueries() {
+    setQueries(MOCK_QUERIES);
   }
 
   function deleteQuery(index: number) {
@@ -74,26 +79,30 @@ function QueryTable({ onSubmit, queries, setQueries, isLoading }: Props) {
           <img width={24} height={24} src="/plus.svg" />
         </button>
       </form>
-      <button
-        disabled={
-          queries.filter(
-            ({ artist, title }) => artist.length > 0 && title.length > 0
-          ).length === 0
-        }
-        onClick={onSubmit}
-        className="queryTable__submitBtn"
-      >
-        {isLoading ? (
-          <BeatLoader
-            size={8}
-            speedMultiplier={1}
-            loading={true}
-            color="#000000"
-          />
-        ) : (
-          "Submit"
-        )}
-      </button>
+
+      <div className="queryTable__btnContainer">
+        <button
+          disabled={
+            queries.filter(
+              ({ artist, title }) => artist.length > 0 && title.length > 0
+            ).length === 0
+          }
+          onClick={onSubmit}
+          className="queryTable__submitBtn"
+        >
+          {isLoading ? (
+            <BeatLoader
+              size={8}
+              speedMultiplier={1}
+              loading={true}
+              color="#000000"
+            />
+          ) : (
+            "Submit"
+          )}
+        </button>
+        <button onClick={inputMockQueries}>Use sample input</button>
+      </div>
     </>
   );
 }
