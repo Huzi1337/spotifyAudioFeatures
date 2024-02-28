@@ -96,7 +96,6 @@ $iconSize: 24px;
 }
 
 .queryTable__submitBtn {
-  margin-top: auto;
   padding: 8px 16px;
   max-width: fit-content;
   background-color: colors.$green;
@@ -107,4 +106,10 @@ $iconSize: 24px;
       cursor: not-allowed;
     }
   }
+}
+
+.queryTable__btnContainer {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
 }
